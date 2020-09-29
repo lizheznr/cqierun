@@ -15,13 +15,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <sql id="selectCqieAppinfoVo">
         select appi_id, appi_version, appi_address, appi_ispublish, appi_addtime, appi_remark from cqie_appinfo
-        order by appi_id desc
     </sql>
 
     <select id="selectCqieAppinfoList" parameterType="CqieAppinfo" resultMap="CqieAppinfoResult">
         <include refid="selectCqieAppinfoVo"/>
         <where>  
         </where>
+        order by appi_id desc
     </select>
     
     <select id="selectCqieAppinfoById" parameterType="Integer" resultMap="CqieAppinfoResult">
