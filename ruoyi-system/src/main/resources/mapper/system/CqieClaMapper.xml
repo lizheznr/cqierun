@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CqieClaMapper">
+    
+    <resultMap type="CqieCla" id="CqieClaResult">
+        <result property="claId"    column="cla_id"    />
+        <result property="claDeptId"    column="cla_dept_id"    />
+        <result property="claName"    column="cla_name"    />
+        <result property="claAddtime"    column="cla_addtime"    />
+        <result property="claRemark"    column="cla_remark"    />
+    </resultMap>
+
+    <sql id="selectCqieClaVo">
+        select cla_id, cla_dept_id, cla_name, cla_addtime, cla_remark from cqie_cla
+    </sql>
+
+    <select id="selectCqieClaList" parameterType="CqieCla" resultMap="CqieClaResult">
+        <include refid="selectCqieClaVo"/>
+        <where>  
+            <if test="claName != null  and claName != ''"> and cla_name like concat('%', #{claName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectCqieClaById" parameterType="Integer" resultMap="CqieClaResult">
+        <include refid="selectCqieClaVo"/>
+        where cla_id = #{claId}
+    </select>
+        
+    <insert id="insertCqieCla" parameterType="CqieCla" useGeneratedKeys="true" keyProperty="claId">
+        insert into cqie_cla
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="claDeptId != null">cla_dept_id,</if>
+            <if test="claName != null">cla_name,</if>
+            <if test="claAddtime != null">cla_addtime,</if>
+            <if test="claRemark != null">cla_remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="claDeptId != null">#{claDeptId},</if>
+            <if test="claName != null">#{claName},</if>
+            <if test="claAddtime != null">#{claAddtime},</if>
+            <if test="claRemark != null">#{claRemark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCqieCla" parameterType="CqieCla">
+        update cqie_cla
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="claDeptId != null">cla_dept_id = #{claDeptId},</if>
+            <if test="claName != null">cla_name = #{claName},</if>
+            <if test="claAddtime != null">cla_addtime = #{claAddtime},</if>
+            <if test="claRemark != null">cla_remark = #{claRemark},</if>
+        </trim>
+        where cla_id = #{claId}
+    </update>
+
+    <delete id="deleteCqieClaById" parameterType="Integer">
+        delete from cqie_cla where cla_id = #{claId}
+    </delete>
+
+    <delete id="deleteCqieClaByIds" parameterType="String">
+        delete from cqie_cla where cla_id in 
+        <foreach item="claId" collection="array" open="(" separator="," close=")">
+            #{claId}
+        </foreach>
+    </delete>
+
+</mapper>

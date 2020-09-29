@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CqieAppinfoMapper">
+    
+    <resultMap type="CqieAppinfo" id="CqieAppinfoResult">
+        <result property="appiId"    column="appi_id"    />
+        <result property="appiVersion"    column="appi_version"    />
+        <result property="appiAddress"    column="appi_address"    />
+        <result property="appiIspublish"    column="appi_ispublish"    />
+        <result property="appiAddtime"    column="appi_addtime"    />
+        <result property="appiRemark"    column="appi_remark"    />
+    </resultMap>
+
+    <sql id="selectCqieAppinfoVo">
+        select appi_id, appi_version, appi_address, appi_ispublish, appi_addtime, appi_remark from cqie_appinfo
+        order by appi_id desc
+    </sql>
+
+    <select id="selectCqieAppinfoList" parameterType="CqieAppinfo" resultMap="CqieAppinfoResult">
+        <include refid="selectCqieAppinfoVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectCqieAppinfoById" parameterType="Integer" resultMap="CqieAppinfoResult">
+        <include refid="selectCqieAppinfoVo"/>
+        where appi_id = #{appiId}
+    </select>
+        
+    <insert id="insertCqieAppinfo" parameterType="CqieAppinfo" useGeneratedKeys="true" keyProperty="appiId">
+        insert into cqie_appinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appiVersion != null">appi_version,</if>
+            <if test="appiAddress != null">appi_address,</if>
+            <if test="appiIspublish != null">appi_ispublish,</if>
+            <if test="appiAddtime != null">appi_addtime,</if>
+            <if test="appiRemark != null">appi_remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appiVersion != null">#{appiVersion},</if>
+            <if test="appiAddress != null">#{appiAddress},</if>
+            <if test="appiIspublish != null">#{appiIspublish},</if>
+            <if test="appiAddtime != null">#{appiAddtime},</if>
+            <if test="appiRemark != null">#{appiRemark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCqieAppinfo" parameterType="CqieAppinfo">
+        update cqie_appinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appiVersion != null">appi_version = #{appiVersion},</if>
+            <if test="appiAddress != null">appi_address = #{appiAddress},</if>
+            <if test="appiIspublish != null">appi_ispublish = #{appiIspublish},</if>
+            <if test="appiAddtime != null">appi_addtime = #{appiAddtime},</if>
+            <if test="appiRemark != null">appi_remark = #{appiRemark},</if>
+        </trim>
+        where appi_id = #{appiId}
+    </update>
+
+    <delete id="deleteCqieAppinfoById" parameterType="Integer">
+        delete from cqie_appinfo where appi_id = #{appiId}
+    </delete>
+
+    <delete id="deleteCqieAppinfoByIds" parameterType="String">
+        delete from cqie_appinfo where appi_id in 
+        <foreach item="appiId" collection="array" open="(" separator="," close=")">
+            #{appiId}
+        </foreach>
+    </delete>
+
+</mapper>
