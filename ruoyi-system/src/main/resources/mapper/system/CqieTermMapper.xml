@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CqieTermMapper">
+    
+    <resultMap type="CqieTerm" id="CqieTermResult">
+        <result property="termId"    column="term_id"    />
+        <result property="termName"    column="term_name"    />
+        <result property="termAddtime"    column="term_addtime"    />
+        <result property="termRemark"    column="term_remark"    />
+    </resultMap>
+
+    <sql id="selectCqieTermVo">
+        select term_id, term_name, term_addtime, term_remark from cqie_term
+    </sql>
+
+    <select id="selectCqieTermList" parameterType="CqieTerm" resultMap="CqieTermResult">
+        <include refid="selectCqieTermVo"/>
+        <where>  
+            <if test="termName != null  and termName != ''"> and term_name like concat('%', #{termName}, '%')</if>
+        </where>
+        order by term_id desc
+    </select>
+    
+    <select id="selectCqieTermById" parameterType="Integer" resultMap="CqieTermResult">
+        <include refid="selectCqieTermVo"/>
+        where term_id = #{termId}
+    </select>
+        
+    <insert id="insertCqieTerm" parameterType="CqieTerm" useGeneratedKeys="true" keyProperty="termId">
+        insert into cqie_term
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="termName != null">term_name,</if>
+            <if test="termAddtime != null">term_addtime,</if>
+            <if test="termRemark != null">term_remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="termName != null">#{termName},</if>
+            <if test="termAddtime != null">#{termAddtime},</if>
+            <if test="termRemark != null">#{termRemark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCqieTerm" parameterType="CqieTerm">
+        update cqie_term
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="termName != null">term_name = #{termName},</if>
+            <if test="termAddtime != null">term_addtime = #{termAddtime},</if>
+            <if test="termRemark != null">term_remark = #{termRemark},</if>
+        </trim>
+        where term_id = #{termId}
+    </update>
+
+    <delete id="deleteCqieTermById" parameterType="Integer">
+        delete from cqie_term where term_id = #{termId}
+    </delete>
+
+    <delete id="deleteCqieTermByIds" parameterType="String">
+        delete from cqie_term where term_id in 
+        <foreach item="termId" collection="array" open="(" separator="," close=")">
+            #{termId}
+        </foreach>
+    </delete>
+
+</mapper>
