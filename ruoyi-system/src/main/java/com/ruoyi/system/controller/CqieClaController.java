@@ -1,6 +1,10 @@
 package com.ruoyi.system.controller;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.SysDept;
+import com.ruoyi.system.service.ISysDeptService;
+import com.ruoyi.system.service.ISysPostService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,10 +38,14 @@ public class CqieClaController extends BaseController
     @Autowired
     private ICqieClaService cqieClaService;
 
+    @Autowired
+    private ISysDeptService deptService;
+
     @RequiresPermissions("system:cla:view")
     @GetMapping()
-    public String cla()
+    public String cla(ModelMap mmap)
     {
+        mmap.put("depts", deptService.selectDeptList(new SysDept()));
         return prefix + "/cla";
     }
 

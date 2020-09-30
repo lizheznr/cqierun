@@ -10,15 +10,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="claName"    column="cla_name"    />
         <result property="claAddtime"    column="cla_addtime"    />
         <result property="claRemark"    column="cla_remark"    />
+        <association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
+    </resultMap>
+
+    <resultMap id="deptResult" type="SysDept">
+        <id     property="deptId"   column="dept_id"     />
+        <result property="parentId" column="parent_id"   />
+        <result property="deptName" column="dept_name"   />
+        <result property="orderNum" column="order_num"   />
+        <result property="leader"   column="leader"      />
+        <result property="status"   column="dept_status" />
     </resultMap>
 
     <sql id="selectCqieClaVo">
-        select cla_id, cla_dept_id, cla_name, cla_addtime, cla_remark from cqie_cla
+        select c.cla_id, c.cla_dept_id, c.cla_name, c.cla_addtime, c.cla_remark,
+                d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status
+         from cqie_cla c
+                left join sys_dept d on c.cla_dept_id = d.dept_id
     </sql>
 
     <select id="selectCqieClaList" parameterType="CqieCla" resultMap="CqieClaResult">
         <include refid="selectCqieClaVo"/>
-        <where>  
+        <where>
+            <if test="claDeptId != null  and claDeptId > 100"> and c.cla_dept_id = #{claDeptId}</if>
             <if test="claName != null  and claName != ''"> and cla_name like concat('%', #{claName}, '%')</if>
         </where>
     </select>
