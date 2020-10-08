@@ -204,4 +204,13 @@ public interface ISysUserService
      * @return 结果
      */
     public int changeStatus(SysUser user);
+
+    //new code
+    /**
+     * 根据条件分页查询已配班级的教师列表
+     *
+     * @param user 教师信息
+     * @return 教师信息集合信息
+     */
+    public List<SysUser> selectClassAllocatedList(SysUser user);
 }

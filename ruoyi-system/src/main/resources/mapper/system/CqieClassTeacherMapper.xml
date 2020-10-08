@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CqieClassTeacherMapper">
+    
+    <resultMap type="CqieClassTeacher" id="CqieClassTeacherResult">
+        <result property="clateaId"    column="clatea_id"    />
+        <result property="claId"    column="clatea_cla_id"    />
+        <result property="teacherId"    column="clatea_tea_id"    />
+        <result property="clateaAddtime"    column="clatea_addtime"    />
+        <result property="clateaRemark"    column="clatea_remark"    />
+    </resultMap>
+
+    <sql id="selectCqieClassTeacherVo">
+        select clatea_id, clatea_cla_id, clatea_tea_id, clatea_addtime, clatea_remark from cqie_class_teacher
+    </sql>
+
+    <select id="selectCqieClassTeacherList" parameterType="CqieClassTeacher" resultMap="CqieClassTeacherResult">
+        <include refid="selectCqieClassTeacherVo"/>
+        <where>  
+            <if test="clateaId != null "> and clatea_id = #{clateaId}</if>
+            <if test="claId != null "> and clatea_cla_id = #{claId}</if>
+            <if test="teacherId != null "> and clatea_tea_id = #{teacherId}</if>
+            <if test="clateaAddtime != null "> and clatea_addtime = #{clateaAddtime}</if>
+            <if test="clateaRemark != null  and clateaRemark != ''"> and clatea_remark = #{clateaRemark}</if>
+        </where>
+    </select>
+    
+    <select id="selectCqieClassTeacherById" parameterType="Long" resultMap="CqieClassTeacherResult">
+        <include refid="selectCqieClassTeacherVo"/>
+        where clatea_id = #{clateaId}
+    </select>
+        
+    <insert id="insertCqieClassTeacher" parameterType="CqieClassTeacher" useGeneratedKeys="true" keyProperty="clateaId">
+        insert into cqie_class_teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="claId != null">clatea_cla_id,</if>
+            <if test="teacherId != null">clatea_tea_id,</if>
+            <if test="clateaAddtime != null">clatea_addtime,</if>
+            <if test="clateaRemark != null">clatea_remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="claId != null">#{claId},</if>
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="clateaAddtime != null">#{clateaAddtime},</if>
+            <if test="clateaRemark != null">#{clateaRemark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCqieClassTeacher" parameterType="CqieClassTeacher">
+        update cqie_class_teacher
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="claId != null">clatea_cla_id = #{claId},</if>
+            <if test="teacherId != null">clatea_tea_id = #{teacherId},</if>
+            <if test="clateaAddtime != null">clatea_addtime = #{clateaAddtime},</if>
+            <if test="clateaRemark != null">clatea_remark = #{clateaRemark},</if>
+        </trim>
+        where clatea_id = #{clateaId}
+    </update>
+
+    <delete id="deleteCqieClassTeacherById" parameterType="Long">
+        delete from cqie_class_teacher where clatea_id = #{clateaId}
+    </delete>
+
+    <delete id="deleteCqieClassTeacherByIds" parameterType="String">
+        delete from cqie_class_teacher where clatea_id in 
+        <foreach item="clateaId" collection="array" open="(" separator="," close=")">
+            #{clateaId}
+        </foreach>
+    </delete>
+
+    <insert id="batchClassTeacher">
+        insert into cqie_class_teacher(clatea_cla_id, clatea_tea_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.claId},#{item.teacherId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteClassTeacherInfo" parameterType="CqieClassTeacher">
+		delete from cqie_class_teacher where clatea_tea_id=#{teacherId} and clatea_cla_id=#{claId}
+	</delete>
+
+</mapper>

@@ -1,6 +1,10 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.system.domain.CqieClassTeacher;
+import com.ruoyi.system.mapper.CqieClassTeacherMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CqieClaMapper;
@@ -19,6 +23,9 @@ public class CqieClaServiceImpl implements ICqieClaService
 {
     @Autowired
     private CqieClaMapper cqieClaMapper;
+
+    @Autowired
+    private CqieClassTeacherMapper classTeacherMapper;
 
     /**
      * 查询cla
@@ -90,5 +97,41 @@ public class CqieClaServiceImpl implements ICqieClaService
     public int deleteCqieClaById(Integer claId)
     {
         return cqieClaMapper.deleteCqieClaById(claId);
+    }
+
+    //new code
+    /**
+     * 批量保存班级教师关系
+     *
+     * @param claId 班级ID
+     * @param userIds 教师ID集合
+     * @return 结果
+     */
+    @Override
+    public int insertAuthTeachers(Integer claId, String userIds)
+    {
+        Long[] users = Convert.toLongArray(userIds);
+        // 新增用户与角色管理
+        List<CqieClassTeacher> list = new ArrayList<CqieClassTeacher>();
+        for (Long userId : users)
+        {
+            CqieClassTeacher ct = new CqieClassTeacher();
+            ct.setTeacherId(userId);
+            ct.setClaId(claId);
+            list.add(ct);
+        }
+        return classTeacherMapper.batchClassTeacher(list);
+    }
+
+    /**
+     * 撤销班级教师关系
+     *
+     * @param claTeacher 班级教师关系信息
+     * @return 结果
+     */
+    @Override
+    public int deleteAuthTeacher(CqieClassTeacher claTeacher)
+    {
+        return classTeacherMapper.deleteClassTeacherInfo(claTeacher);
     }
 }

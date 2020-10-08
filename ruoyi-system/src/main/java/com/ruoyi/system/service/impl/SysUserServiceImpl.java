@@ -517,4 +517,18 @@ public class SysUserServiceImpl implements ISysUserService
     {
         return userMapper.updateUser(user);
     }
+
+    //new code
+    /**
+     * 根据条件分页查询已配班级的教师列表
+     *
+     * @param user 教师信息
+     * @return 教师信息集合信息
+     */
+    @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
+    public List<SysUser> selectClassAllocatedList(SysUser user)
+    {
+        return userMapper.selectClassAllocatedList(user);
+    }
 }

@@ -121,4 +121,13 @@ public interface SysUserMapper
      * @return 结果
      */
     public SysUser checkEmailUnique(String email);
+
+    //新增加代码
+    /**
+     * 根据条件分页查询已配班级的教师列表
+     *
+     * @param user 教师信息
+     * @return 教师信息集合信息
+     */
+    public List<SysUser> selectClassAllocatedList(SysUser user);
 }
