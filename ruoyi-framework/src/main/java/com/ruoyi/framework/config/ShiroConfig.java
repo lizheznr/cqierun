@@ -298,7 +298,7 @@ public class ShiroConfig
         shiroFilterFactoryBean.setFilters(filters);
 
         //sunly，设置白名单，部分对外接口无需认证
-        filterChainDefinitionMap.put("/system/appinfo/latestApp","anon");
+        filterChainDefinitionMap.put("/api_v1/**","anon");
 
         // 所有请求需要认证
         filterChainDefinitionMap.put("/**", "user,kickout,onlineSession,syncOnlineSession");

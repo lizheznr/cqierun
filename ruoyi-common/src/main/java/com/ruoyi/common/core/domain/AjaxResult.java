@@ -18,6 +18,12 @@ public class AjaxResult extends HashMap<String, Object>
     /** 返回内容 */
     public static final String MSG_TAG = "msg";
 
+    /** 状态码2 */
+    public static final String CODE_TAG2 = "status";
+
+    /** 返回内容2 */
+    public static final String MSG_TAG2 = "message";
+
     /** 数据对象 */
     public static final String DATA_TAG = "data";
 
@@ -28,6 +34,10 @@ public class AjaxResult extends HashMap<String, Object>
     {
         /** 成功 */
         SUCCESS(0),
+        /** 成功2 */
+        SUCCESS2(1),
+        /** 失败 */
+        FAIL(0),
         /** 警告 */
         WARN(301),
         /** 错误 */
@@ -75,6 +85,23 @@ public class AjaxResult extends HashMap<String, Object>
     {
         super.put(CODE_TAG, type.value);
         super.put(MSG_TAG, msg);
+        if (StringUtils.isNotNull(data))
+        {
+            super.put(DATA_TAG, data);
+        }
+    }
+
+    /**
+     * 初始化一个新创建的符合陈永政版本的 AjaxResult 对象
+     *
+     * @param type 状态类型
+     * @param msg 返回内容
+     * @param data 数据对象
+     */
+    public AjaxResult(Type type, String msg, Object data, int flag)
+    {
+        super.put(CODE_TAG2, type.value);
+        super.put(MSG_TAG2, msg);
         if (StringUtils.isNotNull(data))
         {
             super.put(DATA_TAG, data);
@@ -178,5 +205,19 @@ public class AjaxResult extends HashMap<String, Object>
     public static AjaxResult error(String msg, Object data)
     {
         return new AjaxResult(Type.ERROR, msg, data);
+    }
+
+    //sunly 2010-10-10
+    /**
+     * 返回消息
+     *
+     * @param type 类型，成功为1SUCCESS，失败为0FAIL
+     * @param msg 返回内容
+     * @param data 数据对象
+     * @return 消息
+     */
+    public static AjaxResult  returnJSON(Type type, String msg, Object data)
+    {
+        return new AjaxResult(type, msg, data,1);
     }
 }
