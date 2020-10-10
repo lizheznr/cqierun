@@ -58,4 +58,12 @@ public interface CqieAppinfoMapper
      * @return 结果
      */
     public int deleteCqieAppinfoByIds(String[] appiIds);
+
+    //sunly
+    /**
+     * 查询最新发布的appinfo
+     *
+     * @return appinfo
+     */
+    public CqieAppinfo selectCqieAppinfoLatest();
 }

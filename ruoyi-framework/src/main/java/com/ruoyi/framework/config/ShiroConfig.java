@@ -297,6 +297,9 @@ public class ShiroConfig
         filters.put("logout", logoutFilter());
         shiroFilterFactoryBean.setFilters(filters);
 
+        //sunly，设置白名单，部分对外接口无需认证
+        filterChainDefinitionMap.put("/system/appinfo/latestApp","anon");
+
         // 所有请求需要认证
         filterChainDefinitionMap.put("/**", "user,kickout,onlineSession,syncOnlineSession");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

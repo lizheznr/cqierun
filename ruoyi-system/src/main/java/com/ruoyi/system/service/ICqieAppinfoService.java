@@ -59,4 +59,12 @@ public interface ICqieAppinfoService
      */
     public int deleteCqieAppinfoById(Integer appiId);
 
+    //sunly
+    /**
+     * 查询最新发布的appinfo
+     *
+     * @return appinfo
+     */
+    public CqieAppinfo selectCqieAppinfoLatest();
+
 }

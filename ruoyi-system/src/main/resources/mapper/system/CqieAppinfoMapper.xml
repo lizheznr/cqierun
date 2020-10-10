@@ -70,4 +70,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <select id="selectCqieAppinfoLatest" resultMap="CqieAppinfoResult">
+        <include refid="selectCqieAppinfoVo"/>
+        where appi_ispublish = 1
+        order by appi_id desc
+        limit 1
+    </select>
 </mapper>

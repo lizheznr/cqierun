@@ -91,4 +91,16 @@ public class CqieAppinfoServiceImpl implements ICqieAppinfoService
     {
         return cqieAppinfoMapper.deleteCqieAppinfoById(appiId);
     }
+
+    //sunly
+    /**
+     * 查询最新发布的appinfo
+     *
+     * @return appinfo
+     */
+    @Override
+    public CqieAppinfo selectCqieAppinfoLatest()
+    {
+        return cqieAppinfoMapper.selectCqieAppinfoLatest();
+    }
 }

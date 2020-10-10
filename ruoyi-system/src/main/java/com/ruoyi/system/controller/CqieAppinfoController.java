@@ -136,4 +136,15 @@ public class CqieAppinfoController extends BaseController
 //    	cqieAppinfoService.checkRoleAllowed(role);
         return toAjax(cqieAppinfoService.updateCqieAppinfo(cqieAppinfo));
     }
+
+    /**
+     * 查询最新发布的appinfo
+     */
+    @GetMapping("/latestApp")
+    @ResponseBody
+    public AjaxResult latestApp()
+    {
+        CqieAppinfo appinfo = cqieAppinfoService.selectCqieAppinfoLatest();
+        return AjaxResult.success(appinfo);
+    }
 }
