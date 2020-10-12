@@ -23,6 +23,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.system.service.ICqieStudentService;
 
 /**
  * claController
@@ -44,6 +45,9 @@ public class CqieClaController extends BaseController
 
     @Autowired
     private ISysUserService userService;
+
+    @Autowired
+    private ICqieStudentService cqieStudentService;
 
     @RequiresPermissions("system:cla:view")
     @GetMapping()
@@ -206,13 +210,79 @@ public class CqieClaController extends BaseController
         return toAjax(cqieClaService.deleteAuthTeacher(claTeacher));
     }
 
+    //new code
     /**
-     * 选择学生，还未完成
+     * 李哲
+     * 查询已分配班级的学生列表
      */
-    @GetMapping("/authStudent/selectStudent/{claId}")
+    @RequiresPermissions("system:cla:list")
+    @PostMapping("/authStudent/classallocatedList1")
+    @ResponseBody
+    public TableDataInfo classallocatedList1(CqieStudent student)
+    {
+        startPage();
+        List<CqieStudent> list = cqieStudentService.selectClassAllocatedList1(student);
+        System.out.println("李哲");
+        System.out.println(list);
+        return getDataTable(list);
+    }
+    /**
+     * 李哲
+     * 分配学生
+     */
+    @RequiresPermissions("system:cla:edit")
+    @GetMapping("/authStudent/{claId}")
     public String authStudent(@PathVariable("claId") Integer claId, ModelMap mmap)
     {
         mmap.put("cqieCla", cqieClaService.selectCqieClaById(claId));
+        return prefix + "/authStudent";
+    }
+    /**
+     * 李哲
+     * 选择分配学生
+     */
+    @RequiresPermissions("system:cla:edit")
+    @GetMapping("/authStudent/selectStudent/{claId}")
+    public String selectStudent(@PathVariable("claId") Integer claId, ModelMap mmap)
+    {
+        mmap.put("cqieCla", cqieClaService.selectCqieClaById(claId));
         return prefix + "/selectStudent";
+    }
+    /**
+     * 李哲
+     * 查询所有学生列表
+     */
+    @RequiresPermissions("system:cla:list")
+    @PostMapping("/authStudent/studentList")
+    @ResponseBody
+    public TableDataInfo studentList(CqieStudent student)
+    {
+        startPage();
+        List<CqieStudent> list = cqieStudentService.selectCqieStudentList(student);
+        return getDataTable(list);
+    }
+
+    /**
+     * 李哲
+     * 保存班级学生关系
+     */
+    @Log(title = "为班级分配学生", businessType = BusinessType.GRANT)
+    @PostMapping("/authStudent/selectAll")
+    @ResponseBody
+    public AjaxResult selectAuthStudentAll(Integer claId, String stuIds)
+    {
+        return toAjax(cqieClaService.insertAuthStudents(claId,stuIds));
+    }
+
+    /**
+     * 李哲
+     * 撤销班级学生关系
+     */
+    @Log(title = "从班级撤销学生", businessType = BusinessType.GRANT)
+    @PostMapping("/authStudent/cancel")
+    @ResponseBody
+    public AjaxResult cancelAuthStudent(CqieClassStudent classStudent)
+    {
+        return toAjax(cqieClaService.deleteAuthStudent(classStudent));
     }
 }

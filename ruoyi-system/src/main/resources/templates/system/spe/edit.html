@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改免跑申请')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: bootstrap-fileinput-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-spe-edit" th:object="${cqieSpe}">
+        <input name="speId" th:field="*{speId}" type="hidden">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">学生ID：</label>
+            <div class="col-sm-8">
+                <input name="speStuId" th:field="*{speStuId}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">学期ID：</label>
+            <div class="col-sm-8">
+                <input name="speTermId" th:field="*{speTermId}" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">申请时间：</label>
+            <div class="col-sm-8">
+                <div class="input-group date">
+                    <input name="speApplytime" th:value="${#dates.format(cqieSpe.speApplytime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">证明材料：</label>
+            <div class="col-sm-8">
+                <input type="hidden" name="speApplymate" th:field="*{speApplymate}">
+                <div class="file-loading">
+                    <input class="form-control file-upload" id="speApplymate" name="file" type="file">
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="form-group">
+        <label class="col-sm-3 control-label">老师意见：</label>
+            <div class="col-sm-8">
+        <select name="speIsAgree" class="form-control" id="speIsAgree">
+            <option disabled selected>&#45;&#45;请选择&#45;&#45;</option>
+            <option th:value="1">批准</option>
+            <option th:value="0">不批准</option>
+        </select>
+            </div>
+        </div>-->
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">备注：</label>
+            <div class="col-sm-8">
+                <textarea name="speRemark" class="form-control">[[*{speRemark}]]</textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer" />
+<th:block th:include="include :: datetimepicker-js" />
+<th:block th:include="include :: bootstrap-fileinput-js"/>
+<script th:inline="javascript">
+    var prefix = ctx + "system/spe";
+    $("#form-spe-edit").validate({
+        focusCleanup: true
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.save(prefix + "/edit", $('#form-spe-edit').serialize());
+        }
+    }
+
+
+    window.onload = function () {
+        getAgree();
+    }
+
+    function getAgree(){
+        var t = document.getElementById("speIsAgree");
+        var selectValue=t.options[t.selectedIndex].value;//获取select的值
+
+        for(i=0;i<t.length;i++){//给select赋值
+
+            if([[${cqieSpe.speIsAgree}]]==t.options[i].value){
+                t.options[i].selected=true;
+            }
+        }
+    };
+
+    $("input[name='speApplytime']").datetimepicker({
+        format: "yyyy-mm-dd",
+        minView: "month",
+        autoclose: true
+    });
+
+    $(".file-upload").each(function (i) {
+        var val = $("input[name='" + this.id + "']").val()
+        $(this).fileinput({
+            'uploadUrl': '/common/upload',
+            initialPreviewAsData: true,
+            initialPreview: [val],
+            maxFileCount: 1,
+            autoReplace: true
+        }).on('fileuploaded', function (event, data, previewId, index) {
+            $("input[name='" + event.currentTarget.id + "']").val(data.response.url)
+        }).on('fileremoved', function (event, id, index) {
+            $("input[name='" + event.currentTarget.id + "']").val('')
+        })
+        $(this).fileinput('_initFileActions');
+    });
+</script>
+</body>
+</html>

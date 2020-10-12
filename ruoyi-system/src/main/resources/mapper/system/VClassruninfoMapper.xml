@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.VClassruninfoMapper">
+    
+    <resultMap type="VClassruninfo" id="VClassruninfoResult">
+        <result property="stuNo"    column="stu_no"    />
+        <result property="stuName"    column="stu_name"    />
+        <result property="stuSex"    column="stu_sex"    />
+        <result property="claName"    column="cla_name"    />
+        <result property="termName"    column="term_name"    />
+        <result property="runcount"    column="runcount"    />
+    </resultMap>
+
+    <sql id="selectVClassruninfoVo">
+        select stu_no, stu_name, stu_sex, cla_name, term_name, runcount from v_classruninfo
+    </sql>
+
+    <select id="selectVClassruninfoList" parameterType="VClassruninfo" resultMap="VClassruninfoResult">
+        <include refid="selectVClassruninfoVo"/>
+        <where>  
+            <if test="claName != null  and claName != ''"> and cla_name like concat('%', #{claName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectVClassruninfoById" parameterType="String" resultMap="VClassruninfoResult">
+        <include refid="selectVClassruninfoVo"/>
+        where stu_no = #{stuNo}
+    </select>
+        
+    <insert id="insertVClassruninfo" parameterType="VClassruninfo">
+        insert into v_classruninfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stuNo != null">stu_no,</if>
+            <if test="stuName != null">stu_name,</if>
+            <if test="stuSex != null">stu_sex,</if>
+            <if test="claName != null">cla_name,</if>
+            <if test="termName != null">term_name,</if>
+            <if test="runcount != null">runcount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stuNo != null">#{stuNo},</if>
+            <if test="stuName != null">#{stuName},</if>
+            <if test="stuSex != null">#{stuSex},</if>
+            <if test="claName != null">#{claName},</if>
+            <if test="termName != null">#{termName},</if>
+            <if test="runcount != null">#{runcount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVClassruninfo" parameterType="VClassruninfo">
+        update v_classruninfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stuName != null">stu_name = #{stuName},</if>
+            <if test="stuSex != null">stu_sex = #{stuSex},</if>
+            <if test="claName != null">cla_name = #{claName},</if>
+            <if test="termName != null">term_name = #{termName},</if>
+            <if test="runcount != null">runcount = #{runcount},</if>
+        </trim>
+        where stu_no = #{stuNo}
+    </update>
+
+    <delete id="deleteVClassruninfoById" parameterType="String">
+        delete from v_classruninfo where stu_no = #{stuNo}
+    </delete>
+
+    <delete id="deleteVClassruninfoByIds" parameterType="String">
+        delete from v_classruninfo where stu_no in 
+        <foreach item="stuNo" collection="array" open="(" separator="," close=")">
+            #{stuNo}
+        </foreach>
+    </delete>
+
+</mapper>

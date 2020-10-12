@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CqieClaMapper;
 import com.ruoyi.system.domain.CqieCla;
+import com.ruoyi.system.domain.CqieClassStudent;
 import com.ruoyi.system.service.ICqieClaService;
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.system.mapper.CqieClassStudentMapper;
 
 /**
  * claService业务层处理
@@ -26,6 +28,9 @@ public class CqieClaServiceImpl implements ICqieClaService
 
     @Autowired
     private CqieClassTeacherMapper classTeacherMapper;
+
+    @Autowired
+    private CqieClassStudentMapper classStudentMapper;
 
     /**
      * 查询cla
@@ -133,5 +138,37 @@ public class CqieClaServiceImpl implements ICqieClaService
     public int deleteAuthTeacher(CqieClassTeacher claTeacher)
     {
         return classTeacherMapper.deleteClassTeacherInfo(claTeacher);
+    }
+
+    //李哲
+    /**
+     * 批量保存班级学生关系表
+     * @param claId
+     * @param stuIds
+     * @return
+     */
+    @Override
+    public int insertAuthStudents(Integer claId, String stuIds) {
+        Long[] students = Convert.toLongArray(stuIds);
+        // 新增用户与角色管理
+        List<CqieClassStudent> list = new ArrayList<CqieClassStudent>();
+        for (Long stuId : students)
+        {
+            CqieClassStudent cs = new CqieClassStudent();
+            cs.setClastuStuId(stuId);
+            cs.setClaId(claId);
+            list.add(cs);
+        }
+        return classStudentMapper.batchClassStudent(list);
+    }
+
+    /**
+     * 撤销班级学生关系
+     * @param claStudent
+     * @return
+     */
+    @Override
+    public int deleteAuthStudent(CqieClassStudent claStudent) {
+        return classStudentMapper.deleteClassStudentInfo(claStudent);
     }
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CqieClassStudentMapper">
+    
+    <resultMap type="CqieClassStudent" id="CqieClassStudentResult">
+        <result property="clastuId"    column="clastu_id"    />
+        <result property="claId"    column="clastu_cla_id"    />
+        <result property="clastuStuId"    column="clastu_stu_id"    />
+        <result property="clastuAddtime"    column="clastu_addtime"    />
+        <result property="clastuRemark"    column="clastu_remark"    />
+
+    </resultMap>
+
+    <sql id="selectCqieClassStudentVo">
+        select clastu_id, clastu_cla_id, clastu_stu_id, clastu_addtime, clastu_remark from cqie_class_student
+    </sql>
+
+    <select id="selectCqieClassStudentList" parameterType="CqieClassStudent" resultMap="CqieClassStudentResult">
+        <include refid="selectCqieClassStudentVo"/>
+        <where>  
+            <if test="claId != null "> and clastu_cla_id = #{clastuClaId}</if>
+            <if test="clastuStuId != null "> and clastu_stu_id = #{clastuStuId}</if>
+            <if test="clastuAddtime != null "> and clastu_addtime = #{clastuAddtime}</if>
+            <if test="clastuRemark != null  and clastuRemark != ''"> and clastu_remark = #{clastuRemark}</if>
+        </where>
+    </select>
+    
+    <select id="selectCqieClassStudentById" parameterType="Long" resultMap="CqieClassStudentResult">
+        <include refid="selectCqieClassStudentVo"/>
+        where clastu_id = #{clastuId}
+    </select>
+        
+    <insert id="insertCqieClassStudent" parameterType="CqieClassStudent" useGeneratedKeys="true" keyProperty="clastuId">
+        insert into cqie_class_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="claId != null">clastu_cla_id,</if>
+            <if test="clastuStuId != null">clastu_stu_id,</if>
+            <if test="clastuAddtime != null">clastu_addtime,</if>
+            <if test="clastuRemark != null">clastu_remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="claId != null">#{clastuClaId},</if>
+            <if test="clastuStuId != null">#{clastuStuId},</if>
+            <if test="clastuAddtime != null">#{clastuAddtime},</if>
+            <if test="clastuRemark != null">#{clastuRemark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCqieClassStudent" parameterType="CqieClassStudent">
+        update cqie_class_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="claId != null">clastu_cla_id = #{claId},</if>
+            <if test="clastuStuId != null">clastu_stu_id = #{clastuStuId},</if>
+            <if test="clastuAddtime != null">clastu_addtime = #{clastuAddtime},</if>
+            <if test="clastuRemark != null">clastu_remark = #{clastuRemark},</if>
+        </trim>
+        where clastu_id = #{clastuId}
+    </update>
+
+    <delete id="deleteCqieClassStudentById" parameterType="Long">
+        delete from cqie_class_student where clastu_id = #{clastuId}
+    </delete>
+
+    <delete id="deleteCqieClassStudentByIds" parameterType="String">
+        delete from cqie_class_student where clastu_id in 
+        <foreach item="clastuId" collection="array" open="(" separator="," close=")">
+            #{clastuId}
+        </foreach>
+    </delete>
+
+    <insert id="batchClassStudent">
+        insert into cqie_class_student(clastu_cla_id, clastu_stu_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.claId},#{item.clastuStuId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteClassStudentInfo" parameterType="CqieClassStudent">
+		delete from cqie_class_student where clastu_stu_id=#{clastuStuId} and clastu_cla_id=#{claId}
+	</delete>
+
+</mapper>

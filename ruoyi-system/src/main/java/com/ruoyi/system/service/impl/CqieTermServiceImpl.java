@@ -14,7 +14,7 @@ import com.ruoyi.common.core.text.Convert;
  * @author sunly
  * @date 2020-09-29
  */
-@Service
+@Service("termService")
 public class CqieTermServiceImpl implements ICqieTermService 
 {
     @Autowired

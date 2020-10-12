@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CqieStudentMapper">
+    
+    <resultMap type="CqieStudent" id="CqieStudentResult">
+        <result property="stuId"    column="stu_id"    />
+        <result property="stuNo"    column="stu_no"    />
+        <result property="stuPassword"    column="stu_password"    />
+        <result property="stuName"    column="stu_name"    />
+        <result property="stuSex"    column="stu_sex"    />
+        <result property="stuBirthday"    column="stu_birthday"    />
+        <result property="stuEmail"    column="stu_email"    />
+        <result property="stuMobile"    column="stu_mobile"    />
+        <result property="stuQq"    column="stu_qq"    />
+        <result property="stuAddtime"    column="stu_addtime"    />
+        <result property="stuRemark"    column="stu_remark"    />
+        <result property="stuImg"    column="stu_img"    />
+        <collection  property="clas"   javaType="java.util.List"      resultMap="CqieClaResult" />
+    </resultMap>
+
+
+    <resultMap type="CqieCla" id="CqieClaResult">
+        <result property="claId"    column="cla_id"    />
+        <result property="claDeptId"    column="cla_dept_id"    />
+        <result property="claName"    column="cla_name"    />
+        <result property="claAddtime"    column="cla_addtime"    />
+        <result property="claRemark"    column="cla_remark"    />
+        <association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
+    </resultMap>
+
+    <resultMap id="deptResult" type="SysDept">
+        <id     property="deptId"   column="dept_id"     />
+        <result property="parentId" column="parent_id"   />
+        <result property="deptName" column="dept_name"   />
+        <result property="orderNum" column="order_num"   />
+        <result property="leader"   column="leader"      />
+        <result property="status"   column="dept_status" />
+    </resultMap>
+
+    <sql id="selectCqieStudentVo">
+        select stu_id, stu_no, stu_password, stu_name, stu_sex, stu_birthday, stu_email, stu_mobile, stu_qq, stu_addtime, stu_remark,stu_img from cqie_student
+    </sql>
+
+    <select id="selectCqieStudentList" parameterType="CqieStudent" resultMap="CqieStudentResult">
+        <include refid="selectCqieStudentVo"/>
+        <where>  
+            <if test="stuNo != null  and stuNo != ''"> and stu_no like concat('%', #{stuNo}, '%')</if>
+            <if test="stuName != null  and stuName != ''"> and stu_name like concat('%', #{stuName}, '%')</if>
+            <if test="stuSex != null  and stuSex != ''"> and stu_sex = #{stuSex}</if>
+        </where>
+    </select>
+    
+    <select id="selectCqieStudentById" parameterType="Long" resultMap="CqieStudentResult">
+        <include refid="selectCqieStudentVo"/>
+        where stu_id = #{stuId}
+    </select>
+        
+    <insert id="insertCqieStudent" parameterType="CqieStudent" useGeneratedKeys="true" keyProperty="stuId">
+        insert into cqie_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stuNo != null and stuNo != ''">stu_no,</if>
+            <if test="stuPassword != null">stu_password,</if>
+            <if test="stuName != null and stuName != ''">stu_name,</if>
+            <if test="stuSex != null and stuSex != ''">stu_sex,</if>
+            <if test="stuBirthday != null">stu_birthday,</if>
+            <if test="stuEmail != null">stu_email,</if>
+            <if test="stuMobile != null">stu_mobile,</if>
+            <if test="stuQq != null">stu_qq,</if>
+            <if test="stuAddtime != null">stu_addtime,</if>
+            <if test="stuRemark != null">stu_remark,</if>
+            <if test="stuImg != null">stu_img,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stuNo != null and stuNo != ''">#{stuNo},</if>
+            <if test="stuPassword != null">#{stuPassword},</if>
+            <if test="stuName != null and stuName != ''">#{stuName},</if>
+            <if test="stuSex != null and stuSex != ''">#{stuSex},</if>
+            <if test="stuBirthday != null">#{stuBirthday},</if>
+            <if test="stuEmail != null">#{stuEmail},</if>
+            <if test="stuMobile != null">#{stuMobile},</if>
+            <if test="stuQq != null">#{stuQq},</if>
+            <if test="stuAddtime != null">#{stuAddtime},</if>
+            <if test="stuRemark != null">#{stuRemark},</if>
+            <if test="stuImg != null">#{stuImg},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCqieStudent" parameterType="CqieStudent">
+        update cqie_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stuNo != null and stuNo != ''">stu_no = #{stuNo},</if>
+            <if test="stuPassword != null">stu_password = #{stuPassword},</if>
+            <if test="stuName != null and stuName != ''">stu_name = #{stuName},</if>
+            <if test="stuSex != null and stuSex != ''">stu_sex = #{stuSex},</if>
+            <if test="stuBirthday != null">stu_birthday = #{stuBirthday},</if>
+            <if test="stuEmail != null">stu_email = #{stuEmail},</if>
+            <if test="stuMobile != null">stu_mobile = #{stuMobile},</if>
+            <if test="stuQq != null">stu_qq = #{stuQq},</if>
+            <if test="stuAddtime != null">stu_addtime = #{stuAddtime},</if>
+            <if test="stuRemark != null">stu_remark = #{stuRemark},</if>
+            <if test="stuImg != null">stu_img = #{stuImg},</if>
+        </trim>
+        where stu_id = #{stuId}
+    </update>
+
+    <delete id="deleteCqieStudentById" parameterType="Long">
+        delete from cqie_student where stu_id = #{stuId}
+    </delete>
+
+    <delete id="deleteCqieStudentByIds" parameterType="String">
+        delete from cqie_student where stu_id in 
+        <foreach item="stuId" collection="array" open="(" separator="," close=")">
+            #{stuId}
+        </foreach>
+    </delete>
+
+    <select id="selectClassAllocatedList1" parameterType="CqieStudent" resultMap="CqieStudentResult">
+        select distinct c.cla_name, s.stu_id,s.stu_no,s.stu_name,s.stu_sex,s.stu_mobile,s.stu_remark,s.stu_img
+        from cqie_student s
+        JOIN cqie_class_student cs on cs.clastu_stu_id = s.stu_id
+        JOIN cqie_cla c on c.cla_id = cs.clastu_cla_id
+        where c.cla_id = #{claId}
+        <if test="stuName != null and stuName != ''">
+            AND s.stu_name like concat('%', #{stuName}, '%')
+        </if>
+        <if test="stuNo != null and stuNo != ''">
+            AND s.stu_no like concat('%', #{stuNo}, '%')
+        </if>
+    <!-- 数据范围过滤 -->
+    ${params.dataScope}
+    </select>
+
+    <update id="rePassword" parameterType="CqieStudent" >
+      UPDATE cqie_student SET stu_password = #{stuPassword} WHERE stu_id = #{stuId}
+    </update>
+
+</mapper>

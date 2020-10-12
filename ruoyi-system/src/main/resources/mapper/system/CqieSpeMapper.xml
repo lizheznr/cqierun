@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CqieSpeMapper">
+
+    <resultMap type="CqieSpe" id="CqieSpeResult">
+        <result property="speId"    column="spe_id"    />
+        <result property="speStuId"    column="spe_stu_id"    />
+        <result property="speTermId"    column="spe_term_id"    />
+        <result property="speApplytime"    column="spe_applytime"    />
+        <result property="speApplymate"    column="spe_applymate"    />
+        <result property="speRemark"    column="spe_remark"    />
+        <result property="speIsAgree" column="spe_isAgree"/>
+        <association property="student" column="stu_id" resultMap="studentResult"/>
+        <association property="cqieClassStudent" column="clastu_id" resultMap="cqieClassStudentResult"/>
+        <association property="cqieCla" column="cla_id" resultMap="cqieClaResult"/>
+        <association property="cqieTerm" column="term_id" resultMap="cqieTermResult"/>
+    </resultMap>
+
+    <resultMap id="studentResult" type="CqieStudent">
+        <id property="stuId" column="stu_id"/>
+        <result property="stuNo" column="stu_no"/>
+        <result property="stuPassword" column="stu_password"/>
+        <result property="stuName" column="stu_name"/>
+        <result property="stuSex" column="stu_sex"/>
+    </resultMap>
+
+    <resultMap id="cqieClaResult" type="CqieCla">
+        <id property="claId" column="cla_id"/>
+        <result property="claName" column="cla_name"/>
+        <result property="claDeptId" column="cla_dept_id"/>
+        <result property="claName" column="cla_name"/>
+        <result property="claAddtime" column="cla_addtime"/>
+        <result property="claRemark" column="cla_remark"/>
+    </resultMap>
+
+    <resultMap id="cqieClassStudentResult" type="CqieClassStudent">
+        <id property="claStuId" column="clastu_id"/>
+        <result property="claId" column="clastu_cla_id"/>
+        <result property="clastuStuId" column="clastu_stu_id"/>
+        <result property="clastuAddtime" column="clastu_addtime"/>
+        <result property="clastuRemark" column="clastu_remark"/>
+    </resultMap>
+
+    <resultMap id="cqieTermResult" type="CqieTerm">
+        <id property="termId" column="term_id"/>
+        <result property="termName" column="term_name"/>
+        <result property="termAddtime" column="term_addTime"/>
+        <result property="termRemark" column="term_remark"/>
+    </resultMap>
+
+    <sql id="selectCqieSpeVo">
+        select spe_id, spe_stu_id, spe_term_id, spe_applytime, spe_applymate, spe_remark, spe_isagree from cqie_spe
+    </sql>
+
+    <select id="selectCqieSpeList" parameterType="CqieSpe" resultMap="CqieSpeResult">
+        select spe.*,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name from cqie_spe spe
+        left join cqie_class_student cs on spe.spe_stu_id = cs.clastu_stu_id
+        left join cqie_student s on s.stu_id = spe.spe_stu_id
+        left join cqie_cla c on c.cla_id = cs.clastu_cla_id
+        left join cqie_term t on t.term_id = spe.spe_term_id
+        <where>
+            <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
+                and t.term_name like concat('%', #{cqieTerm.termName}, '%')
+            </if>
+            <if test="cqieCla.claName != null and cqieCla.claName !=''">
+                and c.cla_name like concat('%', #{cqieCla.claName}, '%')
+            </if>
+            <if test="student.stuNo != null and student.stuNo !=''">
+                and s.stu_no like concat('%', #{student.stuNo}, '%')
+            </if>
+            <if test="student.stuName != null and student.stuName !=''">
+                and s.stu_name like concat('%', #{student.stuName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCqieSpeById" parameterType="Long" resultMap="CqieSpeResult">
+        <include refid="selectCqieSpeVo"/>
+        where spe_id = #{speId}
+    </select>
+
+    <insert id="insertCqieSpe" parameterType="CqieSpe" useGeneratedKeys="true" keyProperty="speId">
+        insert into cqie_spe
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="speStuId != null">spe_stu_id,</if>
+            <if test="speTermId != null">spe_term_id,</if>
+            <if test="speApplytime != null">spe_applytime,</if>
+            <if test="speApplymate != null">spe_applymate,</if>
+            <if test="speRemark != null">spe_remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="speStuId != null">#{speStuId},</if>
+            <if test="speTermId != null">#{speTermId},</if>
+            <if test="speApplytime != null">#{speApplytime},</if>
+            <if test="speApplymate != null">#{speApplymate},</if>
+            <if test="speRemark != null">#{speRemark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCqieSpe" parameterType="CqieSpe">
+        update cqie_spe
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="speStuId != null">spe_stu_id = #{speStuId},</if>
+            <if test="speTermId != null">spe_term_id = #{speTermId},</if>
+            <if test="speApplytime != null">spe_applytime = #{speApplytime},</if>
+            <if test="speApplymate != null">spe_applymate = #{speApplymate},</if>
+            <if test="speIsAgree != null">spe_isagree = #{speIsAgree},</if>
+            <if test="speRemark != null">spe_remark = #{speRemark},</if>
+        </trim>
+        where spe_id = #{speId}
+    </update>
+
+    <delete id="deleteCqieSpeById" parameterType="Long">
+        delete from cqie_spe where spe_id = #{speId}
+    </delete>
+
+    <delete id="deleteCqieSpeByIds" parameterType="String">
+        delete from cqie_spe where spe_id in
+        <foreach item="speId" collection="array" open="(" separator="," close=")">
+            #{speId}
+        </foreach>
+    </delete>
+
+    <update id="updateSpeIsAgree" parameterType="CqieSpe">
+        UPDATE cqie_spe SET spe_isagree = #{speIsAgree} WHERE spe_id = #{speId}
+    </update>
+
+
+</mapper>

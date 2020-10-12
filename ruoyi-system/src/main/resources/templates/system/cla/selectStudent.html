@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('为班级选择教师')" />
+</head>
+
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="role-form">
+                <input type="hidden" id="claId" name="claId" th:value="${cqieCla.claId}">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            学生学号：<input type="text" name="stuNo"/>
+                        </li>
+                        <li>
+                            学生名：<input type="text" name="stuName"/>
+                        </li>
+
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+    var prefix = ctx + "system/cla/authStudent";
+
+    $(function() {
+        var options = {
+            url: prefix + "/studentList",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            importUrl: prefix + "/importData",
+            importTemplateUrl: prefix + "/importTemplate",
+            queryParams: queryParams,
+            sortName: "stu_addtime",
+            sortOrder: "desc",
+            modalName: "用户",
+            showSearch: false,
+            showRefresh: false,
+            showToggle: false,
+            showColumns: false,
+            clickToSelect: true,
+            rememberSelected: true,
+            columns: [{
+                field: 'state',
+                checkbox: true
+            },{
+                field: 'stuId',
+                title: '学生ID',
+                visible: true
+            },
+                {
+                    field: 'stuNo',
+                    title: '学生学号'
+                },
+                {
+                    field: 'stuName',
+                    title: '学生名称',
+                    sortable: true
+                },
+                {
+                    field: 'stuMobile',
+                    title: '手机号'
+                },
+                {
+                    field: 'stuRemark',
+                    title: '备注'
+                }]
+        };
+        $.table.init(options);
+    });
+
+    function queryParams(params) {
+        var search = $.table.queryParams(params);
+        search.claId = $("#claId").val();
+        return search;
+    }
+
+    /* 保存分配好的班级学生关系 */
+    function submitHandler() {
+        var rows = $.table.selectFirstColumns();
+        if (rows.length == 0) {
+            $.modal.alertWarning("请至少选择一条记录");
+            return;
+        }
+        var data = { "claId": $("#claId").val(), "stuIds": rows.join() };
+        $.operate.save(prefix + "/selectAll", data);
+    }
+</script>
+</body>
+</html>

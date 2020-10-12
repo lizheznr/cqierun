@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CqieScoreMapper">
+    
+    <resultMap type="CqieScore" id="CqieScoreResult">
+        <result property="scoreId"    column="score_id"    />
+        <result property="scoreTermId"    column="score_term_id"    />
+        <result property="scoreStudentId"    column="score_student_id"    />
+        <result property="scoreCounts"    column="score_counts"    />
+        <result property="scoreResult"    column="score_result"    />
+        <association property="student" column="stu_id" resultMap="studentResult"/>
+        <association property="cqieClassStudent" column="clastu_id" resultMap="cqieClassStudentResult"/>
+        <association property="cqieCla" column="cla_id" resultMap="claResult"/>
+        <association property="cqieRun" column="run_id" resultMap="runResult"/>
+        <association property="cqieTerm" column="term_id" resultMap="cqieTermResult"/>
+    </resultMap>
+
+    <resultMap id="studentResult" type="CqieStudent">
+        <id property="stuId" column="stu_id"/>
+        <result property="stuNo" column="stu_no"/>
+        <result property="stuPassword" column="stu_password"/>
+        <result property="stuName" column="stu_name"/>
+        <result property="stuSex" column="stu_sex"/>
+    </resultMap>
+
+    <resultMap id="cqieClassStudentResult" type="CqieClassStudent">
+        <id property="claStuId" column="clastu_id"/>
+        <result property="claId" column="clastu_cla_id"/>
+        <result property="clastuStuId" column="clastu_stu_id"/>
+        <result property="clastuAddtime" column="clastu_addtime"/>
+        <result property="clastuRemark" column="clastu_remark"/>
+    </resultMap>
+
+    <resultMap id="claResult" type="CqieCla">
+        <id property="claId" column="cla_id"/>
+        <result property="claName" column="cla_name"/>
+        <result property="claDeptId" column="cla_dept_id"/>
+        <result property="claName" column="cla_name"/>
+        <result property="claAddtime" column="cla_addtime"/>
+        <result property="claRemark" column="cla_remark"/>
+    </resultMap>
+
+    <resultMap id="runResult" type="CqieRun">
+        <id property="runId" column="run_id"/>
+        <result property="runId"    column="run_id"    />
+        <result property="runTermId"    column="run_term_id"    />
+        <result property="runStuId"    column="run_stu_id"    />
+        <result property="runStarLon"    column="run_star_lon"    />
+        <result property="runStarDim"    column="run_star_dim"    />
+        <result property="runStarTime"    column="run_star_time"    />
+        <result property="runStarSpeed"    column="run_star_speed"    />
+        <result property="runEndTime"    column="run_end_time"    />
+        <result property="runImg"    column="run_img"    />
+        <result property="runAddtime"    column="run_addtime"    />
+        <result property="runRemark"    column="run_remark"    />
+        <result property="runIsComplete" column="run_iscomplete"/>
+    </resultMap>
+
+    <resultMap id="cqieTermResult" type="CqieTerm">
+        <id property="termId" column="term_id"/>
+        <result property="termName" column="term_name"/>
+        <result property="termAddtime" column="term_addTime"/>
+        <result property="termRemark" column="term_remark"/>
+    </resultMap>
+
+
+    <sql id="selectCqieScoreVo">
+        select score_id, score_term_id, score_student_id, score_counts, score_result from cqie_score
+    </sql>
+
+    <select id="selectCqieScoreList" parameterType="CqieScore" resultMap="CqieScoreResult">
+        select sc.*,s.stu_no,s.stu_name,s.stu_sex,c.cla_name,t.term_name from cqie_student s,cqie_class_student cs,cqie_cla c,cqie_run r,cqie_term t,cqie_score sc
+        where s.stu_id=cs.clastu_stu_id
+        and c.cla_id=cs.clastu_cla_id
+        and s.stu_id=r.run_stu_id
+        and r.run_term_id = t.term_id
+        and sc.score_student_id = s.stu_id
+
+            <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
+                and t.term_name like concat('%', #{cqieTerm.termName}, '%')
+            </if>
+            <if test="cqieCla.claName != null and cqieCla.claName !=''">
+                and c.cla_name like concat('%', #{cqieCla.claName}, '%')
+            </if>
+
+    </select>
+    
+    <select id="selectCqieScoreById" parameterType="Long" resultMap="CqieScoreResult">
+        <include refid="selectCqieScoreVo"/>
+        where score_id = #{scoreId}
+    </select>
+        
+    <insert id="insertCqieScore" parameterType="CqieScore" useGeneratedKeys="true" keyProperty="scoreId">
+        insert into cqie_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scoreTermId != null">score_term_id,</if>
+            <if test="scoreStudentId != null">score_student_id,</if>
+            <if test="scoreCounts != null">score_counts,</if>
+            <if test="scoreResult != null">score_result,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scoreTermId != null">#{scoreTermId},</if>
+            <if test="scoreStudentId != null">#{scoreStudentId},</if>
+            <if test="scoreCounts != null">#{scoreCounts},</if>
+            <if test="scoreResult != null">#{scoreResult},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCqieScore" parameterType="CqieScore">
+        update cqie_score
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scoreTermId != null">score_term_id = #{scoreTermId},</if>
+            <if test="scoreStudentId != null">score_student_id = #{scoreStudentId},</if>
+            <if test="scoreCounts != null">score_counts = #{scoreCounts},</if>
+            <if test="scoreResult != null">score_result = #{scoreResult},</if>
+        </trim>
+        where score_id = #{scoreId}
+    </update>
+
+    <delete id="deleteCqieScoreById" parameterType="Long">
+        delete from cqie_score where score_id = #{scoreId}
+    </delete>
+
+    <delete id="deleteCqieScoreByIds" parameterType="String">
+        delete from cqie_score where score_id in 
+        <foreach item="scoreId" collection="array" open="(" separator="," close=")">
+            #{scoreId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -3,7 +3,7 @@ package com.ruoyi.system.service;
 import java.util.List;
 import com.ruoyi.system.domain.CqieCla;
 import com.ruoyi.system.domain.CqieClassTeacher;
-import com.ruoyi.system.domain.SysUserRole;
+import com.ruoyi.system.domain.CqieClassStudent;
 
 /**
  * claService接口
@@ -78,4 +78,22 @@ public interface ICqieClaService
      * @return 结果
      */
     public int deleteAuthTeacher(CqieClassTeacher claTeacher);
+
+    //李哲
+    /**
+     * 批量保存班级学生关系
+     *
+     * @param claId
+     * @param stuIds
+     * @return 结果
+     */
+    public int insertAuthStudents(Integer claId , String stuIds);
+
+    /**
+     * 撤销班级学生关系
+     *
+     * @param claStudent
+     * @return
+     */
+    public int deleteAuthStudent(CqieClassStudent claStudent);
 }
