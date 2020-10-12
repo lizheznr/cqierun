@@ -79,6 +79,10 @@
 		            field: 'phonenumber',
 		            title: '手机'
 		        },
+				{
+					field: 'sysPost.postName',
+					title: '岗位'
+				},
 		        {
 		        	field: 'status',
 		        	title: '用户状态',
@@ -86,11 +90,6 @@
 		        	formatter: function (value, row, index) {
 		        		return $.table.selectDictLabel(datas, value);
 		        	}
-		        },
-		        {
-		            field: 'createTime',
-		            title: '创建时间',
-		            sortable: true
 		        }]
 		    };
 		    $.table.init(options);

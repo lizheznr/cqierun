@@ -25,7 +25,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="updateBy"     column="update_by"    />
 		<result property="updateTime"   column="update_time"  />
 		<result property="remark"       column="remark"       />
-		<association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
+		<association property="dept"    javaType="SysDept" resultMap="deptResult" />
+		<association property="sysPost"  javaType="SysPost" resultMap="SysPostResult"/>
 		<collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
 		<collection  property="clas"   javaType="java.util.List"        resultMap="CqieClaResult" />
 	</resultMap>
@@ -56,6 +57,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="claRemark"    column="cla_remark"    />
 		<association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
 	</resultMap>
+
+	<resultMap type="SysPost" id="SysPostResult">
+		<id     property="postId"        column="post_id"       />
+		<result property="postCode"      column="post_code"     />
+		<result property="postName"      column="post_name"     />
+		<result property="postSort"      column="post_sort"     />
+		<result property="status"        column="status"        />
+		<result property="createBy"      column="create_by"     />
+		<result property="createTime"    column="create_time"   />
+		<result property="updateBy"      column="update_by"     />
+		<result property="updateTime"    column="update_time"   />
+		<result property="remark"        column="remark"        />
+	</resultMap>
 	
 	<sql id="selectUserVo">
         select  u.user_id, u.dept_id, u.login_name, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.sex, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_time, u.remark,
@@ -68,8 +82,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 	
 	<select id="selectUserList" parameterType="SysUser" resultMap="SysUserResult">
-		select u.user_id, u.dept_id, u.login_name, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.password, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader from sys_user u
+		select u.user_id, u.dept_id, u.login_name, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.password, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader, p.post_name from sys_user u
 		left join sys_dept d on u.dept_id = d.dept_id
+		left join sys_user_role ur on u.user_id = ur.user_id
+		left join sys_role r on r.role_id = ur.role_id
+		left join cqie_class_teacher ct on u.user_id = ct.clatea_tea_id
+		left join cqie_cla c on c.cla_id = ct.clatea_cla_id
+		left join sys_user_post up on up.user_id = u.user_id
+		left join sys_post p on p.post_id = up.post_id
 		where u.del_flag = '0'
 		<if test="loginName != null and loginName != ''">
 			AND u.login_name like concat('%', #{loginName}, '%')
@@ -234,13 +254,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<select id="selectClassAllocatedList" parameterType="SysUser" resultMap="SysUserResult">
-		select distinct u.user_id, u.dept_id, u.login_name, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.status, u.create_time
+		select distinct u.user_id, u.dept_id, u.login_name, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.status, u.create_time, p.post_name
 		from sys_user u
 		left join sys_dept d on u.dept_id = d.dept_id
 		left join sys_user_role ur on u.user_id = ur.user_id
 		left join sys_role r on r.role_id = ur.role_id
 		left join cqie_class_teacher ct on u.user_id = ct.clatea_tea_id
 		left join cqie_cla c on c.cla_id = ct.clatea_cla_id
+		left join sys_user_post up on up.user_id = u.user_id
+		left join sys_post p on p.post_id = up.post_id
 		where u.del_flag = '0' and c.cla_id = #{claId}
 		<if test="loginName != null and loginName != ''">
 			AND u.login_name like concat('%', #{loginName}, '%')

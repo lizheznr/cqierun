@@ -143,6 +143,10 @@ public class SysUser extends BaseEntity {
 
     private List<CqieCla> clas;
 
+    private CqieCla cqieCla;
+
+    private SysPost sysPost;
+
     public SysUser() {
 
     }
@@ -352,6 +356,22 @@ public class SysUser extends BaseEntity {
         this.clas = clas;
     }
 
+    public CqieCla getCqieCla() {
+        return cqieCla;
+    }
+
+    public void setCqieCla(CqieCla cqieCla) {
+        this.cqieCla = cqieCla;
+    }
+
+    public SysPost getSysPost() {
+        return sysPost;
+    }
+
+    public void setSysPost(SysPost sysPost) {
+        this.sysPost = sysPost;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
@@ -378,6 +398,8 @@ public class SysUser extends BaseEntity {
                 .append("dept", getDept())
                 .append("roles", getRoles())
                 .append("clas", getClas())
+                .append("cqieCla",getCqieCla())
+                .append("sysPost",getSysPost())
                 .toString();
     }
 }
