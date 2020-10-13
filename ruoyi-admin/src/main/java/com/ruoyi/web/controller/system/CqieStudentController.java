@@ -145,11 +145,8 @@ public class CqieStudentController extends BaseController {
     @PostMapping("/resetPwd")
     @ResponseBody
     public AjaxResult resetPwdSave(CqieStudent cqieStudent){
-        System.out.println("李哲");
-        System.out.println(cqieStudent.getStuId());
-        cqieStudent.setStuPassword("123456");
         cqieStudent.setStuSalt(ShiroUtils.randomSalt());
-        cqieStudent.setStuPassword(passwordService.encryptPassword(cqieStudent.getStuName(), cqieStudent.getStuPassword(), cqieStudent.getStuSalt()));
+        cqieStudent.setStuPassword(passwordService.encryptPassword(cqieStudent.getStuName(), "123456", cqieStudent.getStuSalt()));
         return toAjax(cqieStudentService.rePassword(cqieStudent));
     }
 
