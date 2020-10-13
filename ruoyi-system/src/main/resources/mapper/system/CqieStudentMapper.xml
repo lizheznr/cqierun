@@ -134,8 +134,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ${params.dataScope}
     </select>
 
+    <select id="selectCqieStudentStaticById" parameterType="CqieClassStudent" resultMap="CqieStudentResult">
+        select distinct s.stu_no ,s.stu_name
+        from cqie_student s
+        JOIN cqie_class_student cs on cs.clastu_stu_id = s.stu_id
+        JOIN cqie_cla c on c.cla_id = cs.clastu_cla_id
+        where s.stu_id = #{clastuStuId} and c.cla_id = #{claId}
+    </select>
+
     <update id="rePassword" parameterType="CqieStudent" >
-      UPDATE cqie_student SET stu_password = #{stuPassword} WHERE stu_id = #{stuId}
+      UPDATE cqie_student SET stu_password = #{stuPassword},stu_salt = #{stuSalt} WHERE stu_id = #{stuId}
     </update>
 
 </mapper>
