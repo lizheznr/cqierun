@@ -29,7 +29,7 @@ public class CqieStudent extends BaseEntity
     /**
      * 盐加密
      */
-    private String salt;
+    private String stuSalt;
     /**
      * 班级ID
      */
@@ -80,12 +80,12 @@ public class CqieStudent extends BaseEntity
         this.stuImg = stuImg;
     }
 
-    public String getSalt() {
-        return salt;
+    public String getStuSalt() {
+        return stuSalt;
     }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
+    public void setStuSalt(String stuSalt) {
+        this.stuSalt = stuSalt;
     }
 
     public void setStuId(Long stuId)
@@ -211,7 +211,7 @@ public class CqieStudent extends BaseEntity
             .append("stuNo", getStuNo())
             .append("claId",getClaId())
             .append("stuPassword", getStuPassword())
-            .append("salt",getSalt())
+            .append("stuSalt",getStuSalt())
             .append("stuName", getStuName())
             .append("stuSex", getStuSex())
             .append("stuBirthday", getStuBirthday())

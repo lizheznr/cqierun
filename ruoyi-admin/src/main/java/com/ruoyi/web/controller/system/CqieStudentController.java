@@ -84,11 +84,11 @@ public class CqieStudentController extends BaseController {
         List<CqieStudent> userList = util.importExcel(file.getInputStream());
         userList.forEach(u -> {
             u.setStuImg("https://wx3.sinaimg.cn/mw690/006aTFgrly1gjns36mcv2j30sg0sg4en.jpg");
-            u.setSalt(ShiroUtils.randomSalt());
+            u.setStuSalt(ShiroUtils.randomSalt());
             u.setStuPassword(passwordService.encryptPassword(
                     u.getStuName(),
                     "123456",
-                    u.getSalt()));
+                    u.getStuSalt()));
         });
         String operName = ShiroUtils.getSysUser().getLoginName();
         String message = cqieStudentService.importStudent(userList, updateSupport, operName);
@@ -111,8 +111,8 @@ public class CqieStudentController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(CqieStudent cqieStudent) {
-        cqieStudent.setSalt(ShiroUtils.randomSalt());
-        cqieStudent.setStuPassword(passwordService.encryptPassword(cqieStudent.getStuName(), cqieStudent.getStuPassword(), cqieStudent.getSalt()));
+        cqieStudent.setStuSalt(ShiroUtils.randomSalt());
+        cqieStudent.setStuPassword(passwordService.encryptPassword(cqieStudent.getStuName(), cqieStudent.getStuPassword(), cqieStudent.getStuSalt()));
         return toAjax(cqieStudentService.insertCqieStudent(cqieStudent));
     }
 
@@ -134,8 +134,8 @@ public class CqieStudentController extends BaseController {
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(CqieStudent cqieStudent) {
-        cqieStudent.setSalt(ShiroUtils.randomSalt());
-        cqieStudent.setStuPassword(passwordService.encryptPassword(cqieStudent.getStuName(), cqieStudent.getStuPassword(), cqieStudent.getSalt()));
+        cqieStudent.setStuSalt(ShiroUtils.randomSalt());
+        cqieStudent.setStuPassword(passwordService.encryptPassword(cqieStudent.getStuName(), cqieStudent.getStuPassword(), cqieStudent.getStuSalt()));
         return toAjax(cqieStudentService.updateCqieStudent(cqieStudent));
     }
 
@@ -148,8 +148,8 @@ public class CqieStudentController extends BaseController {
         System.out.println("李哲");
         System.out.println(cqieStudent.getStuId());
         cqieStudent.setStuPassword("123456");
-        cqieStudent.setSalt(ShiroUtils.randomSalt());
-        cqieStudent.setStuPassword(passwordService.encryptPassword(cqieStudent.getStuName(), cqieStudent.getStuPassword(), cqieStudent.getSalt()));
+        cqieStudent.setStuSalt(ShiroUtils.randomSalt());
+        cqieStudent.setStuPassword(passwordService.encryptPassword(cqieStudent.getStuName(), cqieStudent.getStuPassword(), cqieStudent.getStuSalt()));
         return toAjax(cqieStudentService.rePassword(cqieStudent));
     }
 
