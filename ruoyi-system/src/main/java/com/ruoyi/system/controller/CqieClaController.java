@@ -3,6 +3,7 @@ package com.ruoyi.system.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.ISysDeptService;
 import com.ruoyi.system.service.ISysPostService;
@@ -183,6 +184,7 @@ public class CqieClaController extends BaseController
     @ResponseBody
     public TableDataInfo teacherList(SysUser user)
     {
+
         startPage();
         List<SysUser> list = userService.selectUserList(user);
         return getDataTable(list);
@@ -197,6 +199,7 @@ public class CqieClaController extends BaseController
     public AjaxResult selectAuthTeacherAll(Integer claId, String userIds)
     {
         return toAjax(cqieClaService.insertAuthTeachers(claId, userIds));
+
     }
 
     /**

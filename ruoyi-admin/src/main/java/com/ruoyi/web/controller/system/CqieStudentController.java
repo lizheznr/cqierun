@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 学生信息Controller
@@ -82,16 +86,20 @@ public class CqieStudentController extends BaseController {
         ExcelUtil<CqieStudent> util = new ExcelUtil<CqieStudent>(CqieStudent.class);
 
         List<CqieStudent> userList = util.importExcel(file.getInputStream());
-        userList.forEach(u -> {
-            u.setStuImg("https://wx3.sinaimg.cn/mw690/006aTFgrly1gjns36mcv2j30sg0sg4en.jpg");
-            u.setStuSalt(ShiroUtils.randomSalt());
-            u.setStuPassword(passwordService.encryptPassword(
-                    u.getStuName(),
-                    "123456",
-                    u.getStuSalt()));
-        });
+        System.out.println(userList);
+        List<CqieStudent> collect = userList.stream()
+                .filter(u -> u.getStuName() != "" && u.getStuNo() != "")
+                .peek(u -> {
+                            u.setStuImg("https://wx3.sinaimg.cn/mw690/006aTFgrly1gjns36mcv2j30sg0sg4en.jpg");
+                            u.setStuSalt(ShiroUtils.randomSalt());
+                            u.setStuPassword(passwordService.encryptPassword(
+                                    u.getStuName(),
+                                    "123456",
+                                    u.getStuSalt()));
+                        }
+                ).collect(Collectors.toList());
         String operName = ShiroUtils.getSysUser().getLoginName();
-        String message = cqieStudentService.importStudent(userList, updateSupport, operName);
+        String message = cqieStudentService.importStudent(collect, updateSupport, operName);
         return AjaxResult.success(message);
     }
 
