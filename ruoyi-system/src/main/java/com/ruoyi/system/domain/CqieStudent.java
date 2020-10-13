@@ -211,6 +211,7 @@ public class CqieStudent extends BaseEntity
             .append("stuNo", getStuNo())
             .append("claId",getClaId())
             .append("stuPassword", getStuPassword())
+            .append("salt",getSalt())
             .append("stuName", getStuName())
             .append("stuSex", getStuSex())
             .append("stuBirthday", getStuBirthday())

@@ -71,6 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="stuAddtime != null">stu_addtime,</if>
             <if test="stuRemark != null">stu_remark,</if>
             <if test="stuImg != null">stu_img,</if>
+            <if test="salt != null and salt != ''">salt,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="stuNo != null and stuNo != ''">#{stuNo},</if>
@@ -84,6 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="stuAddtime != null">#{stuAddtime},</if>
             <if test="stuRemark != null">#{stuRemark},</if>
             <if test="stuImg != null">#{stuImg},</if>
+            <if test="salt != null and salt != ''">#{salt},</if>
          </trim>
     </insert>
 

@@ -80,7 +80,16 @@ public class CqieStudentController extends BaseController {
     @ResponseBody
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<CqieStudent> util = new ExcelUtil<CqieStudent>(CqieStudent.class);
+
         List<CqieStudent> userList = util.importExcel(file.getInputStream());
+        userList.forEach(u -> {
+            u.setStuImg("https://wx3.sinaimg.cn/mw690/006aTFgrly1gjns36mcv2j30sg0sg4en.jpg");
+            u.setSalt(ShiroUtils.randomSalt());
+            u.setStuPassword(passwordService.encryptPassword(
+                    u.getStuName(),
+                    "123456",
+                    u.getSalt()));
+        });
         String operName = ShiroUtils.getSysUser().getLoginName();
         String message = cqieStudentService.importStudent(userList, updateSupport, operName);
         return AjaxResult.success(message);
