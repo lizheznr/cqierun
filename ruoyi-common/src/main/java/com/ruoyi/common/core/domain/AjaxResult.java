@@ -2,12 +2,18 @@ package com.ruoyi.common.core.domain;
 
 import java.util.HashMap;
 import com.ruoyi.common.utils.StringUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 操作消息提醒
  * 
  * @author ruoyi
  */
+@ApiModel(value = "返回说明")
 public class AjaxResult extends HashMap<String, Object>
 {
     private static final long serialVersionUID = 1L;
@@ -19,12 +25,15 @@ public class AjaxResult extends HashMap<String, Object>
     public static final String MSG_TAG = "msg";
 
     /** 状态码2 */
+    @ApiModelProperty(value = "成功标识；1：成功；0:失败")
     public static final String CODE_TAG2 = "status";
 
     /** 返回内容2 */
+    @ApiModelProperty(value = "描述信息")
     public static final String MSG_TAG2 = "message";
 
     /** 数据对象 */
+    @ApiModelProperty(value = "返回数据")
     public static final String DATA_TAG = "data";
 
     /**
