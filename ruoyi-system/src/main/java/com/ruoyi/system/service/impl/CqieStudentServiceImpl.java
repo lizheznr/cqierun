@@ -102,6 +102,7 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
 
+
         for (CqieStudent student : studentList) {
             try {
                 this.insertCqieStudent(student);
@@ -111,7 +112,7 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
             }
         }
         if (failureNum > 0) {
-            failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
+            failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：已有重复数据");
             throw new BusinessException(failureMsg.toString());
         } else {
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
