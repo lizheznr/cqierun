@@ -28,7 +28,7 @@ public class VClassruninfo extends BaseEntity
     private String stuSex;
 
     /** 班级名称 */
-    @Excel(name = "班级名称")
+    @Excel(name = "班级")
     private String claName;
 
     /** 学期 */
@@ -36,10 +36,24 @@ public class VClassruninfo extends BaseEntity
     private String termName;
 
     /**  */
-    @Excel(name = "")
+    @Excel(name = "跑步次数")
     private Long runcount;
 
-    public void setStuNo(String stuNo) 
+    /**  */
+    @Excel(name = "备注")
+    private String remark;
+
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public void setStuNo(String stuNo)
     {
         this.stuNo = stuNo;
     }
@@ -103,6 +117,7 @@ public class VClassruninfo extends BaseEntity
             .append("claName", getClaName())
             .append("termName", getTermName())
             .append("runcount", getRuncount())
+            .append("remark",getRemark())
             .toString();
     }
 }

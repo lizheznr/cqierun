@@ -26,7 +26,7 @@
     <resultMap id="studentResult" type="CqieStudent">
         <id property="stuId" column="stu_id"/>
         <result property="stuNo" column="stu_no"/>
-         <result property="stuPassword" column="stu_password"/>
+        <result property="stuPassword" column="stu_password"/>
         <result property="stuName" column="stu_name"/>
         <result property="stuSex" column="stu_sex"/>
     </resultMap>
@@ -67,14 +67,9 @@
         left join cqie_cla c on c.cla_id = cs.clastu_cla_id
         left join cqie_term t on t.term_id = r.run_term_id
         <where>
-            <!--<if test="runTermId != null "> and r.run_term_id = #{runTermId}</if>
-            <if test="runStuId != null "> and r.run_stu_id = #{runStuId}</if>-->
           <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
                 and t.term_name like concat('%', #{cqieTerm.termName}, '%')
           </if>
-         <if test="cqieCla.claName != null and cqieCla.claName !=''">
-                and c.cla_name like concat('%', #{cqieCla.claName}, '%')
-         </if>
           <if test="cqieCla.claName != null and cqieCla.claName !=''">
             and c.cla_name like concat('%', #{cqieCla.claName}, '%')
           </if>

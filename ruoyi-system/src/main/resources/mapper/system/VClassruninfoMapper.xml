@@ -11,10 +11,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="claName"    column="cla_name"    />
         <result property="termName"    column="term_name"    />
         <result property="runcount"    column="runcount"    />
+        <result property="remark" column="remark"/>
     </resultMap>
 
     <sql id="selectVClassruninfoVo">
-        select stu_no, stu_name, stu_sex, cla_name, term_name, runcount from v_classruninfo
+        select stu_no, stu_name, stu_sex, cla_name, term_name, runcount,remark from v_classruninfo
     </sql>
 
     <select id="selectVClassruninfoList" parameterType="VClassruninfo" resultMap="VClassruninfoResult">
