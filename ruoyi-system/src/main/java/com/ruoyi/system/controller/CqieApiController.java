@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,11 +36,16 @@ public class CqieApiController extends BaseController
     /**
      * 查询最新发布的appinfo
      */
-    @GetMapping("/latestApp")
+    @GetMapping("/getNewVersion")
     @ResponseBody
-    public AjaxResult latestApp()
+    public AjaxResult getNewVersion()
     {
         CqieAppinfo appinfo = cqieAppinfoService.selectCqieAppinfoLatest();
-        return AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"ok",appinfo);
+        HashMap<String,Object> data = new HashMap<String,Object>();
+        data.put("newVersion",appinfo.getAppiVersion());
+        data.put("forceUpdate",true);
+        data.put("newVersionInfo",appinfo.getRemark());
+        data.put("updateUrl",appinfo.getAppiAddress());
+        return AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"ok",data);
     }
 }
