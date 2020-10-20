@@ -24,7 +24,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">选择学生：</label>
             <div class="col-sm-8">
-                <a class="btn btn-success" onclick="selectStudent()" shiro:hasPermission="system:cla:add">
+                <a class="btn btn-success" onclick="selectStudent()" shiro:hasPermission="system:spe:add">
                     <i class="fa fa-plus"></i> 添加学生
                 </a>
             </div>
@@ -59,7 +59,7 @@
 <th:block th:include="include :: datetimepicker-js" />
 <th:block th:include="include :: bootstrap-fileinput-js"/>
 <script th:inline="javascript">
-    var prefix = ctx + "system/spe"
+    var prefix = ctx + "system/spe/add"
     $("#form-spe-add").validate({
         focusCleanup: true
     });
@@ -88,7 +88,7 @@
 
     /* 分配学生-选择学生 */
     function selectStudent() {
-        var url = prefix + '/selectStudent/' + $("#claId").val();
+        var url = prefix + "/selectStudent";
         $.modal.open("选择学生", url);
     }
 </script>

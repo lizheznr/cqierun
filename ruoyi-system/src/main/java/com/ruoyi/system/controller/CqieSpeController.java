@@ -3,7 +3,10 @@ package com.ruoyi.system.controller;
 import java.util.List;
 
 import com.ruoyi.system.domain.CqieRun;
+import com.ruoyi.system.domain.CqieStudent;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ICqieClaService;
+import com.ruoyi.system.service.ICqieStudentService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +39,9 @@ public class CqieSpeController extends BaseController
 
     @Autowired
     private ICqieSpeService cqieSpeService;
+
+    @Autowired
+    private ICqieStudentService cqieStudentService;
 
     @RequiresPermissions("system:spe:view")
     @GetMapping()
@@ -139,5 +145,21 @@ public class CqieSpeController extends BaseController
     public AjaxResult changeStatus(CqieSpe cqieSpe)
     {
         return toAjax(cqieSpeService.changeStatus(cqieSpe));
+    }
+
+
+
+    /**
+     *
+     * 查询所有学生列表
+     */
+    @RequiresPermissions("system:spe:list")
+    @PostMapping("/add/studentList")
+    @ResponseBody
+    public TableDataInfo studentList(CqieStudent student)
+    {
+        startPage();
+        List<CqieStudent> list = cqieStudentService.selectCqieStudentList(student);
+        return getDataTable(list);
     }
 }

@@ -103,10 +103,10 @@ public class CqieRunController extends BaseController
         mmap.put("cqieRun", cqieRun);
         return prefix + "/edit";
     }
-/**
- * xhd
- * 查询详情
- * */
+    /**
+     * xhd
+     * 查询详情
+     * */
     @GetMapping("/detail/{runId}")
     public String detail(@PathVariable("runId") Long runId, ModelMap mmap)
     {

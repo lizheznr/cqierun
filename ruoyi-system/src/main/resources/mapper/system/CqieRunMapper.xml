@@ -97,11 +97,11 @@
                 WHERE s.stu_no = #{stuNo} AND MONTH(run_addtime) = #{month}
     </select>
 
-    <select id="getSportRecord" resultMap="CqieRunResult">
+    <!--<select id="getSportRecord" resultMap="CqieRunResult">
         SELECT run_id, run_term_id, run_stu_id, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete
             FROM cqie_run r LEFT JOIN cqie_student s ON r.run_stu_id=s.stu_id
                 WHERE s.stu_no = #{stuNo} AND DATE_FORMAT(run_addtime,'%Y-%m-%d') = #{date}
-    </select>
+    </select>-->
 
     <select id="getSportRecord" resultMap="CqieRunResult">
         SELECT run_id, run_term_id, run_stu_id, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete
