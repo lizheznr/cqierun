@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.CqieTotalRunInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CqieRunMapper;
@@ -154,5 +156,15 @@ public class CqieRunServiceImpl implements ICqieRunService
             e.printStackTrace();
         }
         return cqieRun;
+    }
+
+    /**
+     * 运动信息统计
+     * @param stuId  学生信息ID
+     * @return  结果
+     */
+    @Override
+    public CqieTotalRunInfo getTotalRunInfo(Long stuId) {
+        return cqieRunMapper.getTotalRunInfo(stuId);
     }
 }

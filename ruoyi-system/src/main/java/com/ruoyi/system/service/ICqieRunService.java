@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.CqieRun;
+import com.ruoyi.system.domain.CqieTotalRunInfo;
 
 /**
  * 跑步信息Service接口
@@ -101,4 +102,11 @@ public interface ICqieRunService
      * @return 结果
      */
     public CqieRun getSportRecord(String stuNo,String date);
+
+    /**
+     * 运动信息统计
+     * @param stuId  学生信息ID
+     * @return  结果
+     */
+    public CqieTotalRunInfo getTotalRunInfo(Long stuId);
 }

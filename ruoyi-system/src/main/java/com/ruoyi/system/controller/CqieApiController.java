@@ -2,10 +2,7 @@ package com.ruoyi.system.controller;
 
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.system.domain.CqieAppinfo;
-import com.ruoyi.system.domain.CqieRun;
-import com.ruoyi.system.domain.CqieRunEndSport;
-import com.ruoyi.system.domain.CqieStudent;
+import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.ICqieAppinfoService;
 import com.ruoyi.system.service.ICqieRunService;
 import com.ruoyi.system.service.ICqieStudentService;
@@ -168,28 +165,38 @@ public class CqieApiController extends BaseController
     @PostMapping("/endSport")
     @ResponseBody
     public AjaxResult endSport(CqieRunEndSport cqieRunEndSport){
-        //提出app数据
-        CqieRun cqieRun = new CqieRun();
-        cqieRun.setRunId(cqieRunEndSport.getRunId());
-        cqieRun.setRunDistance(cqieRunEndSport.getRunDistance());
-        cqieRun.setRunStar(cqieRunEndSport.getRunPathline());
-        cqieRun.setRunDuration(cqieRunEndSport.getRunDuration());
-        cqieRun.setRunCalorie(cqieRunEndSport.getRunCalorie());
-        cqieRun.setRunDistribution(cqieRunEndSport.getRunDistribution());
-        cqieRun.setRunMaxdistribution(cqieRunEndSport.getRunMaxdistribution());
-        //返回数据
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("distance",null);
-        data.put("frequency",null);
-        data.put("duration",null);
-        if (cqieRunService.endSport(cqieRun) > 0){
-            data.put("status",1);
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",data);
-        }else{
-            data.put("status",0);
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"保存失败",data);
+        try {
+            //提出app端数据
+            CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(cqieRunEndSport.getStuNo());
+            CqieRun cqieRun = new CqieRun();
+            cqieRun.setRunId(cqieRunEndSport.getRunId());
+            cqieRun.setRunStuId(cqieStudent.getStuId());
+            cqieRun.setRunDistance(cqieRunEndSport.getRunDistance());
+            cqieRun.setRunStar(cqieRunEndSport.getRunPathline());
+            cqieRun.setRunDuration(cqieRunEndSport.getRunDuration());
+            cqieRun.setRunCalorie(cqieRunEndSport.getRunCalorie());
+            cqieRun.setRunDistribution(cqieRunEndSport.getRunDistribution());
+            cqieRun.setRunMaxdistribution(cqieRunEndSport.getRunMaxdistribution());
+            //返回给app端数据
+            CqieTotalRunInfo cqieTotalRunInfo = cqieRunService.getTotalRunInfo(cqieStudent.getStuId());
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("distance",cqieTotalRunInfo.getTotalDistance());
+            data.put("frequency",cqieTotalRunInfo.getTotalFrequency());
+            data.put("duration",cqieTotalRunInfo.getTotalDuration());
+            if (cqieRunService.endSport(cqieRun) > 0){
+                data.put("status",1);
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",data);
+            }else{
+                data.put("status",0);
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"保存失败",data);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
+        }finally {
+            return ajaxResult;
         }
-        return ajaxResult;
+
     }
 
     /**
