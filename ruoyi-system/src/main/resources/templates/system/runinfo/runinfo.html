@@ -42,14 +42,14 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:runinfo:add">
+            <!--<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:runinfo:add">
                 <i class="fa fa-plus"></i> 添加
-            </a>
+            </a>-->
             <a class="btn btn-danger" onclick="saveAll()" shiro:hasPermission="system:runinfo:saveAll">
                 <i class="fa fa-check-square-o"></i> 期末存档
             </a>
 
-           <!-- <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:runinfo:edit">
+          <!--<a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:runinfo:edit">
                 <i class="fa fa-edit"></i> 修改
             </a>
             <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:runinfo:remove">
@@ -118,20 +118,36 @@
                     title: '班级名称'
                 },
                 {
-                    field: 'runStarLon',
-                    title: '经度'
-                },
-                {
-                    field: 'runStarDim',
-                    title: '纬度'
+                    field: 'runStar',
+                    title: '经纬度'
                 },
                 {
                     field: 'runStarTime',
                     title: '开跑时间'
                 },
                 {
-                    field: 'runStarSpeed',
-                    title: '速度'
+                    field: 'runDistribution',
+                    title: '平均配速'
+                },
+                {
+                    field: 'runMaxdistribution',
+                    title: '最高配速'
+                },
+                {
+                    field: 'runDistance',
+                    title: '运动距离'
+                },
+                {
+                    field: 'runPathline',
+                    title: '运动轨迹'
+                },
+                {
+                    field: 'runDuration',
+                    title: '运动时长'
+                },
+                {
+                    field: 'runCalorie',
+                    title: '消耗卡路里'
                 },
                 {
                     field: 'runEndTime',
@@ -149,7 +165,7 @@
                     title: '添加时间'
                 },
                 {
-                    field:'runIsComplete',
+                    field:'runIscomplete',
                     title:'是否完成',
                     formatter: function(value,row,index) {
                         if (row.runIsComplete == 1)

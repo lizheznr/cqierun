@@ -42,20 +42,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="claRemark" column="cla_remark"/>
     </resultMap>
 
-    <resultMap id="runResult" type="CqieRun">
-        <id property="runId" column="run_id"/>
+    <resultMap type="cqieRun" id="runResult">
         <result property="runId"    column="run_id"    />
         <result property="runTermId"    column="run_term_id"    />
         <result property="runStuId"    column="run_stu_id"    />
-        <result property="runStarLon"    column="run_star_lon"    />
-        <result property="runStarDim"    column="run_star_dim"    />
+        <result property="runStar"    column="run_star"    />
         <result property="runStarTime"    column="run_star_time"    />
-        <result property="runStarSpeed"    column="run_star_speed"    />
+        <result property="runDistribution"    column="run_distribution"    />
+        <result property="runMaxdistribution"    column="run_maxDistribution"    />
+        <result property="runDistance"    column="run_distance"    />
+        <result property="runPathline"    column="run_pathLine"    />
+        <result property="runDuration"    column="run_duration"    />
+        <result property="runCalorie"    column="run_calorie"    />
         <result property="runEndTime"    column="run_end_time"    />
         <result property="runImg"    column="run_img"    />
         <result property="runAddtime"    column="run_addtime"    />
         <result property="runRemark"    column="run_remark"    />
-        <result property="runIsComplete" column="run_iscomplete"/>
+        <result property="runIscomplete" column="run_iscomplete"/>
     </resultMap>
 
     <resultMap id="cqieTermResult" type="CqieTerm">

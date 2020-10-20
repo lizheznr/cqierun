@@ -100,6 +100,7 @@ public class CqieSpeController extends BaseController
     {
         CqieSpe cqieSpe = cqieSpeService.selectCqieSpeById(speId);
         mmap.put("cqieSpe", cqieSpe);
+        System.out.println(cqieSpe);
         return prefix + "/edit";
     }
 

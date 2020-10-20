@@ -9,43 +9,73 @@
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
     <form class="form-horizontal m" id="form-runinfo-add">
         <div class="form-group">
+            <label class="col-sm-3 control-label">学期ID：</label>
+            <div class="col-sm-8">
+                <input name="runTermId" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label">学生ID：</label>
             <div class="col-sm-8">
-                <input name="stuId" class="form-control" type="text">
+                <input name="runStuId" class="form-control" type="text">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">经度：</label>
+            <label class="col-sm-3 control-label">经纬度：</label>
             <div class="col-sm-8">
-                <input name="runStarLon" class="form-control" type="text">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label">纬度：</label>
-            <div class="col-sm-8">
-                <input name="runStarDim" class="form-control" type="text">
+                <input name="runStar" class="form-control" type="text">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">开跑时间：</label>
             <div class="col-sm-8">
                 <div class="input-group date">
-                    <input name="runStarTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    <input name="runStarTime" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">速度：</label>
+            <label class="col-sm-3 control-label">平均配速：</label>
             <div class="col-sm-8">
-                <input name="runStarSpeed" class="form-control" type="text">
+                <input name="runDistribution" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">最高配速：</label>
+            <div class="col-sm-8">
+                <input name="runMaxdistribution" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">运动距离：</label>
+            <div class="col-sm-8">
+                <input name="runDistance" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">运动轨迹：</label>
+            <div class="col-sm-8">
+                <input name="runPathline" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">运动时长：</label>
+            <div class="col-sm-8">
+                <input name="runDuration" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">消耗卡路里：</label>
+            <div class="col-sm-8">
+                <input name="runCalorie" class="form-control" type="text">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">结束时间：</label>
             <div class="col-sm-8">
                 <div class="input-group date">
-                    <input name="runEndTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    <input name="runEndTime" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
             </div>
@@ -60,10 +90,16 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label">是否完成：</label>
+            <div class="col-sm-8">
+                <input name="runIscomplete" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label">添加时间：</label>
             <div class="col-sm-8">
                 <div class="input-group date">
-                    <input name="runAddtime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    <input name="runAddtime" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
             </div>
@@ -71,7 +107,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">备注：</label>
             <div class="col-sm-8">
-                <input name="runRemark" class="form-control" type="text">
+                <textarea name="runRemark" class="form-control"></textarea>
             </div>
         </div>
     </form>
@@ -92,13 +128,13 @@
     }
 
     $("input[name='runStarTime']").datetimepicker({
-        format: "yyyy-mm-dd",
+        format: "yyyy-mm-dd HH:mm:ss",
         minView: "month",
         autoclose: true
     });
 
     $("input[name='runEndTime']").datetimepicker({
-        format: "yyyy-mm-dd",
+        format: "yyyy-mm-dd HH:mm:ss",
         minView: "month",
         autoclose: true
     });

@@ -77,7 +77,11 @@
     </select>
 
     <select id="selectCqieSpeById" parameterType="Long" resultMap="CqieSpeResult">
-        <include refid="selectCqieSpeVo"/>
+        select spe.*,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name from cqie_spe spe
+        left join cqie_class_student cs on spe.spe_stu_id = cs.clastu_stu_id
+        left join cqie_student s on s.stu_id = spe.spe_stu_id
+        left join cqie_cla c on c.cla_id = cs.clastu_cla_id
+        left join cqie_term t on t.term_id = spe.spe_term_id
         where spe_id = #{speId}
     </select>
 

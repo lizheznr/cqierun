@@ -27,24 +27,40 @@ public class CqieRun extends BaseEntity
     @Excel(name = "学生ID")
     private Long runStuId;
 
-    /** 经度 */
-    @Excel(name = "经度")
-    private Long runStarLon;
-
-    /** 纬度 */
-    @Excel(name = "纬度")
-    private Long runStarDim;
+    /** 经纬度 */
+    @Excel(name = "经纬度")
+    private String runStar;
 
     /** 开跑时间 */
-    @Excel(name = "开跑时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "开跑时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date runStarTime;
 
-    /** 速度 */
-    @Excel(name = "速度")
-    private Long runStarSpeed;
+    /** 平均配速（分钟/公里） */
+    @Excel(name = "平均配速", readConverterExp = "分钟/公里")
+    private Long runDistribution;
+
+    /** 最高配速（分钟/公里） */
+    @Excel(name = "最高配速", readConverterExp = "分钟/公里")
+    private Long runMaxdistribution;
+
+    /** 运动距离 */
+    @Excel(name = "运动距离")
+    private Long runDistance;
+
+    /** 运动轨迹 */
+    @Excel(name = "运动轨迹")
+    private String runPathline;
+
+    /** 运动时长 */
+    @Excel(name = "运动时长")
+    private Long runDuration;
+
+    /** 消耗卡路里 */
+    @Excel(name = "消耗卡路里")
+    private Long runCalorie;
 
     /** 结束时间 */
-    @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date runEndTime;
 
     /** 跑步路径 */
@@ -52,29 +68,156 @@ public class CqieRun extends BaseEntity
     private String runImg;
 
     /** 添加时间 */
-    @Excel(name = "添加时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "添加时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date runAddtime;
 
     /** 备注 */
     @Excel(name = "备注")
     private String runRemark;
 
-
     /** 是否完成 */
     @Excel(name = "是否完成")
-    private int runIsComplete;
+    private int runIscomplete;
 
     private  CqieStudent student;
     private CqieCla cqieCla;
     private CqieClassStudent cqieClassStudent;
     private CqieTerm cqieTerm ;
 
-    public CqieTerm getCqieTerm() {
-        return cqieTerm;
+    public Long getRunId() {
+        return runId;
     }
 
-    public void setCqieTerm(CqieTerm cqieTerm) {
-        this.cqieTerm = cqieTerm;
+    public void setRunId(Long runId) {
+        this.runId = runId;
+    }
+
+    public Long getRunTermId() {
+        return runTermId;
+    }
+
+    public void setRunTermId(Long runTermId) {
+        this.runTermId = runTermId;
+    }
+
+    public Long getRunStuId() {
+        return runStuId;
+    }
+
+    public void setRunStuId(Long runStuId) {
+        this.runStuId = runStuId;
+    }
+
+    public String getRunStar() {
+        return runStar;
+    }
+
+    public void setRunStar(String runStar) {
+        this.runStar = runStar;
+    }
+
+    public Date getRunStarTime() {
+        return runStarTime;
+    }
+
+    public void setRunStarTime(Date runStarTime) {
+        this.runStarTime = runStarTime;
+    }
+
+    public Long getRunDistribution() {
+        return runDistribution;
+    }
+
+    public void setRunDistribution(Long runDistribution) {
+        this.runDistribution = runDistribution;
+    }
+
+    public Long getRunMaxdistribution() {
+        return runMaxdistribution;
+    }
+
+    public void setRunMaxdistribution(Long runMaxdistribution) {
+        this.runMaxdistribution = runMaxdistribution;
+    }
+
+    public Long getRunDistance() {
+        return runDistance;
+    }
+
+    public void setRunDistance(Long runDistance) {
+        this.runDistance = runDistance;
+    }
+
+    public String getRunPathline() {
+        return runPathline;
+    }
+
+    public void setRunPathline(String runPathline) {
+        this.runPathline = runPathline;
+    }
+
+    public Long getRunDuration() {
+        return runDuration;
+    }
+
+    public void setRunDuration(Long runDuration) {
+        this.runDuration = runDuration;
+    }
+
+    public Long getRunCalorie() {
+        return runCalorie;
+    }
+
+    public void setRunCalorie(Long runCalorie) {
+        this.runCalorie = runCalorie;
+    }
+
+    public Date getRunEndTime() {
+        return runEndTime;
+    }
+
+    public void setRunEndTime(Date runEndTime) {
+        this.runEndTime = runEndTime;
+    }
+
+    public String getRunImg() {
+        return runImg;
+    }
+
+    public void setRunImg(String runImg) {
+        this.runImg = runImg;
+    }
+
+    public Date getRunAddtime() {
+        return runAddtime;
+    }
+
+    public void setRunAddtime(Date runAddtime) {
+        this.runAddtime = runAddtime;
+    }
+
+    public String getRunRemark() {
+        return runRemark;
+    }
+
+    public void setRunRemark(String runRemark) {
+        this.runRemark = runRemark;
+    }
+
+    public int getRunIscomplete() {
+        return runIscomplete;
+    }
+
+    public void setRunIscomplete(int runIscomplete) {
+        this.runIscomplete = runIscomplete;
+    }
+
+    public CqieStudent getStudent() {
+        return student;
+    }
+
+    public void setStudent(CqieStudent student) {
+        this.student = student;
     }
 
     public CqieCla getCqieCla() {
@@ -93,120 +236,12 @@ public class CqieRun extends BaseEntity
         this.cqieClassStudent = cqieClassStudent;
     }
 
-    public CqieStudent getStudent() {
-        return student;
+    public CqieTerm getCqieTerm() {
+        return cqieTerm;
     }
 
-    public void setStudent(CqieStudent student) {
-        this.student = student;
-    }
-
-    public void setRunId(Long runId)
-    {
-        this.runId = runId;
-    }
-
-    public Long getRunId()
-    {
-        return runId;
-    }
-    public void setRunTermId(Long runTermId)
-    {
-        this.runTermId = runTermId;
-    }
-
-    public Long getRunTermId()
-    {
-        return runTermId;
-    }
-    public void setRunStuId(Long runStuId)
-    {
-        this.runStuId = runStuId;
-    }
-
-    public Long getRunStuId()
-    {
-        return runStuId;
-    }
-    public void setRunStarLon(Long runStarLon)
-    {
-        this.runStarLon = runStarLon;
-    }
-
-    public Long getRunStarLon()
-    {
-        return runStarLon;
-    }
-    public void setRunStarDim(Long runStarDim)
-    {
-        this.runStarDim = runStarDim;
-    }
-
-    public Long getRunStarDim()
-    {
-        return runStarDim;
-    }
-    public void setRunStarTime(Date runStarTime)
-    {
-        this.runStarTime = runStarTime;
-    }
-
-    public Date getRunStarTime()
-    {
-        return runStarTime;
-    }
-    public void setRunStarSpeed(Long runStarSpeed)
-    {
-        this.runStarSpeed = runStarSpeed;
-    }
-
-    public Long getRunStarSpeed()
-    {
-        return runStarSpeed;
-    }
-    public void setRunEndTime(Date runEndTime)
-    {
-        this.runEndTime = runEndTime;
-    }
-
-    public Date getRunEndTime()
-    {
-        return runEndTime;
-    }
-    public void setRunImg(String runImg)
-    {
-        this.runImg = runImg;
-    }
-
-    public String getRunImg()
-    {
-        return runImg;
-    }
-    public void setRunAddtime(Date runAddtime)
-    {
-        this.runAddtime = runAddtime;
-    }
-
-    public Date getRunAddtime()
-    {
-        return runAddtime;
-    }
-    public void setRunRemark(String runRemark)
-    {
-        this.runRemark = runRemark;
-    }
-
-    public String getRunRemark()
-    {
-        return runRemark;
-    }
-
-    public int getRunIsComplete() {
-        return runIsComplete;
-    }
-
-    public void setRunIsComplete(int runIsComplete) {
-        this.runIsComplete = runIsComplete;
+    public void setCqieTerm(CqieTerm cqieTerm) {
+        this.cqieTerm = cqieTerm;
     }
 
     @Override
@@ -215,10 +250,14 @@ public class CqieRun extends BaseEntity
                 .append("runId", getRunId())
                 .append("runTermId", getRunTermId())
                 .append("runStuId", getRunStuId())
-                .append("runStarLon", getRunStarLon())
-                .append("runStarDim", getRunStarDim())
+                .append("runStar",getRunStar())
                 .append("runStarTime", getRunStarTime())
-                .append("runStarSpeed", getRunStarSpeed())
+                .append("runDistribution", getRunDistribution())
+                .append("runMaxdistribution", getRunMaxdistribution())
+                .append("runDistance",getRunDistance())
+                .append("runPathline", getRunPathline())
+                .append("runDuration", getRunDuration())
+                .append("runCalorie", getRunCalorie())
                 .append("runEndTime", getRunEndTime())
                 .append("runImg", getRunImg())
                 .append("runAddtime", getRunAddtime())
@@ -227,7 +266,7 @@ public class CqieRun extends BaseEntity
                 .append("cqieCla",getCqieCla())
                 .append("cqieClassStudent",getCqieClassStudent())
                 .append("cqieTerm",getCqieTerm())
-                .append("runIsComplete",getRunIsComplete())
+                .append("runIsComplete",getRunIscomplete())
                 .toString();
     }
 }

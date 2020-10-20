@@ -8,15 +8,19 @@
         <result property="runId"    column="run_id"    />
         <result property="runTermId"    column="run_term_id"    />
         <result property="runStuId"    column="run_stu_id"    />
-        <result property="runStarLon"    column="run_star_lon"    />
-        <result property="runStarDim"    column="run_star_dim"    />
+        <result property="runStar"    column="run_star"    />
         <result property="runStarTime"    column="run_star_time"    />
-        <result property="runStarSpeed"    column="run_star_speed"    />
+        <result property="runDistribution"    column="run_distribution"    />
+        <result property="runMaxdistribution"    column="run_maxDistribution"    />
+        <result property="runDistance"    column="run_distance"    />
+        <result property="runPathline"    column="run_pathLine"    />
+        <result property="runDuration"    column="run_duration"    />
+        <result property="runCalorie"    column="run_calorie"    />
         <result property="runEndTime"    column="run_end_time"    />
         <result property="runImg"    column="run_img"    />
         <result property="runAddtime"    column="run_addtime"    />
         <result property="runRemark"    column="run_remark"    />
-        <result property="runIsComplete" column="run_iscomplete"/>
+        <result property="runIscomplete" column="run_iscomplete"/>
         <association property="student" column="stu_id" resultMap="studentResult"/>
         <association property="cqieClassStudent" column="clastu_id" resultMap="cqieClassStudentResult"/>
         <association property="cqieCla" column="cla_id" resultMap="claIdResult"/>
@@ -26,7 +30,6 @@
     <resultMap id="studentResult" type="CqieStudent">
         <id property="stuId" column="stu_id"/>
         <result property="stuNo" column="stu_no"/>
-        <result property="stuPassword" column="stu_password"/>
         <result property="stuName" column="stu_name"/>
         <result property="stuSex" column="stu_sex"/>
     </resultMap>
@@ -57,11 +60,12 @@
 
 
     <sql id="selectCqieRunVo">
-        select run_id, run_term_id, run_stu_id, run_star_lon, run_star_dim, run_star_time, run_star_speed, run_end_time, run_img, run_addtime, run_remark,run_iscomplete from cqie_run
+        select run_id, run_term_id, run_stu_id, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete from cqie_run
     </sql>
 
     <select id="selectCqieRunList" parameterType="CqieRun" resultMap="CqieRunResult">
-       select r.*,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name,t.term_id from cqie_run r
+       select run_id, run_term_id, run_stu_id, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete
+       ,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name,t.term_id from cqie_run r
         left join cqie_class_student cs on r.run_stu_id = cs.clastu_stu_id
         left join cqie_student s on s.stu_id = r.run_stu_id
         left join cqie_cla c on c.cla_id = cs.clastu_cla_id
@@ -73,12 +77,12 @@
           <if test="cqieCla.claName != null and cqieCla.claName !=''">
             and c.cla_name like concat('%', #{cqieCla.claName}, '%')
           </if>
-            <if test="student.stuNo != null and student.stuNo !=''">
+          <if test="student.stuNo != null and student.stuNo !=''">
             and s.stu_no like concat('%', #{student.stuNo}, '%')
-            </if>
-            <if test="student.stuName != null and student.stuName !=''">
+          </if>
+          <if test="student.stuName != null and student.stuName !=''">
             and s.stu_name like concat('%', #{student.stuName}, '%')
-            </if>
+          </if>
         </where>
     </select>
 
@@ -92,24 +96,34 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="runTermId != null">run_term_id,</if>
             <if test="runStuId != null">run_stu_id,</if>
-            <if test="runStarLon != null">run_star_lon,</if>
-            <if test="runStarDim != null">run_star_dim,</if>
+            <if test="runStar != null">run_star,</if>
             <if test="runStarTime != null">run_star_time,</if>
-            <if test="runStarSpeed != null">run_star_speed,</if>
+            <if test="runDistribution != null">run_distribution,</if>
+            <if test="runMaxdistribution != null">run_maxDistribution,</if>
+            <if test="runDistance != null">run_distance,</if>
+            <if test="runPathline != null">run_pathLine,</if>
+            <if test="runDuration != null">run_duration,</if>
+            <if test="runCalorie != null">run_calorie,</if>
             <if test="runEndTime != null">run_end_time,</if>
             <if test="runImg != null">run_img,</if>
+            <if test="runIscomplete != null">run_iscomplete,</if>
             <if test="runAddtime != null">run_addtime,</if>
             <if test="runRemark != null">run_remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="runTermId != null">#{runTermId},</if>
             <if test="runStuId != null">#{runStuId},</if>
-            <if test="runStarLon != null">#{runStarLon},</if>
-            <if test="runStarDim != null">#{runStarDim},</if>
+            <if test="runStar != null">#{runStar},</if>
             <if test="runStarTime != null">#{runStarTime},</if>
-            <if test="runStarSpeed != null">#{runStarSpeed},</if>
+            <if test="runDistribution != null">#{runDistribution},</if>
+            <if test="runMaxdistribution != null">#{runMaxdistribution},</if>
+            <if test="runDistance != null">#{runDistance},</if>
+            <if test="runPathline != null">#{runPathline},</if>
+            <if test="runDuration != null">#{runDuration},</if>
+            <if test="runCalorie != null">#{runCalorie},</if>
             <if test="runEndTime != null">#{runEndTime},</if>
             <if test="runImg != null">#{runImg},</if>
+            <if test="runIscomplete != null">#{runIscomplete},</if>
             <if test="runAddtime != null">#{runAddtime},</if>
             <if test="runRemark != null">#{runRemark},</if>
         </trim>
@@ -120,12 +134,17 @@
         <trim prefix="SET" suffixOverrides=",">
             <if test="runTermId != null">run_term_id = #{runTermId},</if>
             <if test="runStuId != null">run_stu_id = #{runStuId},</if>
-            <if test="runStarLon != null">run_star_lon = #{runStarLon},</if>
-            <if test="runStarDim != null">run_star_dim = #{runStarDim},</if>
+            <if test="runStar != null">run_star = #{runStar},</if>
             <if test="runStarTime != null">run_star_time = #{runStarTime},</if>
-            <if test="runStarSpeed != null">run_star_speed = #{runStarSpeed},</if>
+            <if test="runDistribution != null">run_distribution = #{runDistribution},</if>
+            <if test="runMaxdistribution != null">run_maxDistribution = #{runMaxdistribution},</if>
+            <if test="runDistance != null">run_distance = #{runDistance},</if>
+            <if test="runPathline != null">run_pathLine = #{runPathline},</if>
+            <if test="runDuration != null">run_duration = #{runDuration},</if>
+            <if test="runCalorie != null">run_calorie = #{runCalorie},</if>
             <if test="runEndTime != null">run_end_time = #{runEndTime},</if>
             <if test="runImg != null">run_img = #{runImg},</if>
+            <if test="runIscomplete != null">run_iscomplete = #{runIscomplete},</if>
             <if test="runAddtime != null">run_addtime = #{runAddtime},</if>
             <if test="runRemark != null">run_remark = #{runRemark},</if>
         </trim>
@@ -145,6 +164,9 @@
 
     <insert id="saveAllByIds" parameterType="String">
         insert into cqie_score
+        <foreach item="runId" collection="array" open="(" separator="," close=")">
+            #{runId}
+        </foreach>
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="scoreId != null">score_id,</if>
             <if test="scoreTermId != null">score_term_id,</if>
@@ -160,5 +182,6 @@
             <if test="scoreResult != null">#{scoreResult},</if>
         </trim>
     </insert>
+
 
 </mapper>
