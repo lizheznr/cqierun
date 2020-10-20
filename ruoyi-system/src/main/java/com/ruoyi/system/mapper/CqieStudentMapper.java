@@ -3,6 +3,7 @@ package com.ruoyi.system.mapper;
 import java.util.List;
 import com.ruoyi.system.domain.CqieStudent;
 import com.ruoyi.system.domain.SysUser;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 学生信息Mapper接口
@@ -76,4 +77,40 @@ public interface CqieStudentMapper
      * @return
      */
     public int rePassword(CqieStudent student);
+
+    /**
+     * 查询学生信息
+     * 王康
+     * @param stuNo 学生信息ID
+     * @return 学生信息
+     */
+    public CqieStudent selectCqieStudentByNo(@Param("stuNo") String stuNo);
+
+    /**
+     * login
+     * 王康
+     * @param stuNo
+     * @param stuPass
+     * @return 结果
+     */
+    public CqieStudent selectCqieStudentByNameAndPass(@Param("stuNo") String stuNo, @Param("stuPass") String stuPass);
+
+    /**
+     * 修改学生密码
+     * 王康
+     * @param stuNo     学号（账号）
+     * @param oldPass   旧密码
+     * @param newPass   新密码
+     * @return 结果
+     */
+    public int updateCqieStudentPass(@Param("stuNo") String stuNo,@Param("oldPass") String oldPass,@Param("newPass") String newPass);
+
+    /**
+     * 修改头像
+     * 王康
+     * @param stuNo     学号（账号）
+     * @param headImg   头像地址
+     * @return 结果
+     */
+    public int updateHeadImg(@Param("stuNo") String stuNo,@Param("stuImg") String headImg);
 }

@@ -67,4 +67,38 @@ public interface ICqieRunService
      * @return 结果
      */
     public int deleteCqieRunById(Long runId);
+
+    /**
+     * 运动开始
+     * 王康
+     * @param cqieRun
+     * @return 结果
+     */
+    public int startSport(CqieRun cqieRun);
+
+    /**
+     * 运动结束
+     * 王康
+     * @param cqieRun
+     * @return 结果
+     */
+    public int endSport(CqieRun cqieRun);
+
+    /**
+     * 运动日历
+     * 王康
+     * @param stuNo
+     * @param month
+     * @return 结果
+     */
+    public List<String> getSportCalendar(String stuNo, String month);
+
+    /**
+     * 运动记录查询
+     * 王康
+     * @param stuNo
+     * @param date
+     * @return 结果
+     */
+    public CqieRun getSportRecord(String stuNo,String date);
 }

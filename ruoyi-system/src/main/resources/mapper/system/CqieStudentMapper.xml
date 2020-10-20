@@ -17,9 +17,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="stuAddtime"    column="stu_addtime"    />
         <result property="stuRemark"    column="stu_remark"    />
         <result property="stuImg"    column="stu_img"    />
+        <result property="stuSalt"    column="stu_salt"    />
         <collection  property="clas"   javaType="java.util.List"      resultMap="CqieClaResult" />
     </resultMap>
-
 
     <resultMap type="CqieCla" id="CqieClaResult">
         <result property="claId"    column="cla_id"    />
@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectCqieStudentVo">
-        select stu_id, stu_no, stu_password, stu_name, stu_sex, stu_birthday, stu_email, stu_mobile, stu_qq, stu_addtime, stu_remark,stu_img from cqie_student
+        select stu_id, stu_no, stu_password, stu_name, stu_sex, stu_birthday, stu_email, stu_mobile, stu_qq, stu_addtime, stu_remark,stu_img, stu_salt from cqie_student
     </sql>
 
     <select id="selectCqieStudentList" parameterType="CqieStudent" resultMap="CqieStudentResult">
@@ -55,6 +55,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectCqieStudentById" parameterType="Long" resultMap="CqieStudentResult">
         <include refid="selectCqieStudentVo"/>
         where stu_id = #{stuId}
+    </select>
+
+    <select id="selectCqieStudentByNo" parameterType="String" resultMap="CqieStudentResult">
+        <include refid="selectCqieStudentVo"/>
+         where stu_no = #{stuNo}
+    </select>
+
+    <select id="selectCqieStudentByNameAndPass" parameterType="String" resultMap="CqieStudentResult">
+        select stu_id, stu_no, stu_name, stu_sex, stu_birthday, stu_email, stu_mobile, stu_qq, stu_addtime, stu_remark from
+        cqie_student
+        where stu_no = #{stuNo} and stu_password = #{stuPass}
     </select>
         
     <insert id="insertCqieStudent" parameterType="CqieStudent" useGeneratedKeys="true" keyProperty="stuId">
@@ -105,6 +116,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="stuImg != null">stu_img = #{stuImg},</if>
         </trim>
         where stu_id = #{stuId}
+    </update>
+
+    <update id="updateCqieStudentPass">
+        update cqie_student set stu_password = #{newPass}
+            where stu_no = #{stuNo} and stu_password = #{oldPass}
+    </update>
+
+    <update id="updateHeadImg">
+        update cqie_student set stu_img = #{stuImg}
+            where stu_no = #{stuNo}
     </update>
 
     <delete id="deleteCqieStudentById" parameterType="Long">

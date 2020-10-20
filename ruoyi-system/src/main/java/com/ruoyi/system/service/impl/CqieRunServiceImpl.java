@@ -104,4 +104,55 @@ public class CqieRunServiceImpl implements ICqieRunService
         return cqieRunMapper.deleteCqieRunById(runId);
     }
 
+    /**
+     * 运动开始
+     * 王康
+     * @param cqieRun 运动信息对象
+     * @return 结果
+     */
+    @Override
+    public int startSport(CqieRun cqieRun) {
+        return cqieRunMapper.insertCqieRun(cqieRun);
+    }
+
+    /**
+     * 运动结束
+     * 王康
+     * @param cqieRun 运动信息对象
+     * @return 结果
+     */
+    @Override
+    public int endSport(CqieRun cqieRun) {
+        return cqieRunMapper.updateCqieRun(cqieRun);
+    }
+
+    /**
+     * 运动日历
+     * 王康
+     * @param stuNo 学号
+     * @param month 月份
+     * @return 结果
+     */
+    @Override
+    public List<String> getSportCalendar(String stuNo, String month) {
+        return cqieRunMapper.getSportCalendar(stuNo, month);
+    }
+
+    /**
+     * 运动记录查询
+     * 王康
+     * @param stuNo 学号
+     * @param date 日期
+     * @return 结果
+     */
+    @Override
+    public CqieRun getSportRecord(String stuNo,String date) {
+        CqieRun cqieRun = null;
+        try {
+            cqieRun = cqieRunMapper.getSportRecord(stuNo, date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return cqieRun;
+    }
 }

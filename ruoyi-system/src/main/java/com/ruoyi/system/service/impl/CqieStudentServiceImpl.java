@@ -123,7 +123,7 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
     /**
      * 根据条件分页查询已配班级的学生列表
      * @param student 学生信息
-     * @return
+     * @return 结果
      */
     @Override
     public List<CqieStudent> selectClassAllocatedList1(CqieStudent student)
@@ -133,13 +133,61 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
 
     /**
      * 重置密码
-     * @param student
-     * @return
+     * @param student 学生信息对象
+     * @return 结果
      */
     @Override
     public int rePassword(CqieStudent student)
     {
         return cqieStudentMapper.rePassword(student);
+    }
+
+    /**
+     * app登录
+     * 王康
+     * @param stuNo  学号
+     * @param stuPassword  密码
+     * @return data
+     */
+    @Override
+    public CqieStudent login(String stuNo, String stuPassword) {
+        return cqieStudentMapper.selectCqieStudentByNameAndPass(stuNo, stuPassword);
+    }
+
+    /**
+     * 查询学生信息
+     *  王康
+     * @param stuNo 学生信息ID
+     * @return 学生信息
+     */
+    @Override
+    public CqieStudent selectCqieStudentByNo(String stuNo) {
+        return cqieStudentMapper.selectCqieStudentByNo(stuNo);
+    }
+
+    /**
+     * 修改学生密码
+     * 王康
+     * @param stuNo     学号（账号）
+     * @param oldPass   旧密码
+     * @param newPass   新密码
+     * @return 结果
+     */
+    @Override
+    public int updateCqieStudentPass(String stuNo, String oldPass, String newPass) {
+        return cqieStudentMapper.updateCqieStudentPass(stuNo, oldPass, newPass);
+    }
+
+    /**
+     * 修改头像
+     * 王康
+     * @param stuNo     学号（账号）
+     * @param headImg   头像地址
+     * @return 结果
+     */
+    @Override
+    public int updateHeadImg(String stuNo, String headImg) {
+        return cqieStudentMapper.updateHeadImg(stuNo,headImg);
     }
 
 }

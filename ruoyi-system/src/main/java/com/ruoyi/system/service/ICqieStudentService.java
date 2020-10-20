@@ -86,5 +86,41 @@ public interface ICqieStudentService
      * @return
      */
     public int rePassword(CqieStudent student);
+
+    /**
+     * app登录
+     * 王康
+     * @param stuNo
+     * @param stuPassword
+     * @return data
+     */
+    public CqieStudent login(String stuNo, String stuPassword);
+
+    /**
+     * 查询学生信息
+     *  王康
+     * @param stuNo 学生信息ID
+     * @return 学生信息
+     */
+    public CqieStudent selectCqieStudentByNo(String stuNo);
+
+    /**
+     * 修改学生密码
+     * 王康
+     * @param stuNo     学号（账号）
+     * @param oldPass   旧密码
+     * @param newPass   新密码
+     * @return 结果
+     */
+    public int updateCqieStudentPass(String stuNo, String oldPass, String newPass);
+
+    /**
+     * 修改头像
+     * 王康
+     * @param stuNo     学号（账号）
+     * @param headImg   头像地址
+     * @return 结果
+     */
+    public int updateHeadImg(String stuNo,String headImg);
 }
 
