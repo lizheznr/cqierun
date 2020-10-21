@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.CqieRun;
+import com.ruoyi.system.domain.CqieSportCalendar;
 import com.ruoyi.system.domain.CqieTotalRunInfo;
 import org.apache.ibatis.annotations.Param;
 
@@ -81,11 +82,12 @@ public interface CqieRunMapper
     /**
      * 运动记录查询
      * 王康
-     * @param stuNo  学号
-     * @param date    日期
+     * @param stuNo
+     * @param startdate
+     * @param enddate
      * @return 结果
      */
-    public CqieRun getSportRecord(@Param("stuNo") String stuNo,@Param("date") String date);
+    public List<CqieSportCalendar> getSportRecord(@Param("stuNo") String stuNo, @Param("startDate") String startdate, @Param("endDate") String enddate);
 
     /**
      * 运动信息统计

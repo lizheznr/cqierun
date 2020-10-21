@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.CqieRun;
+import com.ruoyi.system.domain.CqieSportCalendar;
 import com.ruoyi.system.domain.CqieTotalRunInfo;
 
 /**
@@ -98,10 +99,11 @@ public interface ICqieRunService
      * 运动记录查询
      * 王康
      * @param stuNo
-     * @param date
+     * @param startdate
+     * @param enddate
      * @return 结果
      */
-    public CqieRun getSportRecord(String stuNo,String date);
+    public List<CqieSportCalendar> getSportRecord(String stuNo, String startdate, String enddate);
 
     /**
      * 运动信息统计

@@ -64,6 +64,15 @@
         <result property="totalDuration" column="run_totalDuration"/>
     </resultMap>
 
+    <resultMap id="cqieSportRecord" type="CqieSportCalendar">
+        <result property="distance" column="run_distance"/>
+        <result property="pathLine" column="run_pathLine"/>
+        <result property="duration" column="run_duration"/>
+        <result property="calorie" column="run_calorie"/>
+        <result property="startTime" column="run_star_time"/>
+        <result property="endTime" column="run_end_time"/>
+    </resultMap>
+
     <sql id="selectCqieRunVo">
         select run_id, run_term_id, run_stu_id, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete from cqie_run
     </sql>
@@ -102,11 +111,11 @@
                 WHERE s.stu_no = #{stuNo} AND MONTH(run_addtime) = #{month}
     </select>
 
-    <!--<select id="getSportRecord" resultMap="CqieRunResult">
+    <select id="getSportRecord" resultMap="cqieSportRecord">
         SELECT run_id, run_term_id, run_stu_id, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete
             FROM cqie_run r LEFT JOIN cqie_student s ON r.run_stu_id=s.stu_id
-                WHERE s.stu_no = #{stuNo} AND DATE_FORMAT(run_addtime,'%Y-%m-%d') = #{date}
-    </select>-->
+                WHERE s.stu_no = #{stuNo} AND DATE_FORMAT(run_addtime,'%Y-%m-%d') between "'" + #{startDate} + "'" AND "'" + #{endDate} + "'";
+    </select>
 
     <select id="getTotalRunInfo" resultMap="cqieTotalRunInfo">
         SELECT count(*) as run_totalFrequency,SUM(run_distance) as run_totalDistance,SUM(run_duration) as run_totalDuration

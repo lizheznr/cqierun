@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.system.domain.CqieSportCalendar;
 import com.ruoyi.system.domain.CqieTotalRunInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -143,19 +144,21 @@ public class CqieRunServiceImpl implements ICqieRunService
     /**
      * 运动记录查询
      * 王康
-     * @param stuNo 学号
-     * @param date 日期
+     *
+     * @param stuNo  账号
+     * @param startdate 开始日期
+     * @param enddate   结束日期
      * @return 结果
      */
     @Override
-    public CqieRun getSportRecord(String stuNo,String date) {
-        CqieRun cqieRun = null;
+    public List<CqieSportCalendar> getSportRecord(String stuNo, String startdate, String enddate) {
+        List<CqieSportCalendar> list = null;
         try {
-            cqieRun = cqieRunMapper.getSportRecord(stuNo, date);
+            list = cqieRunMapper.getSportRecord(stuNo, startdate, enddate);
         }catch (Exception e){
             e.printStackTrace();
         }
-        return cqieRun;
+        return list;
     }
 
     /**
