@@ -1,9 +1,11 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.system.domain.CqieClassStudent;
 import com.ruoyi.system.domain.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,4 +111,6 @@ public class CqieSpeServiceImpl implements ICqieSpeService
     {
         return cqieSpeMapper.updateSpeIsAgree(cqieSpe);
     }
+
+
 }

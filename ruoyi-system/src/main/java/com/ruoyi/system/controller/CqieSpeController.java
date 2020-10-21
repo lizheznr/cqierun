@@ -6,7 +6,9 @@ import com.ruoyi.system.domain.CqieRun;
 import com.ruoyi.system.domain.CqieStudent;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ICqieClaService;
+import com.ruoyi.system.service.ICqieRunService;
 import com.ruoyi.system.service.ICqieStudentService;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -150,10 +152,10 @@ public class CqieSpeController extends BaseController
 
 
     /**
-     *
+     * xhd
      * 查询所有学生列表
      */
-    @RequiresPermissions("system:spe:list")
+    @RequiresPermissions("system:spe:add:selectStudent")
     @PostMapping("/add/studentList")
     @ResponseBody
     public TableDataInfo studentList(CqieStudent student)
@@ -162,4 +164,16 @@ public class CqieSpeController extends BaseController
         List<CqieStudent> list = cqieStudentService.selectCqieStudentList(student);
         return getDataTable(list);
     }
+
+    /**
+     * xhd
+     * 选择分配学生
+     */
+    @RequiresPermissions("system:spe:add:selectStudent")
+    @GetMapping("/add/selectStudent")
+    public String selectStudent()
+    {
+        return prefix + "/selectStudent";
+    }
+
 }

@@ -9,31 +9,34 @@
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
     <form class="form-horizontal m" id="form-spe-add">
-        <!--<div class="form-group">
-            <label class="col-sm-3 control-label">学生ID：</label>
+        <div class="form-group">
+            <input id="speStuId" name="speStuId" class="form-control" type="hidden">
+            <label class="col-sm-3 control-label">学号：</label>
             <div class="col-sm-8">
-                <input name="speStuId" class="form-control" type="text">
+                <input id="stuNo" name="student.stuNo" class="form-control" type="text"  onclick="selectStudent()" shiro:hasPermission="system:spe:add:selectStudent" autocomplete="off">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">学期ID：</label>
+            <label class="col-sm-3 control-label">姓名：</label>
             <div class="col-sm-8">
-                <input name="speTermId" class="form-control" type="text">
+                <input id="stuName" name="student.stuName" class="form-control" type="text" shiro:hasPermission="system:spe:add:selectStudent" autocomplete="off">
             </div>
-        </div>-->
+        </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">选择学生：</label>
+            <label class="col-sm-3 control-label">学期：</label>
             <div class="col-sm-8">
-                <a class="btn btn-success" onclick="selectStudent()" shiro:hasPermission="system:spe:add">
-                    <i class="fa fa-plus"></i> 添加学生
-                </a>
+                <select name="cqieTerm.termId" th:with="term=${@termService.selectCqieTermList(cqieTerm)}"class="form-control"  >
+                    <option value="">---请选择学期---</option>
+                    <option th:each="t:${term}" th:value="${t.termId}" th:text="${t.termName}">
+                    </option>
+                </select>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">申请时间：</label>
             <div class="col-sm-8">
                 <div class="input-group date">
-                    <input name="speApplytime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    <input name="speApplytime" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
             </div>
@@ -66,12 +69,12 @@
 
     function submitHandler() {
         if ($.validate.form()) {
-            $.operate.save(prefix + "/add", $('#form-spe-add').serialize());
+            $.operate.save(ctx + "system/spe/add", $('#form-spe-add').serialize());
         }
     }
 
     $("input[name='speApplytime']").datetimepicker({
-        format: "yyyy-mm-dd",
+        format: "yyyy-MM-dd HH:mm:ss",
         minView: "month",
         autoclose: true
     });
@@ -88,8 +91,28 @@
 
     /* 分配学生-选择学生 */
     function selectStudent() {
-        var url = prefix + "/selectStudent";
-        $.modal.open("选择学生", url);
+        var url = prefix + '/selectStudent';
+        $.modal.open("标题内容", url, '770', '380', function(index, layero) {
+            // 获取弹窗参数（方式一）
+            var body = layer.getChildFrame('body', index);
+            var t = body.find('#bootstrap-table');
+            // var tr = t.find('tr').eq(1);
+            // var stuId = tr.find('td').eq(1).text();
+            // var stuNo = tr.find('td').eq(2).text();
+            // alert(stuId+stuNo);
+            var chktd = t.find('input:checkbox:checked').eq(0).parent().parent();
+            var speStuId = chktd.next().text();
+            var stuNo = chktd.next().next().text();
+            var stuName = chktd.next().next().next().text();
+            var claName = chktd.next().next().next().next().text();
+             $("#speStuId").val(speStuId);
+             $("#stuNo").val(stuNo);
+             $("#stuName").val(stuName);
+            // alert(stuId+"-"+stuNo);
+            layer.close(index);
+            // 获取弹窗参数（方式二）
+            // console.log($(layero).find("iframe")[0].contentWindow.document.getElementById("id").value);
+        });
     }
 </script>
 </body>
