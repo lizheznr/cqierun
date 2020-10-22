@@ -84,7 +84,6 @@ public class CqieStudentController extends BaseController {
     @ResponseBody
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<CqieStudent> util = new ExcelUtil<CqieStudent>(CqieStudent.class);
-
         List<CqieStudent> userList = util.importExcel(file.getInputStream());
         System.out.println(userList);
         List<CqieStudent> collect = userList.stream()
@@ -120,6 +119,7 @@ public class CqieStudentController extends BaseController {
     @ResponseBody
     public AjaxResult addSave(CqieStudent cqieStudent) {
         cqieStudent.setStuSalt(ShiroUtils.randomSalt());
+        cqieStudent.setStuPassword("123456");
         cqieStudent.setStuPassword(passwordService.encryptPassword(cqieStudent.getStuName(), cqieStudent.getStuPassword(), cqieStudent.getStuSalt()));
         return toAjax(cqieStudentService.insertCqieStudent(cqieStudent));
     }

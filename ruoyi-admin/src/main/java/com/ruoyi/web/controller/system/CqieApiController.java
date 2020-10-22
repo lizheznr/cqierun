@@ -1,7 +1,8 @@
-package com.ruoyi.system.controller;
+package com.ruoyi.web.controller.system;
 
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.ICqieAppinfoService;
 import com.ruoyi.system.service.ICqieRunService;
@@ -36,6 +37,8 @@ public class CqieApiController extends BaseController
     private ICqieStudentService cqieStudentService;
     @Autowired
     private ICqieRunService cqieRunService;
+    @Autowired
+    private SysPasswordService passwordService;
 
     /**
      * 获取最新的APP版本
@@ -67,14 +70,17 @@ public class CqieApiController extends BaseController
     public AjaxResult login(@PathVariable("account") String account, @PathVariable("password") String upass){
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
-            System.out.println(cqieStudent.getStuSalt());
-            if (cqieStudentService.login(account, new Md5Hash(cqieStudent.getStuName() + upass + cqieStudent.getStuSalt()).toHex()) != null){
+            System.out.println("盐密码" + cqieStudent.getStuSalt());
+            System.out.println("学号" + cqieStudent.getStuName());
+            System.out.println("密码" + upass);
+            if (cqieStudentService.login(account, passwordService.encryptPassword(cqieStudent.getStuName(),upass,cqieStudent.getStuSalt())) != null){
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
-            }else{
+            } else {
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询错误","");
             }
+        }catch (NullPointerException e){
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"账号或密码错误","");
         }catch (Exception e){
-            e.printStackTrace();
             ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
         }
         return ajaxResult;
@@ -94,8 +100,8 @@ public class CqieApiController extends BaseController
     public AjaxResult updatePassword(@PathVariable("account") String account,@PathVariable("oldPassword") String oldPassword,@PathVariable("newPassword") String newPassword){
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
-            System.out.println(cqieStudent.getStuSalt());
-            if (cqieStudentService.updateCqieStudentPass(account, new Md5Hash(cqieStudent.getStuName() + oldPassword + cqieStudent.getStuSalt()).toHex(), new Md5Hash(cqieStudent.getStuName() + newPassword + cqieStudent.getStuSalt()).toHex()) > 0){
+            System.out.println("盐密码" + cqieStudent.getStuSalt());
+            if (cqieStudentService.updateCqieStudentPass(account, new Md5Hash(cqieStudent.getStuNo() + oldPassword + cqieStudent.getStuSalt()).toHex(), new Md5Hash(cqieStudent.getStuName() + newPassword + cqieStudent.getStuSalt()).toHex()) > 0){
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
             }else{
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"修改错误","");
@@ -270,6 +276,8 @@ public class CqieApiController extends BaseController
             } else{
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询失败",cqieSportCalendars);
             }
+        }catch (NullPointerException e){
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查不到该数据","");
         }catch (Exception e){
             ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
         }
