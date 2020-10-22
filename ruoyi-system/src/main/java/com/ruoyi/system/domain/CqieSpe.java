@@ -28,7 +28,7 @@ public class CqieSpe extends BaseEntity
     private Long speTermId;
 
     /** 申请时间 */
-    @Excel(name = "申请时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "申请时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date speApplytime;
 
     /** 证明材料 */
