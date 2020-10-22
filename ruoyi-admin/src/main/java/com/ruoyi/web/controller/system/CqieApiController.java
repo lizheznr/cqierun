@@ -70,9 +70,6 @@ public class CqieApiController extends BaseController
     public AjaxResult login(@PathVariable("account") String account, @PathVariable("password") String upass){
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
-            System.out.println("盐密码" + cqieStudent.getStuSalt());
-            System.out.println("学号" + cqieStudent.getStuName());
-            System.out.println("密码" + upass);
             if (cqieStudentService.login(account, passwordService.encryptPassword(cqieStudent.getStuName(),upass,cqieStudent.getStuSalt())) != null){
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
             } else {
@@ -100,8 +97,7 @@ public class CqieApiController extends BaseController
     public AjaxResult updatePassword(@PathVariable("account") String account,@PathVariable("oldPassword") String oldPassword,@PathVariable("newPassword") String newPassword){
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
-            System.out.println("盐密码" + cqieStudent.getStuSalt());
-            if (cqieStudentService.updateCqieStudentPass(account, new Md5Hash(cqieStudent.getStuNo() + oldPassword + cqieStudent.getStuSalt()).toHex(), new Md5Hash(cqieStudent.getStuName() + newPassword + cqieStudent.getStuSalt()).toHex()) > 0){
+            if (cqieStudentService.updateCqieStudentPass(account, passwordService.encryptPassword(cqieStudent.getStuName(),oldPassword,cqieStudent.getStuSalt()), passwordService.encryptPassword(cqieStudent.getStuName(),newPassword,cqieStudent.getStuSalt())) > 0){
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
             }else{
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"修改错误","");
@@ -134,7 +130,7 @@ public class CqieApiController extends BaseController
             data.put("birthday",cqieStudent.getStuBirthday());
             data.put("signature",cqieStudent.getStuRemark());
             data.put("headImgUrl",cqieStudent.getStuImg());
-            if (data != null) {
+            if (cqieStudent != null) {
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功", data);
             }else {
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询错误","");
