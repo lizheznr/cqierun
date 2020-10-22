@@ -59,6 +59,7 @@
     </resultMap>
 
     <resultMap id="cqieTotalRunInfo" type="CqieTotalRunInfo">
+        <result property="runStarTime" column="theRunStarTime"/>
         <result property="totalDistance" column="run_totalDistance"/>
         <result property="totalFrequency" column="run_totalFrequency"/>
         <result property="totalDuration" column="run_totalDuration"/>
@@ -119,8 +120,8 @@
     </select>
 
     <select id="getTotalRunInfo" resultMap="cqieTotalRunInfo">
-        SELECT count(*) as run_totalFrequency,SUM(run_distance) as run_totalDistance,SUM(run_duration) as run_totalDuration
-            FROM cqie_run WHERE run_stu_id = #{stuId}
+        SELECT (SELECT run_star_time FROM cqie_run order by run_star_time desc LIMIT 1) as theRunStarTime,count(*) as run_totalFrequency,SUM(run_distance) as run_totalDistance,SUM(run_duration) as run_totalDuration
+            FROM cqie_run WHERE run_stu_id = 5
     </select>
 
     <insert id="insertCqieRun" parameterType="CqieRun" useGeneratedKeys="true" keyProperty="runId">

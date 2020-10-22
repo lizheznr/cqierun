@@ -1,8 +1,20 @@
 package com.ruoyi.system.domain;
 
+
+import java.util.Date;
+
+/**
+ * 运动统计返回信息对象 cqie_run
+ *
+ * @author 王康
+ * @date 2020-10-21
+ */
 public class CqieTotalRunInfo {
 
     private static final long serialVersionUID = 1L;
+
+    /*开炮时间*/
+    private Date runStarTime;
 
     /*跑步总距离*/
     private Long totalDistance;
@@ -35,5 +47,13 @@ public class CqieTotalRunInfo {
 
     public void setTotalDuration(Long totalDuration) {
         this.totalDuration = totalDuration;
+    }
+
+    public Date getRunStarTime() {
+        return runStarTime;
+    }
+
+    public void setRunStarTime(Date runStarTime) {
+        this.runStarTime = runStarTime;
     }
 }

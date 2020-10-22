@@ -158,6 +158,7 @@ public class CqieApiController extends BaseController
                 cqieRun.setRunStuId(cqieStudent.getStuId());
                 cqieRun.setRunStar(runStar);
                 Date date = new Date();
+                cqieRun.setRunTermId((long) 2);
                 cqieRun.setRunAddtime(date);
                 cqieRun.setRunStarTime(date);
                 if (cqieRunService.startSport(cqieRun) > 0){
@@ -201,13 +202,18 @@ public class CqieApiController extends BaseController
             cqieRun.setRunCalorie(cqieRunEndSport.getCalorie());
             cqieRun.setRunDistribution(cqieRunEndSport.getDistribution());
             cqieRun.setRunMaxdistribution(cqieRunEndSport.getMaxDistribution());
+            cqieRun.setRunEndTime(new Date());
+            //更改数据库
+            int i = cqieRunService.endSport(cqieRun);
             //返回给app端数据
             CqieTotalRunInfo cqieTotalRunInfo = cqieRunService.getTotalRunInfo(cqieStudent.getStuId());
             HashMap<String, Object> data = new HashMap<>();
             data.put("distance",cqieTotalRunInfo.getTotalDistance());
             data.put("frequency",cqieTotalRunInfo.getTotalFrequency());
             data.put("duration",cqieTotalRunInfo.getTotalDuration());
-            if (cqieRunService.endSport(cqieRun) > 0){
+            data.put("startTime",cqieTotalRunInfo.getRunStarTime());
+            data.put("endTime",cqieRun.getRunEndTime());
+            if (i > 0){
                 data.put("status",1);
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",data);
             }else{
