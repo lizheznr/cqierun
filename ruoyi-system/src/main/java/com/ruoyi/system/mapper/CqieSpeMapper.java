@@ -3,6 +3,7 @@ package com.ruoyi.system.mapper;
 import java.util.List;
 import com.ruoyi.system.domain.CqieSpe;
 import com.ruoyi.system.domain.SysUser;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 免跑申请Mapper接口

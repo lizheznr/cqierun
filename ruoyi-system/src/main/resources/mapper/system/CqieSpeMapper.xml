@@ -89,14 +89,14 @@
         insert into cqie_spe
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="speStuId != null">spe_stu_id,</if>
-            <if test="speTermId != null">spe_term_id,</if>
+            <if test="cqieTerm.termId != null">spe_term_id,</if>
             <if test="speApplytime != null">spe_applytime,</if>
             <if test="speApplymate != null">spe_applymate,</if>
             <if test="speRemark != null">spe_remark,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="speStuId != null">#{speStuId},</if>
-            <if test="speTermId != null">#{speTermId},</if>
+            <if test="cqieTerm.termId != null">#{cqieTerm.termId},</if>
             <if test="speApplytime != null">#{speApplytime},</if>
             <if test="speApplymate != null">#{speApplymate},</if>
             <if test="speRemark != null">#{speRemark},</if>
@@ -130,6 +130,11 @@
     <update id="updateSpeIsAgree" parameterType="CqieSpe">
         UPDATE cqie_spe SET spe_isagree = #{speIsAgree} WHERE spe_id = #{speId}
     </update>
+
+
+
+
+
 
 
 </mapper>
