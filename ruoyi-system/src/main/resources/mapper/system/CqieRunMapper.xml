@@ -71,6 +71,7 @@
         <result property="calorie" column="run_calorie"/>
         <result property="startTime" column="run_star_time"/>
         <result property="endTime" column="run_end_time"/>
+        <result property="status" column="run_iscomplete"/>
     </resultMap>
 
     <sql id="selectCqieRunVo">

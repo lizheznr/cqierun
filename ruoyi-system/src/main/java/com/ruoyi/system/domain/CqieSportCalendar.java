@@ -4,6 +4,12 @@ import com.ruoyi.common.annotation.Excel;
 
 import java.util.Date;
 
+/**
+ * 运动记录查询返回信息对象 cqie_run
+ *
+ * @author 王康
+ * @date 2020-10-21
+ */
 public class CqieSportCalendar {
 
     /** 运动距离 */

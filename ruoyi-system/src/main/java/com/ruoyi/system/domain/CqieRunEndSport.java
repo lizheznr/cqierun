@@ -2,106 +2,108 @@ package com.ruoyi.system.domain;
 
 import com.ruoyi.common.annotation.Excel;
 
+/**
+ * 跑步结束返回信息对象 cqie_run
+ *
+ * @author 王康
+ * @date 2020-10-19
+ */
 public class CqieRunEndSport {
 
     private static final long serialVersionUID = 1L;
 
     /** ID */
-    private Long runId;
+    private String id;
 
     /** 学号 */
     @Excel(name = "学号")
-    private String stuNo;
+    private String account;
 
     /** 运动距离 */
     @Excel(name = "运动距离")
-    private Long runDistance;
+    private Long distance;
 
     /** 运动轨迹 */
     @Excel(name = "运动轨迹")
-    private String runPathline;
+    private String pathLine;
 
     /** 运动时长 */
     @Excel(name = "运动时长")
-    private Long runDuration;
+    private Long duration;
 
     /** 消耗卡路里 */
     @Excel(name = "消耗卡路里")
-    private Long runCalorie;
+    private Long calorie;
 
     /** 平均配速（分钟/公里） */
     @Excel(name = "平均配速", readConverterExp = "分钟/公里")
-    private Long runDistribution;
+    private Long distribution;
 
     /** 最高配速（分钟/公里） */
     @Excel(name = "最高配速", readConverterExp = "分钟/公里")
-    private Long runMaxdistribution;
+    private Long maxDistribution;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public String getId() {
+        return id;
     }
 
-    public Long getRunId() {
-        return runId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setRunId(Long runId) {
-        this.runId = runId;
+    public String getAccount() {
+        return account;
     }
 
-    public String getStuNo() {
-        return stuNo;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
-    public void setStuNo(String stuNo) {
-        this.stuNo = stuNo;
+    public Long getDistance() {
+        return distance;
     }
 
-    public Long getRunDistance() {
-        return runDistance;
+    public void setDistance(Long distance) {
+        this.distance = distance;
     }
 
-    public void setRunDistance(Long runDistance) {
-        this.runDistance = runDistance;
+    public String getPathLine() {
+        return pathLine;
     }
 
-    public String getRunPathline() {
-        return runPathline;
+    public void setPathLine(String pathLine) {
+        this.pathLine = pathLine;
     }
 
-    public void setRunPathline(String runPathline) {
-        this.runPathline = runPathline;
+    public Long getDuration() {
+        return duration;
     }
 
-    public Long getRunDuration() {
-        return runDuration;
+    public void setDuration(Long duration) {
+        this.duration = duration;
     }
 
-    public void setRunDuration(Long runDuration) {
-        this.runDuration = runDuration;
+    public Long getCalorie() {
+        return calorie;
     }
 
-    public Long getRunCalorie() {
-        return runCalorie;
+    public void setCalorie(Long calorie) {
+        this.calorie = calorie;
     }
 
-    public void setRunCalorie(Long runCalorie) {
-        this.runCalorie = runCalorie;
+    public Long getDistribution() {
+        return distribution;
     }
 
-    public Long getRunDistribution() {
-        return runDistribution;
+    public void setDistribution(Long distribution) {
+        this.distribution = distribution;
     }
 
-    public void setRunDistribution(Long runDistribution) {
-        this.runDistribution = runDistribution;
+    public Long getMaxDistribution() {
+        return maxDistribution;
     }
 
-    public Long getRunMaxdistribution() {
-        return runMaxdistribution;
-    }
-
-    public void setRunMaxdistribution(Long runMaxdistribution) {
-        this.runMaxdistribution = runMaxdistribution;
+    public void setMaxDistribution(Long maxDistribution) {
+        this.maxDistribution = maxDistribution;
     }
 }

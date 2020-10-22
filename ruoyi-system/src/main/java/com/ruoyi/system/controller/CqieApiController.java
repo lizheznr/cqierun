@@ -65,14 +65,20 @@ public class CqieApiController extends BaseController
     @PostMapping("/login/{account}/{password}")
     @ResponseBody
     public AjaxResult login(@PathVariable("account") String account, @PathVariable("password") String upass){
-        CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
-        System.out.println(cqieStudent.getStuSalt());
-        if (cqieStudentService.login(account, new Md5Hash(cqieStudent.getStuName() + upass + cqieStudent.getStuSalt()).toHex()) != null){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
-        }else{
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询错误","");
+        try {
+            CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
+            System.out.println(cqieStudent.getStuSalt());
+            if (cqieStudentService.login(account, new Md5Hash(cqieStudent.getStuName() + upass + cqieStudent.getStuSalt()).toHex()) != null){
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
+            }else{
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询错误","");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
         }
         return ajaxResult;
+
     }
 
     /**
@@ -86,12 +92,17 @@ public class CqieApiController extends BaseController
     @PostMapping("/updatePassword/{account}/{oldPassword}/{newPassword}")
     @ResponseBody
     public AjaxResult updatePassword(@PathVariable("account") String account,@PathVariable("oldPassword") String oldPassword,@PathVariable("newPassword") String newPassword){
-        CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
-        System.out.println(cqieStudent.getStuSalt());
-        if (cqieStudentService.updateCqieStudentPass(account, new Md5Hash(cqieStudent.getStuName() + oldPassword + cqieStudent.getStuSalt()).toHex(), new Md5Hash(cqieStudent.getStuName() + newPassword + cqieStudent.getStuSalt()).toHex()) > 0){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
-        }else{
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"修改错误","");
+        try {
+            CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
+            System.out.println(cqieStudent.getStuSalt());
+            if (cqieStudentService.updateCqieStudentPass(account, new Md5Hash(cqieStudent.getStuName() + oldPassword + cqieStudent.getStuSalt()).toHex(), new Md5Hash(cqieStudent.getStuName() + newPassword + cqieStudent.getStuSalt()).toHex()) > 0){
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
+            }else{
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"修改错误","");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS, "发生错误", "");
         }
         return ajaxResult;
     }
@@ -105,23 +116,29 @@ public class CqieApiController extends BaseController
     @PostMapping("/getUserInfo/{account}")
     @ResponseBody
     public AjaxResult getUserinfo(@PathVariable("account") String account){
-        CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("id",cqieStudent.getStuId());
-        data.put("account",cqieStudent.getStuNo());
-        data.put("nickName",cqieStudent.getStuName());
-        data.put("department",cqieStudent.getClaId());
-        data.put("sex",cqieStudent.getStuSex());
-        data.put("age",null);
-        data.put("birthday",cqieStudent.getStuBirthday());
-        data.put("signature",cqieStudent.getStuRemark());
-        data.put("headImgUrl",cqieStudent.getStuImg());
-        if (data != null) {
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功", data);
-        }else {
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询错误","");
+        try {
+            CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("id",String.valueOf(cqieStudent.getStuId()));
+            data.put("account",cqieStudent.getStuNo());
+            data.put("nickName",cqieStudent.getStuName());
+            data.put("department",cqieStudent.getClaId());
+            data.put("sex",cqieStudent.getStuSex());
+            data.put("age",null);
+            data.put("birthday",cqieStudent.getStuBirthday());
+            data.put("signature",cqieStudent.getStuRemark());
+            data.put("headImgUrl",cqieStudent.getStuImg());
+            if (data != null) {
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功", data);
+            }else {
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询错误","");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
         }
         return ajaxResult;
+
     }
 
     /**
@@ -134,25 +151,32 @@ public class CqieApiController extends BaseController
     @PostMapping("/startSport/{account}/{startPoint}")
     @ResponseBody
     public AjaxResult startSport(@PathVariable("account") String account,@PathVariable("startPoint") String runStar){
-        CqieRun cqieRun = new CqieRun();
-        CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
-        if (cqieStudent != null) {
-            cqieRun.setRunStuId(cqieStudent.getStuId());
-            cqieRun.setRunStar(runStar);
-            Date date = new Date();
-            cqieRun.setRunAddtime(date);
-            if (cqieRunService.startSport(cqieRun) > 0){
-                HashMap<String,Object> data = new HashMap<>();
-                data.put("id",cqieRun.getRunId());
-                data.put("startTime",date);
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功",data);
+        try {
+            CqieRun cqieRun = new CqieRun();
+            CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
+            if (cqieStudent != null) {
+                cqieRun.setRunStuId(cqieStudent.getStuId());
+                cqieRun.setRunStar(runStar);
+                Date date = new Date();
+                cqieRun.setRunAddtime(date);
+                cqieRun.setRunStarTime(date);
+                if (cqieRunService.startSport(cqieRun) > 0){
+                    HashMap<String,Object> data = new HashMap<>();
+                    data.put("id",String.valueOf(cqieRun.getRunId()));
+                    data.put("startTime",date);
+                    ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功",data);
+                }else {
+                    ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"添加失败","");
+                }
             }else {
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"添加失败","");
             }
-        }else {
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"添加失败","");
+        }catch (Exception e){
+            e.printStackTrace();
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
         }
         return ajaxResult;
+
     }
 
     /**
@@ -167,16 +191,16 @@ public class CqieApiController extends BaseController
     public AjaxResult endSport(CqieRunEndSport cqieRunEndSport){
         try {
             //提出app端数据
-            CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(cqieRunEndSport.getStuNo());
+            CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(cqieRunEndSport.getAccount());
             CqieRun cqieRun = new CqieRun();
-            cqieRun.setRunId(cqieRunEndSport.getRunId());
+            cqieRun.setRunId(Long.valueOf(cqieRunEndSport.getId()));
             cqieRun.setRunStuId(cqieStudent.getStuId());
-            cqieRun.setRunDistance(cqieRunEndSport.getRunDistance());
-            cqieRun.setRunStar(cqieRunEndSport.getRunPathline());
-            cqieRun.setRunDuration(cqieRunEndSport.getRunDuration());
-            cqieRun.setRunCalorie(cqieRunEndSport.getRunCalorie());
-            cqieRun.setRunDistribution(cqieRunEndSport.getRunDistribution());
-            cqieRun.setRunMaxdistribution(cqieRunEndSport.getRunMaxdistribution());
+            cqieRun.setRunDistance(cqieRunEndSport.getDistance());
+            cqieRun.setRunPathline(cqieRunEndSport.getPathLine());
+            cqieRun.setRunDuration(cqieRunEndSport.getDuration());
+            cqieRun.setRunCalorie(cqieRunEndSport.getCalorie());
+            cqieRun.setRunDistribution(cqieRunEndSport.getDistribution());
+            cqieRun.setRunMaxdistribution(cqieRunEndSport.getMaxDistribution());
             //返回给app端数据
             CqieTotalRunInfo cqieTotalRunInfo = cqieRunService.getTotalRunInfo(cqieStudent.getStuId());
             HashMap<String, Object> data = new HashMap<>();
@@ -190,12 +214,11 @@ public class CqieApiController extends BaseController
                 data.put("status",0);
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"保存失败",data);
             }
-        }catch (Exception e){
+        }catch (Exception e) {
             e.printStackTrace();
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
-        }finally {
-            return ajaxResult;
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS, "发生错误", "");
         }
+        return ajaxResult;
 
     }
 
@@ -209,13 +232,18 @@ public class CqieApiController extends BaseController
     @PostMapping("/getSportCalendar/{account}/{month}")
     @ResponseBody
     public AjaxResult getSportCalendar(@PathVariable("account") String account,@PathVariable("month") String month){
-        List<String> sportCalendar = cqieRunService.getSportCalendar(account, month);
-        if (sportCalendar != null){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",sportCalendar);
-        }else{
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询失败","");
+        try {
+            List<String> sportCalendar = cqieRunService.getSportCalendar(account, month);
+            if (sportCalendar != null){
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",sportCalendar);
+            }else{
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询失败","");
+            }
+        }catch (Exception e){
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
         }
         return ajaxResult;
+
     }
 
     /**
@@ -229,13 +257,18 @@ public class CqieApiController extends BaseController
     @PostMapping("getSportRecord/{account}/{startdate}/{enddate}")
     @ResponseBody
     public AjaxResult getSportRecord(@PathVariable("account") String account,@PathVariable("startdate") String startdate,@PathVariable("enddate") String enddate){
-        List<CqieSportCalendar> cqieSportCalendars = cqieRunService.getSportRecord(account, startdate, enddate);
-        if (cqieSportCalendars != null) {
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",cqieSportCalendars);
-        } else{
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询失败",cqieSportCalendars);
+        try {
+            List<CqieSportCalendar> cqieSportCalendars = cqieRunService.getSportRecord(account, startdate, enddate);
+            if (cqieSportCalendars != null) {
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",cqieSportCalendars);
+            } else{
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询失败",cqieSportCalendars);
+            }
+        }catch (Exception e){
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
         }
         return ajaxResult;
+
     }
 
     /**
@@ -248,12 +281,16 @@ public class CqieApiController extends BaseController
     @PostMapping("/updateHeadImg/{account}/{headImg}")
     @ResponseBody
     public AjaxResult updateHeadImg(@PathVariable("account") String account,@PathVariable("headImg") String headImg){
-        if (cqieStudentService.updateHeadImg(account, headImg) > 0){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
-        }else{
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"保存失败","");
+        try {
+            if (cqieStudentService.updateHeadImg(account, headImg) > 0){
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
+            }else{
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"保存失败","");
+            }
+        }catch (Exception e){
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
         }
         return ajaxResult;
-    }
 
+    }
 }
