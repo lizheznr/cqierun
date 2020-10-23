@@ -299,6 +299,8 @@ public class ShiroConfig
 
         //sunly，设置白名单，部分对外接口无需认证
         filterChainDefinitionMap.put("/api_v1/**","anon");
+        //apk下载文件夹无需认证
+        filterChainDefinitionMap.put("/profile/upload/**","anon");
 
         // 所有请求需要认证
         filterChainDefinitionMap.put("/**", "user,kickout,onlineSession,syncOnlineSession");
