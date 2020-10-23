@@ -61,16 +61,16 @@ public class CqieApiController extends BaseController
     /**
      * 登录
      * @param account   学号（账号）
-     * @param upass     密码
+     * @param password     密码
      * @return data
      */
     @ApiOperation(value = "登录",httpMethod = "POST")
-    @PostMapping("/login/{account}/{password}")
+    @PostMapping("/login")
     @ResponseBody
-    public AjaxResult login(@PathVariable("account") String account, @PathVariable("password") String upass){
+    public AjaxResult login( String account, String password){
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
-            if (cqieStudentService.login(account, passwordService.encryptPassword(cqieStudent.getStuName(),upass,cqieStudent.getStuSalt())) != null){
+            if (cqieStudentService.login(account, passwordService.encryptPassword(cqieStudent.getStuName(),password,cqieStudent.getStuSalt())) != null){
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
             } else {
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询错误","");
@@ -92,9 +92,9 @@ public class CqieApiController extends BaseController
      * @return data
      */
     @ApiOperation(value = "修改学生密码",httpMethod = "POST")
-    @PostMapping("/updatePassword/{account}/{oldPassword}/{newPassword}")
+    @PostMapping("/updatePassword")
     @ResponseBody
-    public AjaxResult updatePassword(@PathVariable("account") String account,@PathVariable("oldPassword") String oldPassword,@PathVariable("newPassword") String newPassword){
+    public AjaxResult updatePassword(String account, String oldPassword, String newPassword){
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
             if (cqieStudentService.updateCqieStudentPass(account, passwordService.encryptPassword(cqieStudent.getStuName(),oldPassword,cqieStudent.getStuSalt()), passwordService.encryptPassword(cqieStudent.getStuName(),newPassword,cqieStudent.getStuSalt())) > 0){
@@ -115,9 +115,9 @@ public class CqieApiController extends BaseController
      * @return data
      */
     @ApiOperation(value = "获得用户信息接口",httpMethod = "POST")
-    @PostMapping("/getUserInfo/{account}")
+    @PostMapping("/getUserInfo")
     @ResponseBody
-    public AjaxResult getUserinfo(@PathVariable("account") String account){
+    public AjaxResult getUserinfo(String account){
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
             HashMap<String, Object> data = new HashMap<>();
@@ -146,19 +146,19 @@ public class CqieApiController extends BaseController
     /**
      * 运动开始
      * @param account   学号（账号）
-     * @param runStar  经纬度
+     * @param startPoint  经纬度
      * @return data
      */
     @ApiOperation(value = "运动开始",httpMethod = "POST")
-    @PostMapping("/startSport/{account}/{startPoint}")
+    @PostMapping("/startSport")
     @ResponseBody
-    public AjaxResult startSport(@PathVariable("account") String account,@PathVariable("startPoint") String runStar){
+    public AjaxResult startSport(String account, String startPoint){
         try {
             CqieRun cqieRun = new CqieRun();
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
             if (cqieStudent != null) {
                 cqieRun.setRunStuId(cqieStudent.getStuId());
-                cqieRun.setRunStar(runStar);
+                cqieRun.setRunStar(startPoint);
                 Date date = new Date();
                 cqieRun.setRunTermId((long) 2);
                 cqieRun.setRunAddtime(date);
@@ -237,9 +237,9 @@ public class CqieApiController extends BaseController
      * @return data
      */
     @ApiOperation(value = "运动日历",httpMethod = "POST")
-    @PostMapping("/getSportCalendar/{account}/{month}")
+    @PostMapping("/getSportCalendar")
     @ResponseBody
-    public AjaxResult getSportCalendar(@PathVariable("account") String account,@PathVariable("month") String month){
+    public AjaxResult getSportCalendar(String account, String month){
         try {
             List<String> sportCalendar = cqieRunService.getSportCalendar(account, month);
             if (sportCalendar != null){
@@ -262,9 +262,9 @@ public class CqieApiController extends BaseController
      * @return data
      */
     @ApiOperation(value = "运动记录查询",httpMethod = "POST")
-    @PostMapping("getSportRecord/{account}/{startdate}/{enddate}")
+    @PostMapping("/getSportRecord")
     @ResponseBody
-    public AjaxResult getSportRecord(@PathVariable("account") String account,@PathVariable("startdate") String startdate,@PathVariable("enddate") String enddate){
+    public AjaxResult getSportRecord(String account, String startdate, String enddate){
         try {
             List<CqieSportCalendar> cqieSportCalendars = cqieRunService.getSportRecord(account, startdate, enddate);
             if (cqieSportCalendars != null) {
@@ -288,9 +288,9 @@ public class CqieApiController extends BaseController
      * @return data
      */
     @ApiOperation(value = "更改头像",httpMethod = "POST")
-    @PostMapping("/updateHeadImg/{account}/{headImg}")
+    @PostMapping("/updateHeadImg")
     @ResponseBody
-    public AjaxResult updateHeadImg(@PathVariable("account") String account,@PathVariable("headImg") String headImg){
+    public AjaxResult updateHeadImg(String account, String headImg){
         try {
             if (cqieStudentService.updateHeadImg(account, headImg) > 0){
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
