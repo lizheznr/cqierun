@@ -85,6 +85,7 @@ public class CqieStudentController extends BaseController {
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<CqieStudent> util = new ExcelUtil<CqieStudent>(CqieStudent.class);
         List<CqieStudent> userList = util.importExcel(file.getInputStream());
+
         System.out.println(userList);
         List<CqieStudent> collect = userList.stream()
                 .filter(u -> u.getStuName() != "" && u.getStuNo() != "")
@@ -153,8 +154,13 @@ public class CqieStudentController extends BaseController {
     @PostMapping("/resetPwd")
     @ResponseBody
     public AjaxResult resetPwdSave(CqieStudent cqieStudent){
+        System.out.println(cqieStudent);
+        CqieStudent cqieStudent1 = cqieStudentService.selectCqieStudentById(cqieStudent.getStuId());
+        cqieStudent.setStuName(cqieStudent1.getStuName());
+        System.out.println(cqieStudent.getStuName());
         cqieStudent.setStuSalt(ShiroUtils.randomSalt());
-        cqieStudent.setStuPassword(passwordService.encryptPassword(cqieStudent.getStuName(), "123456", cqieStudent.getStuSalt()));
+        cqieStudent.setStuPassword("123456");
+        cqieStudent.setStuPassword(passwordService.encryptPassword(cqieStudent.getStuName(), cqieStudent.getStuPassword(), cqieStudent.getStuSalt()));
         return toAjax(cqieStudentService.rePassword(cqieStudent));
     }
 
