@@ -90,7 +90,7 @@ public class CqieStudentController extends BaseController {
         List<CqieStudent> collect = userList.stream()
                 .filter(u -> u.getStuName() != "" && u.getStuNo() != "")
                 .peek(u -> {
-                            u.setStuImg("https://wxt.sinaimg.cn/thumb300/006aTFgrly1gk2ngfjthij305k05kjrc.jpg?tags=%5B%5D");
+                            u.setStuImg("http://sunly98.gitee.io/cqierun_img/default_face.png");
                             u.setStuSalt(ShiroUtils.randomSalt());
                             u.setStuPassword(passwordService.encryptPassword(
                                     u.getStuName(),
