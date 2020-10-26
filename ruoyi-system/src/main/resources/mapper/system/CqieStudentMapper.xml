@@ -140,7 +140,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <select id="selectClassAllocatedList1" parameterType="CqieStudent" resultMap="CqieStudentResult">
-        select distinct c.cla_name, s.stu_id,s.stu_no,s.stu_name,s.stu_sex,s.stu_mobile,s.stu_remark,s.stu_img
+        select distinct c.cla_name, s.stu_id,s.stu_no,s.stu_name,s.stu_sex,s.stu_mobile,s.stu_remark,s.stu_img,s.stu_addtime
         from cqie_student s
         JOIN cqie_class_student cs on cs.clastu_stu_id = s.stu_id
         JOIN cqie_cla c on c.cla_id = cs.clastu_cla_id
