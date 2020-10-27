@@ -125,6 +125,7 @@ public class CqieApiController extends BaseController
     public AjaxResult getUserinfo(String account){
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
+            CqieTotalRunInfo cqieTotalRunInfo = cqieRunService.getTotalRunInfo(cqieStudent.getStuId());
             CqieCla cqieCla = cqieClaService.selectCqieClaById(cqieStudent.getClaId());
             HashMap<String, Object> data = new HashMap<>();
             data.put("id",String.valueOf(cqieStudent.getStuId()));
@@ -137,6 +138,9 @@ public class CqieApiController extends BaseController
             data.put("birthday",simpleDateFormat.format(cqieStudent.getStuBirthday()));
             data.put("signature",cqieStudent.getStuRemark());
             data.put("headImgUrl",cqieStudent.getStuImg());
+            data.put("distance",cqieTotalRunInfo.getTotalDistance());
+            data.put("frequency",cqieTotalRunInfo.getTotalFrequency());
+            data.put("duration",cqieTotalRunInfo.getTotalDuration());
             ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功", data);
         }catch (NullPointerException e){
             ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"无该数据");
