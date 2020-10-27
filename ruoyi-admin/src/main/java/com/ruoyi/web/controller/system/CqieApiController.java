@@ -8,7 +8,6 @@ import com.ruoyi.system.service.ICqieAppinfoService;
 import com.ruoyi.system.service.ICqieRunService;
 import com.ruoyi.system.service.ICqieStudentService;
 import io.swagger.annotations.ApiImplicitParam;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -108,6 +107,7 @@ public class CqieApiController extends BaseController
             ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "发生错误");
         }
         return ajaxResult;
+
     }
 
     /**
@@ -134,11 +134,11 @@ public class CqieApiController extends BaseController
             if (cqieStudent != null) {
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功", data);
             }else {
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查询错误","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查询错误");
             }
         }catch (Exception e){
             e.printStackTrace();
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误");
         }
         return ajaxResult;
 
@@ -170,14 +170,14 @@ public class CqieApiController extends BaseController
                     data.put("startTime",date);
                     ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功",data);
                 }else {
-                    ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"添加失败","");
+                    ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"添加失败");
                 }
             }else {
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"添加失败","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"添加失败");
             }
         }catch (Exception e){
             e.printStackTrace();
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误");
         }
         return ajaxResult;
 
@@ -194,6 +194,8 @@ public class CqieApiController extends BaseController
     @ResponseBody
     public AjaxResult endSport(CqieRunEndSport cqieRunEndSport){
         try {
+            int i = 0;//判断是否保存
+            HashMap<String, Object> data = new HashMap<>();//定义返回体
             //提出app端数据
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(cqieRunEndSport.getAccount());
             CqieRun cqieRun = new CqieRun();
@@ -207,25 +209,25 @@ public class CqieApiController extends BaseController
             cqieRun.setRunMaxdistribution(cqieRunEndSport.getMaxDistribution());
             cqieRun.setRunEndTime(new Date());
             //更改数据库
-            int i = cqieRunService.endSport(cqieRun);
+            if (getStatus(cqieStudent,cqieRunEndSport) == 1) {
+                i = cqieRunService.endSport(cqieRun);
+            }
             //返回给app端数据
             CqieTotalRunInfo cqieTotalRunInfo = cqieRunService.getTotalRunInfo(cqieStudent.getStuId());
-            HashMap<String, Object> data = new HashMap<>();
             data.put("distance",cqieTotalRunInfo.getTotalDistance());
             data.put("frequency",cqieTotalRunInfo.getTotalFrequency());
             data.put("duration",cqieTotalRunInfo.getTotalDuration());
             data.put("startTime",cqieTotalRunInfo.getRunStarTime());
             data.put("endTime",cqieRun.getRunEndTime());
+            data.put("status",getStatus(cqieStudent,cqieRunEndSport));
             if (i > 0){
-                data.put("status",1);
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",data);
-            }else{
-                data.put("status",0);
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"保存失败",data);
+            }else {
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"保存失败或运动数据无效，请联系管理员。");
             }
         }catch (Exception e) {
             e.printStackTrace();
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "发生错误", "");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "发生错误");
         }
         return ajaxResult;
 
@@ -246,10 +248,10 @@ public class CqieApiController extends BaseController
             if (sportCalendar != null){
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",sportCalendar);
             }else{
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查询失败","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查询失败");
             }
         }catch (Exception e){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误");
         }
         return ajaxResult;
 
@@ -271,12 +273,12 @@ public class CqieApiController extends BaseController
             if (cqieSportCalendars != null) {
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",cqieSportCalendars);
             } else{
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查询失败",cqieSportCalendars);
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查询失败");
             }
         }catch (NullPointerException e){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查不到该数据","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查不到该数据");
         }catch (Exception e){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误");
         }
         return ajaxResult;
 
@@ -303,5 +305,26 @@ public class CqieApiController extends BaseController
         }
         return ajaxResult;
 
+    }
+
+    /**
+     * 判断跑步信息是否有效
+     * @param cqieStudent   学生信息对象
+     * @param cqieRunEndSport  跑步信息对象
+     * @return 是否有效
+     */
+    public static int getStatus(CqieStudent cqieStudent,CqieRunEndSport cqieRunEndSport){
+        if (cqieStudent.getStuSex().equals("男")){
+            if (cqieRunEndSport.getDistance() >= 2500&&cqieRunEndSport.getDistribution() >= 3&&cqieRunEndSport.getDistribution() <= 9){
+                return 1;
+            }
+        } else if (cqieStudent.getStuSex().equals("女")){
+            if (cqieRunEndSport.getDistance() >= 2000&&cqieRunEndSport.getDistribution() >= 3&&cqieRunEndSport.getDistribution() <= 11){
+                return 1;
+            }
+        } else{
+            return 0;
+        }
+        return 0;
     }
 }

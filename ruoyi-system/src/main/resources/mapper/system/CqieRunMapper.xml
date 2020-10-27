@@ -121,7 +121,7 @@
 
     <select id="getTotalRunInfo" resultMap="cqieTotalRunInfo">
         SELECT (SELECT run_star_time FROM cqie_run order by run_star_time desc LIMIT 1) as theRunStarTime,count(*) as run_totalFrequency,SUM(run_distance) as run_totalDistance,SUM(run_duration) as run_totalDuration
-            FROM cqie_run WHERE run_stu_id = 5
+            FROM cqie_run WHERE run_stu_id = #{stuId}
     </select>
 
     <insert id="insertCqieRun" parameterType="CqieRun" useGeneratedKeys="true" keyProperty="runId">
