@@ -294,12 +294,12 @@ public class CqieApiController extends BaseController
     public AjaxResult updateHeadImg(String account, String headImg){
         try {
             if (cqieStudentService.updateHeadImg(account, headImg) > 0){
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功");
             }else{
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"保存失败","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"更改失败");
             }
         }catch (Exception e){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误");
         }
         return ajaxResult;
 
