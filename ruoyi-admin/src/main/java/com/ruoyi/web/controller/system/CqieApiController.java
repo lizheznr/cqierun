@@ -5,6 +5,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.ICqieAppinfoService;
+import com.ruoyi.system.service.ICqieClaService;
 import com.ruoyi.system.service.ICqieRunService;
 import com.ruoyi.system.service.ICqieStudentService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.ApiOperation;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +38,8 @@ public class CqieApiController extends BaseController
     private ICqieStudentService cqieStudentService;
     @Autowired
     private ICqieRunService cqieRunService;
+    @Autowired
+    private ICqieClaService cqieClaService;
     @Autowired
     private SysPasswordService passwordService;
 
@@ -121,23 +125,22 @@ public class CqieApiController extends BaseController
     public AjaxResult getUserinfo(String account){
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
+            CqieCla cqieCla = cqieClaService.selectCqieClaById(cqieStudent.getClaId());
             HashMap<String, Object> data = new HashMap<>();
             data.put("id",String.valueOf(cqieStudent.getStuId()));
             data.put("account",cqieStudent.getStuNo());
             data.put("nickName",cqieStudent.getStuName());
             data.put("department",cqieStudent.getClaId());
             data.put("sex",cqieStudent.getStuSex());
-            data.put("age",null);
-            data.put("birthday",cqieStudent.getStuBirthday());
+            data.put("age",cqieStudent.getStuAge());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            data.put("birthday",simpleDateFormat.format(cqieStudent.getStuBirthday()));
             data.put("signature",cqieStudent.getStuRemark());
             data.put("headImgUrl",cqieStudent.getStuImg());
-            if (cqieStudent != null) {
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功", data);
-            }else {
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查询错误");
-            }
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功", data);
+        }catch (NullPointerException e){
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"无该数据");
         }catch (Exception e){
-            e.printStackTrace();
             ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误");
         }
         return ajaxResult;
@@ -313,7 +316,7 @@ public class CqieApiController extends BaseController
      * @param cqieRunEndSport  跑步信息对象
      * @return 是否有效
      */
-    public static int getStatus(CqieStudent cqieStudent,CqieRunEndSport cqieRunEndSport){
+    private static int getStatus(CqieStudent cqieStudent, CqieRunEndSport cqieRunEndSport){
         if (cqieStudent.getStuSex().equals("男")){
             if (cqieRunEndSport.getDistance() >= 2500&&cqieRunEndSport.getDistribution() >= 3&&cqieRunEndSport.getDistribution() <= 9){
                 return 1;

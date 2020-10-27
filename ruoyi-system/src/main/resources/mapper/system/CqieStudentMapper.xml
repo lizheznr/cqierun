@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="stuPassword"    column="stu_password"    />
         <result property="stuName"    column="stu_name"    />
         <result property="stuSex"    column="stu_sex"    />
+        <result property="stuAge" column="stu_age" />
         <result property="stuBirthday"    column="stu_birthday"    />
         <result property="stuEmail"    column="stu_email"    />
         <result property="stuMobile"    column="stu_mobile"    />
@@ -40,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectCqieStudentVo">
-        select stu_id, stu_no, stu_password, stu_name, stu_sex, stu_birthday, stu_email, stu_mobile, stu_qq, stu_addtime, stu_remark,stu_img, stu_salt from cqie_student
+        select stu_id, stu_no, stu_password, stu_name, stu_sex, YEAR(NOW())-YEAR(stu_birthday) AS stu_age, stu_birthday, stu_email, stu_mobile, stu_qq, stu_addtime, stu_remark,stu_img, stu_salt from cqie_student
     </sql>
 
     <select id="selectCqieStudentList" parameterType="CqieStudent" resultMap="CqieStudentResult">

@@ -46,6 +46,9 @@ public class CqieStudent extends BaseEntity
     @Excel(name = "性别")
     private String stuSex;
 
+    /** 年龄 */
+    private Long stuAge;
+
     /** 生日 */
     private Date stuBirthday;
 
@@ -133,7 +136,16 @@ public class CqieStudent extends BaseEntity
     {
         return stuSex;
     }
-    public void setStuBirthday(Date stuBirthday) 
+
+    public Long getStuAge() {
+        return stuAge;
+    }
+
+    public void setStuAge(Long stuAge) {
+        this.stuAge = stuAge;
+    }
+
+    public void setStuBirthday(Date stuBirthday)
     {
         this.stuBirthday = stuBirthday;
     }
