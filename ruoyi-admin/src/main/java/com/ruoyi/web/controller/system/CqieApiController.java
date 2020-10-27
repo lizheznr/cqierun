@@ -131,7 +131,7 @@ public class CqieApiController extends BaseController
             data.put("id",String.valueOf(cqieStudent.getStuId()));
             data.put("account",cqieStudent.getStuNo());
             data.put("nickName",cqieStudent.getStuName());
-            data.put("department",cqieStudent.getClaId());
+            data.put("department",null);
             data.put("sex",cqieStudent.getStuSex());
             data.put("age",cqieStudent.getStuAge());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
