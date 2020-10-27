@@ -135,7 +135,7 @@ public class CqieApiController extends BaseController
             data.put("sex",cqieStudent.getStuSex());
             data.put("age",cqieStudent.getStuAge());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            data.put("birthday",simpleDateFormat.format(cqieStudent.getStuBirthday()));
+            data.put("birthday",cqieStudent.getStuBirthday()==null?null:simpleDateFormat.format(cqieStudent.getStuBirthday()));
             data.put("signature",cqieStudent.getStuRemark());
             data.put("headImgUrl",cqieStudent.getStuImg());
             data.put("distance",cqieTotalRunInfo.getTotalDistance());
