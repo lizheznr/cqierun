@@ -21,7 +21,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 学期成绩Controller
- * 
+ *
  * @author xhd
  * @date 2020-10-09
  */
@@ -123,4 +123,24 @@ public class CqieScoreController extends BaseController
     {
         return toAjax(cqieScoreService.deleteCqieScoreByIds(ids));
     }
+
+
+
+
+
+
+    /**
+     * xhd
+     * 学期成绩存档
+     */
+    @RequiresPermissions("system:score:saveScore")
+    @Log(title = "学期成绩存档", businessType = BusinessType.INSERT)
+    @PostMapping("/saveScore")
+    @ResponseBody
+    public AjaxResult saveScore()
+    {
+        return toAjax(cqieScoreService.saveAllStudentScore());
+    }
+
+
 }

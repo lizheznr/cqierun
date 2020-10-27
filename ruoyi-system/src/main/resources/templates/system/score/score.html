@@ -34,6 +34,9 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-danger" onclick="saveScore()" shiro:hasPermission="system:runinfo:saveAll">
+                    <i class="fa fa-check-square-o"></i> 期末存档
+                </a>
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:score:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
@@ -101,10 +104,19 @@
                     field: 'scoreResult',
                     title: '成绩'
                 },
+                    {
+                        field: 'scoreRemark',
+                        title: '备注'
+                    }
                ]
             };
             $.table.init(options);
         });
+        function saveScore() {
+            $.modal.confirm("确认全部学生期末成绩汇总？", function() {
+                $.operate.save(prefix + "/saveScore");
+            })
+        }
     </script>
 </body>
 </html>

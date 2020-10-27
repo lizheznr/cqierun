@@ -139,16 +139,5 @@ public class CqieRunController extends BaseController
         return toAjax(cqieRunService.deleteCqieRunByIds(ids));
     }
 
-    /**
-     * xhd
-     * 期末存档
-     */
-    @RequiresPermissions("system:runinfo:saveAll")
-    @Log(title = "跑步信息", businessType = BusinessType.INSERT)
-    @PostMapping("/saveAll")
-    @ResponseBody
-    public AjaxResult saveAll(String ids)
-    {
-        return toAjax(cqieRunService.saveAllByIds(ids));
-    }
+
 }

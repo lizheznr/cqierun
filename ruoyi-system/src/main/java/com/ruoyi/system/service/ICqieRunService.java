@@ -53,13 +53,7 @@ public interface ICqieRunService
      */
     public int deleteCqieRunByIds(String ids);
 
-    /**
-     * xhd
-     *  期末存档
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    public int saveAllByIds(String ids);
+
 
 
     /**

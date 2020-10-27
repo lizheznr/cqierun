@@ -195,25 +195,4 @@
         </foreach>
     </delete>
 
-    <insert id="saveAllByIds" parameterType="String">
-        insert into cqie_score
-        <foreach item="runId" collection="array" open="(" separator="," close=")">
-            #{runId}
-        </foreach>
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="scoreId != null">score_id,</if>
-            <if test="scoreTermId != null">score_term_id,</if>
-            <if test="scoreStudentId != null">score_student_id,</if>
-            <if test="scoreCounts != null">score_counts,</if>
-            <if test="scoreResult != null">score_result,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="scoreId != null">#{scoreId},</if>
-            <if test="scoreTermId != null">#{scoreTermId},</if>
-            <if test="scoreStudentId != null">#{scoreStudentId},</if>
-            <if test="scoreCounts != null">#{scoreCounts},</if>
-            <if test="scoreResult != null">#{scoreResult},</if>
-        </trim>
-    </insert>
-
 </mapper>

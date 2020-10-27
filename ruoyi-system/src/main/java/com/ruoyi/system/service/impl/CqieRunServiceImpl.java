@@ -83,17 +83,7 @@ public class CqieRunServiceImpl implements ICqieRunService
         return cqieRunMapper.deleteCqieRunByIds(Convert.toStrArray(ids));
     }
 
-    /**
-     * xhd
-     *  期末存档
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    @Override
-    public int saveAllByIds(String ids)
-    {
-        return cqieRunMapper.saveAllByIds(Convert.toStrArray(ids));
-    }
+
 
     /**
      * 删除跑步信息信息

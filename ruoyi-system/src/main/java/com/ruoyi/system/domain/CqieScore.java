@@ -35,6 +35,10 @@ public class CqieScore extends BaseEntity
     @Excel(name = "成绩")
     private String scoreResult;
 
+    @Excel(name = "备注")
+    private String scoreRemark;
+
+
     private  CqieStudent student;
     private CqieCla cqieCla;
     private CqieClassStudent cqieClassStudent;
@@ -127,6 +131,14 @@ public class CqieScore extends BaseEntity
         return scoreResult;
     }
 
+    public String getScoreRemark() {
+        return scoreRemark;
+    }
+
+    public void setScoreRemark(String scoreRemark) {
+        this.scoreRemark = scoreRemark;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -140,6 +152,7 @@ public class CqieScore extends BaseEntity
                 .append("cqieClassStudent",getCqieClassStudent())
                 .append("cqieTerm",getCqieTerm())
                 .append("cqieRun",getCqieRun())
+                .append("scoreRemark",getScoreRemark())
             .toString();
     }
 }

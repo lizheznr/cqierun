@@ -3,13 +3,14 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CqieScoreMapper">
-    
+
     <resultMap type="CqieScore" id="CqieScoreResult">
         <result property="scoreId"    column="score_id"    />
         <result property="scoreTermId"    column="score_term_id"    />
         <result property="scoreStudentId"    column="score_student_id"    />
         <result property="scoreCounts"    column="score_counts"    />
         <result property="scoreResult"    column="score_result"    />
+        <result property="scoreRemark" column="score_remark"/>
         <association property="student" column="stu_id" resultMap="studentResult"/>
         <association property="cqieClassStudent" column="clastu_id" resultMap="cqieClassStudentResult"/>
         <association property="cqieCla" column="cla_id" resultMap="claResult"/>
@@ -68,19 +69,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="termRemark" column="term_remark"/>
     </resultMap>
 
+    <resultMap type="CqieSpe" id="CqieSpeResult">
+    <result property="speId"    column="spe_id"    />
+    <result property="speStuId"    column="spe_stu_id"    />
+    <result property="speTermId"    column="spe_term_id"    />
+    <result property="speApplytime"    column="spe_applytime"    />
+    <result property="speApplymate"    column="spe_applymate"    />
+    <result property="speRemark"    column="spe_remark"    />
+    <result property="speIsAgree" column="spe_isAgree"/>
+    </resultMap>
+
+
 
     <sql id="selectCqieScoreVo">
-        select score_id, score_term_id, score_student_id, score_counts, score_result from cqie_score
+        select score_id, score_term_id, score_student_id, score_counts, score_result, score_remark from cqie_score
     </sql>
 
     <select id="selectCqieScoreList" parameterType="CqieScore" resultMap="CqieScoreResult">
-        select sc.*,s.stu_no,s.stu_name,s.stu_sex,c.cla_name,t.term_name from cqie_student s,cqie_class_student cs,cqie_cla c,cqie_run r,cqie_term t,cqie_score sc
-        where s.stu_id=cs.clastu_stu_id
-        and c.cla_id=cs.clastu_cla_id
-        and s.stu_id=r.run_stu_id
-        and r.run_term_id = t.term_id
-        and sc.score_student_id = s.stu_id
-
+        SELECT score.*,s.stu_no,s.stu_name,s.stu_sex,c.cla_name,t.term_name from cqie_score score
+        left join cqie_student s on score.score_student_id = s.stu_id
+        left join cqie_class_student cs on s.stu_id=cs.clastu_stu_id
+        left join cqie_cla c on c.cla_id = cs.clastu_cla_id
+        left join cqie_term t on t.term_id=score.score_term_id
             <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
                 and t.term_name like concat('%', #{cqieTerm.termName}, '%')
             </if>
@@ -89,12 +99,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
 
     </select>
-    
+
     <select id="selectCqieScoreById" parameterType="Long" resultMap="CqieScoreResult">
         <include refid="selectCqieScoreVo"/>
         where score_id = #{scoreId}
     </select>
-        
+
     <insert id="insertCqieScore" parameterType="CqieScore" useGeneratedKeys="true" keyProperty="scoreId">
         insert into cqie_score
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -118,8 +128,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="scoreStudentId != null">score_student_id = #{scoreStudentId},</if>
             <if test="scoreCounts != null">score_counts = #{scoreCounts},</if>
             <if test="scoreResult != null">score_result = #{scoreResult},</if>
+            <if test="scoreRemark !=null">score_remark = #{scoreRemark},</if>
         </trim>
-        where score_id = #{scoreId}
+        where score_student_id = #{scoreStudentId}
     </update>
 
     <delete id="deleteCqieScoreById" parameterType="Long">
@@ -127,10 +138,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteCqieScoreByIds" parameterType="String">
-        delete from cqie_score where score_id in 
+        delete from cqie_score where score_id in
         <foreach item="scoreId" collection="array" open="(" separator="," close=")">
             #{scoreId}
         </foreach>
     </delete>
+
+    <select id="selectAllCla" resultMap="claResult">
+        select * from cqie_cla
+    </select>
+
+    <select id="selectStudentByClaId" resultMap="studentResult" parameterType="int">
+        select * from cqie_student s
+         left join cqie_class_student cs on s.stu_id = cs.clastu_id
+         where cs.clastu_cla_id=#{claId}
+    </select>
+
+    <select id="selectRuninfoByStuId" parameterType="Long" resultMap="CqieScoreResult">
+        select r.run_term_id as score_term_id,r.run_stu_id as score_student_id,count(s.stu_id) as score_counts from cqie_run r
+        left join cqie_student s on r.run_stu_id = s.stu_id
+        where s.stu_id = #{stuId}
+        and r.run_iscomplete=1
+        and r.run_term_id = (select term_id from cqie_term order by term_id desc LIMIT 1 )
+    </select>
+
+
+    <insert id="insertCqieScoreByRunInfo" parameterType="CqieScore" useGeneratedKeys="true" keyProperty="scoreId">
+        insert into cqie_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scoreTermId != null">score_term_id,</if>
+            <if test="scoreStudentId != null">score_student_id,</if>
+            <if test="scoreCounts != null">score_counts,</if>
+            <if test="scoreResult != null">score_result,</if>
+            <if test="scoreRemark !=null">score_remark</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scoreTermId != null">#{scoreTermId},</if>
+            <if test="scoreStudentId != null">#{scoreStudentId},</if>
+            <if test="scoreCounts != null">#{scoreCounts},</if>
+            <if test="scoreResult != null">#{scoreResult},</if>
+            <if test="scoreRemark !=null">#{scoreRemark},</if>
+        </trim>
+    </insert>
+
+
+    <select id="selectSpeStudentByStuId" parameterType="Long" resultMap="CqieSpeResult">
+        select spe.* from cqie_spe spe
+         left join cqie_term t on spe.spe_term_id = t.term_id
+         where spe.spe_stu_id=#{stuId}
+         and spe.spe_term_id = (select term_id from cqie_term order by term_id desc LIMIT 1 )
+    </select>
+
+    <select id="selectLatestTerm" resultMap="cqieTermResult">
+        SELECT * FROM `cqie_term` order by term_id desc LIMIT 1
+    </select>
+
+
 
 </mapper>

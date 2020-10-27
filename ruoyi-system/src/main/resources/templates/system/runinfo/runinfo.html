@@ -45,9 +45,7 @@
             <!--<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:runinfo:add">
                 <i class="fa fa-plus"></i> 添加
             </a>-->
-            <a class="btn btn-danger" onclick="saveAll()" shiro:hasPermission="system:runinfo:saveAll">
-                <i class="fa fa-check-square-o"></i> 期末存档
-            </a>
+
 
           <!--<a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:runinfo:edit">
                 <i class="fa fa-edit"></i> 修改
@@ -182,19 +180,7 @@
     });
 
 
-    function saveAll() {
-        table.set();
-        var rows = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
-        if (rows.length == 0) {
-            $.modal.alertWarning("请至少选择一条记录");
-            return;
-        }
-        $.modal.confirm("确认要保存选中的" + rows.length + "条数据吗?", function() {
-            var url = table.options.saveAllUrl;
-            var data = { "ids": rows.join() };
-            $.operate.submit(url, "post", "json", data);
-        });
-    };
+
 
 </script>
 </body>

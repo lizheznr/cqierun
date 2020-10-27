@@ -1,7 +1,8 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
-import com.ruoyi.system.domain.CqieScore;
+
+import com.ruoyi.system.domain.*;
 
 /**
  * 学期成绩Mapper接口
@@ -58,4 +59,52 @@ public interface CqieScoreMapper
      * @return 结果
      */
     public int deleteCqieScoreByIds(String[] scoreIds);
+
+    /**
+     * xhd
+     * 查询所有班级
+     * @return 结果
+     */
+    public List<CqieCla> selectAllCla();
+
+    /**
+     * xhd
+     * 通过claId查询该班所有学生
+     * @return 结果
+     */
+    public List<CqieStudent> selectStudentByClaId(int claId);
+
+    /**
+     * xhd
+     * 通过stuId查询该学生所有的跑步信息
+     * @return 结果
+     */
+    public CqieScore  selectRuninfoByStuId(Long stuId);
+
+    /**
+     * xhd
+     * 插入所有学生所有的跑步信息
+     * @return 结果
+     */
+    public int insertCqieScoreByRunInfo(CqieScore cqieScore);
+
+
+    /**
+     * xhd
+     * 查询所有免跑学生信息
+     * @return 结果
+     */
+    public CqieSpe selectSpeStudentByStuId(Long stuId);
+
+
+    /**
+     * xhd
+     * 查询最新的学期
+     * */
+    public CqieTerm selectLatestTerm();
+
+
+
+
+
 }

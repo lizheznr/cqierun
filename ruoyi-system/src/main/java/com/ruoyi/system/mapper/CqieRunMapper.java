@@ -62,13 +62,7 @@ public interface CqieRunMapper
      */
     public int deleteCqieRunByIds(String[] runIds);
 
-    /**
-     * xhd
-     *  期末存档
-     * @param runIds 需要存入的数据ID
-     * @return 结果
-     */
-    public int saveAllByIds(String[] runIds);
+
 
     /**
      * 运动日历
