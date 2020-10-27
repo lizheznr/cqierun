@@ -118,6 +118,19 @@ public class AjaxResult extends HashMap<String, Object>
     }
 
     /**
+     * 初始化一个新创建的符合陈永政版本的 AjaxResult 对象
+     *
+     * @param type 状态类型
+     * @param msg 返回内容
+     * @param flag 标识
+     */
+    public AjaxResult(Type type, String msg, int flag)
+    {
+        super.put(CODE_TAG2, type.value);
+        super.put(MSG_TAG2, msg);
+    }
+
+    /**
      * 返回成功消息
      * 
      * @return 成功消息
@@ -216,7 +229,7 @@ public class AjaxResult extends HashMap<String, Object>
         return new AjaxResult(Type.ERROR, msg, data);
     }
 
-    //sunly 2010-10-10
+    //sunly 2020-10-10
     /**
      * 返回消息
      *
@@ -228,5 +241,18 @@ public class AjaxResult extends HashMap<String, Object>
     public static AjaxResult  returnJSON(Type type, String msg, Object data)
     {
         return new AjaxResult(type, msg, data,1);
+    }
+
+    //sunly 2020-10-27
+    /**
+     * 返回消息2
+     *
+     * @param type 类型，成功为1SUCCESS，失败为0FAIL
+     * @param msg 返回内容
+     * @return 消息
+     */
+    public static AjaxResult  returnJSON(Type type, String msg)
+    {
+        return new AjaxResult(type, msg,1);
     }
 }

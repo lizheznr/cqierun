@@ -60,6 +60,7 @@ public class CqieApiController extends BaseController
 
     /**
      * 登录
+     * 20201027 sunly edit
      * @param account   学号（账号）
      * @param password     密码
      * @return data
@@ -71,14 +72,14 @@ public class CqieApiController extends BaseController
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
             if (cqieStudentService.login(account, passwordService.encryptPassword(cqieStudent.getStuName(),password,cqieStudent.getStuSalt())) != null){
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功");
             } else {
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询错误","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"账号或密码错误");
             }
         }catch (NullPointerException e){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"账号或密码错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"账号或密码错误");
         }catch (Exception e){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生未知错误");
         }
         return ajaxResult;
 
@@ -98,13 +99,13 @@ public class CqieApiController extends BaseController
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
             if (cqieStudentService.updateCqieStudentPass(account, passwordService.encryptPassword(cqieStudent.getStuName(),oldPassword,cqieStudent.getStuSalt()), passwordService.encryptPassword(cqieStudent.getStuName(),newPassword,cqieStudent.getStuSalt())) > 0){
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功");
             }else{
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"修改错误","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"失败");
             }
         }catch (Exception e) {
             e.printStackTrace();
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS, "发生错误", "");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "发生错误");
         }
         return ajaxResult;
     }
@@ -133,11 +134,11 @@ public class CqieApiController extends BaseController
             if (cqieStudent != null) {
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功", data);
             }else {
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询错误","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查询错误","");
             }
         }catch (Exception e){
             e.printStackTrace();
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误","");
         }
         return ajaxResult;
 
@@ -169,14 +170,14 @@ public class CqieApiController extends BaseController
                     data.put("startTime",date);
                     ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功",data);
                 }else {
-                    ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"添加失败","");
+                    ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"添加失败","");
                 }
             }else {
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"添加失败","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"添加失败","");
             }
         }catch (Exception e){
             e.printStackTrace();
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误","");
         }
         return ajaxResult;
 
@@ -220,11 +221,11 @@ public class CqieApiController extends BaseController
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",data);
             }else{
                 data.put("status",0);
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"保存失败",data);
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"保存失败",data);
             }
         }catch (Exception e) {
             e.printStackTrace();
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS, "发生错误", "");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "发生错误", "");
         }
         return ajaxResult;
 
@@ -245,10 +246,10 @@ public class CqieApiController extends BaseController
             if (sportCalendar != null){
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",sportCalendar);
             }else{
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询失败","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查询失败","");
             }
         }catch (Exception e){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误","");
         }
         return ajaxResult;
 
@@ -270,12 +271,12 @@ public class CqieApiController extends BaseController
             if (cqieSportCalendars != null) {
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",cqieSportCalendars);
             } else{
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查询失败",cqieSportCalendars);
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查询失败",cqieSportCalendars);
             }
         }catch (NullPointerException e){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"查不到该数据","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"查不到该数据","");
         }catch (Exception e){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误","");
         }
         return ajaxResult;
 
@@ -295,10 +296,10 @@ public class CqieApiController extends BaseController
             if (cqieStudentService.updateHeadImg(account, headImg) > 0){
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功","");
             }else{
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"保存失败","");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"保存失败","");
             }
         }catch (Exception e){
-            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS,"发生错误","");
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误","");
         }
         return ajaxResult;
 
