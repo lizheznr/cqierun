@@ -43,7 +43,7 @@ public class CqieApiController extends BaseController
     /**
      * 获取最新的APP版本
      * @param version 版本号
-     * @return data
+     * @return 返回信息
      */
     @ApiOperation(value = "获取最新的APP版本",httpMethod = "POST")
     @PostMapping("/getNewVersion")
@@ -68,7 +68,7 @@ public class CqieApiController extends BaseController
      * 20201027 sunly edit
      * @param account   学号（账号）
      * @param password     密码
-     * @return data
+     * @return 返回信息
      */
     @ApiOperation(value = "登录",httpMethod = "POST")
     @PostMapping("/login")
@@ -95,7 +95,7 @@ public class CqieApiController extends BaseController
      * @param account     学号（账号）
      * @param oldPassword 旧密码
      * @param newPassword 新密码
-     * @return data
+     * @return 返回信息
      */
     @ApiOperation(value = "修改学生密码",httpMethod = "POST")
     @PostMapping("/updatePassword")
@@ -120,7 +120,7 @@ public class CqieApiController extends BaseController
     /**
      * 获得用户信息接口
      * @param account 学号（账号）
-     * @return data
+     * @return 返回信息
      */
     @ApiOperation(value = "获得用户信息接口",httpMethod = "POST")
     @PostMapping("/getUserInfo")
@@ -159,7 +159,7 @@ public class CqieApiController extends BaseController
      * 运动开始
      * @param account   学号（账号）
      * @param startPoint  经纬度
-     * @return data
+     * @return 返回信息
      */
     @ApiOperation(value = "运动开始",httpMethod = "POST")
     @PostMapping("/startSport")
@@ -197,7 +197,7 @@ public class CqieApiController extends BaseController
     /**
      * 运动结束
      * @param cqieRunEndSport     跑步信息对象
-     * @return data
+     * @return 返回信息
      */
     @ApiOperation(value = "运动结束",httpMethod = "POST")
     @ApiImplicitParam(value = "跑步信息对象",paramType = "CqieRunEndSport")
@@ -247,7 +247,7 @@ public class CqieApiController extends BaseController
      * 运动日历
      * @param account    学号（账号）
      * @param month     月份（数值）
-     * @return data
+     * @return 返回信息
      */
     @ApiOperation(value = "运动日历",httpMethod = "POST")
     @PostMapping("/getSportCalendar")
@@ -272,7 +272,7 @@ public class CqieApiController extends BaseController
      * @param account     学号（账号）
      * @param startdate      开始日期   YYYY-MM-DD
      * @param enddate       结束日期    YYYY-MM-DD
-     * @return data
+     * @return 返回信息
      */
     @ApiOperation(value = "运动记录查询",httpMethod = "POST")
     @PostMapping("/getSportRecord")
@@ -298,7 +298,7 @@ public class CqieApiController extends BaseController
      * 更改头像
      * @param account     学号（账号）
      * @param headImg   头像地址
-     * @return data
+     * @return 返回信息
      */
     @ApiOperation(value = "更改头像",httpMethod = "POST")
     @PostMapping("/updateHeadImg")
