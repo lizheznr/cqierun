@@ -39,8 +39,6 @@ public class CqieApiController extends BaseController
     @Autowired
     private ICqieRunService cqieRunService;
     @Autowired
-    private ICqieClaService cqieClaService;
-    @Autowired
     private SysPasswordService passwordService;
 
     /**
@@ -52,13 +50,18 @@ public class CqieApiController extends BaseController
     @ResponseBody
     public AjaxResult getNewVersion()
     {
-        CqieAppinfo appInfo = cqieAppinfoService.selectCqieAppinfoLatest();
-        HashMap<String,Object> data = new HashMap<>();
-        data.put("newVersion",appInfo.getAppiVersion());
-        data.put("forceUpdate",true);
-        data.put("newVersionInfo",appInfo.getRemark());
-        data.put("updateUrl",appInfo.getAppiAddress());
-        return AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",data);
+        try {
+            CqieAppinfo appInfo = cqieAppinfoService.selectCqieAppinfoLatest();
+            HashMap<String,Object> data = new HashMap<>();
+            data.put("newVersion",appInfo.getAppiVersion());
+            data.put("forceUpdate",true);
+            data.put("newVersionInfo",appInfo.getRemark());
+            data.put("updateUrl",appInfo.getAppiAddress());
+            return AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",data);
+        } catch (Exception e){
+            return AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误");
+        }
+
     }
 
     /**
@@ -106,8 +109,9 @@ public class CqieApiController extends BaseController
             }else{
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"失败");
             }
+        }catch (NullPointerException e) {
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "无该数据");
         }catch (Exception e) {
-            e.printStackTrace();
             ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "发生错误");
         }
         return ajaxResult;
@@ -216,8 +220,9 @@ public class CqieApiController extends BaseController
             cqieRun.setRunDistribution(cqieRunEndSport.getDistribution());
             cqieRun.setRunMaxdistribution(cqieRunEndSport.getMaxDistribution());
             cqieRun.setRunEndTime(new Date());
+            cqieRun.setRunIscomplete(getStatus(cqieStudent,cqieRunEndSport));
             //更改数据库
-            if (getStatus(cqieStudent,cqieRunEndSport) == 1) {
+            if (cqieRun.getRunIscomplete() == 1) {
                 i = cqieRunService.endSport(cqieRun);
             }
             //返回给app端数据
@@ -338,7 +343,7 @@ public class CqieApiController extends BaseController
 
     /**
      * 获得性别代数
-     * @param stuSex
+     * @param stuSex 性别
      * @return 0为男  1为女  -1为异常
      */
     private static int getStuSex(String stuSex){

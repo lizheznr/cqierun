@@ -124,7 +124,7 @@ public interface ICqieStudentService
     public int updateHeadImg(String stuNo,String headImg);
 
     /**
-     * 修改头像
+     * 获得班级名称
      * 王康
      * @param stuNo     学号（账号）
      * @return 结果

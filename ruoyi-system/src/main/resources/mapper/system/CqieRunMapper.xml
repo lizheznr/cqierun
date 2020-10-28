@@ -73,6 +73,7 @@
         <result property="startTime" column="run_star_time"/>
         <result property="endTime" column="run_end_time"/>
         <result property="status" column="run_iscomplete"/>
+        <result property="distribution" column="run_distribution"/>
     </resultMap>
 
     <sql id="selectCqieRunVo">

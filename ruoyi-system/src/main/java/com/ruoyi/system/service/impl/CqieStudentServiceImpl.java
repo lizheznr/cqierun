@@ -191,7 +191,7 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
     }
 
     /**
-     * 修改头像
+     * 获得班级名称
      * 王康
      * @param stuNo     学号（账号）
      * @return 结果
