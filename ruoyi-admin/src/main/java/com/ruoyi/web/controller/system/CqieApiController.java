@@ -5,7 +5,6 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.ICqieAppinfoService;
-import com.ruoyi.system.service.ICqieClaService;
 import com.ruoyi.system.service.ICqieRunService;
 import com.ruoyi.system.service.ICqieStudentService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -43,13 +42,13 @@ public class CqieApiController extends BaseController
 
     /**
      * 获取最新的APP版本
+     * @param version 版本号
      * @return data
      */
     @ApiOperation(value = "获取最新的APP版本",httpMethod = "POST")
     @PostMapping("/getNewVersion")
     @ResponseBody
-    public AjaxResult getNewVersion()
-    {
+    public AjaxResult getNewVersion(String version) {
         try {
             CqieAppinfo appInfo = cqieAppinfoService.selectCqieAppinfoLatest();
             HashMap<String,Object> data = new HashMap<>();
@@ -135,7 +134,7 @@ public class CqieApiController extends BaseController
             data.put("id",String.valueOf(cqieStudent.getStuId()));
             data.put("account",cqieStudent.getStuNo());
             data.put("nickName",cqieStudent.getStuName());
-            data.put("department",claName);
+            data.put("department",String.join(",", claName));
             data.put("sex",getStuSex(cqieStudent.getStuSex()));
             data.put("age",cqieStudent.getStuAge());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -222,9 +221,7 @@ public class CqieApiController extends BaseController
             cqieRun.setRunEndTime(new Date());
             cqieRun.setRunIscomplete(getStatus(cqieStudent,cqieRunEndSport));
             //更改数据库
-            if (cqieRun.getRunIscomplete() == 1) {
-                i = cqieRunService.endSport(cqieRun);
-            }
+            i = cqieRunService.endSport(cqieRun);
             //返回给app端数据
             CqieTotalRunInfo cqieTotalRunInfo = cqieRunService.getTotalRunInfo(cqieStudent.getStuId());
             data.put("distance",cqieTotalRunInfo.getTotalDistance());
@@ -236,7 +233,7 @@ public class CqieApiController extends BaseController
             if (i > 0){
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功",data);
             }else {
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"保存失败或运动数据无效，请联系管理员。");
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"数据保存失败，请联系管理员。");
             }
         }catch (Exception e) {
             e.printStackTrace();
