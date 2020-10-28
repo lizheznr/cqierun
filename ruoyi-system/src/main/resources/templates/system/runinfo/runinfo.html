@@ -121,15 +121,24 @@
                 },
                 {
                     field: 'runDistribution',
-                    title: '平均配速'
+                    title: '平均配速',
+                    formatter: function(value,row,index) {
+                        return value+"公里/分钟"
+                    }
                 },
                 {
                     field: 'runMaxdistribution',
-                    title: '最高配速'
+                    title: '最高配速',
+                    formatter: function(value,row,index) {
+                        return value+"公里/分钟"
+                    }
                 },
                 {
                     field: 'runDistance',
-                    title: '运动距离'
+                    title: '运动距离',
+                    formatter: function(value,row,index) {
+                        return value+"公里"
+                    }
                 },
                 {
                     field: 'runPathline',
@@ -137,11 +146,17 @@
                 },
                 {
                     field: 'runDuration',
-                    title: '运动时长'
+                    title: '运动时长',
+                    formatter: function(value,row,index) {
+                        return secondsFormat( value )
+                    }
                 },
                 {
                     field: 'runCalorie',
-                    title: '消耗卡路里'
+                    title: '消耗卡路里',
+                    formatter: function(value,row,index) {
+                        return value+"cal"
+                    }
                 },
                 {
                     field: 'runEndTime',
@@ -177,6 +192,14 @@
                 }]
         };
         $.table.init(options);
+
+        function secondsFormat( s ) {
+            var day = Math.floor( s/ (24*3600) ); // Math.floor()向下取整
+            var hour = Math.floor( (s - day*24*3600) / 3600);
+            var minute = Math.floor( (s - day*24*3600 - hour*3600) /60 );
+            var second = s - day*24*3600 - hour*3600 - minute*60;
+            return  hour + "时" + minute + "分" + second + "秒";
+        }
     });
 
 

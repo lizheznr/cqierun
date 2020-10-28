@@ -1,6 +1,8 @@
 package com.ruoyi.system.domain;
 
 import java.util.Date;
+
+import com.ruoyi.common.annotation.Excels;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -78,6 +80,16 @@ public class CqieRun extends BaseEntity
     /** 是否完成 */
     @Excel(name = "是否完成")
     private int runIscomplete;
+
+    /**学期对象*/
+   /* @Excels({
+            @Excel(name="学期",targetAttr = "termName",type = Excel.Type.EXPORT),
+            @Excel(name="学号",targetAttr = "stuNo",type = Excel.Type.EXPORT),
+            @Excel(name="姓名",targetAttr = "stuName",type = Excel.Type.EXPORT),
+            @Excel(name="班级",targetAttr = "claName",type = Excel.Type.EXPORT)
+    })*/
+
+
 
     private  CqieStudent student;
     private CqieCla cqieCla;
