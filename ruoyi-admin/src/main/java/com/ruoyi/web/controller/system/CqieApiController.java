@@ -102,11 +102,18 @@ public class CqieApiController extends BaseController
     @ResponseBody
     public AjaxResult updatePassword(String account, String oldPassword, String newPassword){
         try {
+            if (newPassword == null||newPassword.equals("")){
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "修改失败，密码不能为空");
+                return ajaxResult;
+            } else if (oldPassword.equals(newPassword)){
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "修改失败，新密码与旧密码相同");
+                return ajaxResult;
+            }
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
-            if (cqieStudentService.updateCqieStudentPass(account, passwordService.encryptPassword(cqieStudent.getStuName(),oldPassword,cqieStudent.getStuSalt()), passwordService.encryptPassword(cqieStudent.getStuName(),newPassword,cqieStudent.getStuSalt())) > 0){
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2,"成功");
-            }else{
-                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"失败");
+            if (cqieStudentService.updateCqieStudentPass(account, passwordService.encryptPassword(cqieStudent.getStuName(), oldPassword, cqieStudent.getStuSalt()), passwordService.encryptPassword(cqieStudent.getStuName(), newPassword, cqieStudent.getStuSalt())) > 0) {
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功");
+            } else {
+                ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "修改失败");
             }
         }catch (NullPointerException e) {
             ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "无该数据");
@@ -205,7 +212,6 @@ public class CqieApiController extends BaseController
     @ResponseBody
     public AjaxResult endSport(CqieRunEndSport cqieRunEndSport){
         try {
-            int i = 0;//判断是否保存
             HashMap<String, Object> data = new HashMap<>();//定义返回体
             //提出app端数据
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(cqieRunEndSport.getAccount());
@@ -221,7 +227,7 @@ public class CqieApiController extends BaseController
             cqieRun.setRunEndTime(new Date());
             cqieRun.setRunIscomplete(getStatus(cqieStudent,cqieRunEndSport));
             //更改数据库
-            i = cqieRunService.endSport(cqieRun);
+            int i = cqieRunService.endSport(cqieRun);
             //返回给app端数据
             CqieTotalRunInfo cqieTotalRunInfo = cqieRunService.getTotalRunInfo(cqieStudent.getStuId());
             data.put("distance",cqieTotalRunInfo.getTotalDistance());

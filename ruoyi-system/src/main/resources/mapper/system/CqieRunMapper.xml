@@ -111,7 +111,7 @@
     <select id="getSportCalendar" resultType="string">
         SELECT DATE_FORMAT(run_addtime,'%Y-%m-%d') AS newDate
             FROM cqie_run r LEFT JOIN cqie_student s ON r.run_stu_id=s.stu_id
-                WHERE s.stu_no = #{stuNo} AND MONTH(run_addtime) = #{month}
+                WHERE s.stu_no = #{stuNo} AND DATE_FORMAT(run_addtime,'%Y-%m') = #{month}
     </select>
 
     <select id="getSportRecord" resultMap="cqieSportRecord">
