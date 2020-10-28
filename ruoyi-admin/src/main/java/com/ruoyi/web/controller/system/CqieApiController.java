@@ -125,14 +125,14 @@ public class CqieApiController extends BaseController
     public AjaxResult getUserinfo(String account){
         try {
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
+            List<String> claName = cqieStudentService.getClaName(account);
             CqieTotalRunInfo cqieTotalRunInfo = cqieRunService.getTotalRunInfo(cqieStudent.getStuId());
-            CqieCla cqieCla = cqieClaService.selectCqieClaById(cqieStudent.getClaId());
             HashMap<String, Object> data = new HashMap<>();
             data.put("id",String.valueOf(cqieStudent.getStuId()));
             data.put("account",cqieStudent.getStuNo());
             data.put("nickName",cqieStudent.getStuName());
-            data.put("department",null);
-            data.put("sex",cqieStudent.getStuSex());
+            data.put("department",claName);
+            data.put("sex",getStuSex(cqieStudent.getStuSex()));
             data.put("age",cqieStudent.getStuAge());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             data.put("birthday",cqieStudent.getStuBirthday()==null?null:simpleDateFormat.format(cqieStudent.getStuBirthday()));
@@ -145,6 +145,7 @@ public class CqieApiController extends BaseController
         }catch (NullPointerException e){
             ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"无该数据");
         }catch (Exception e){
+            e.printStackTrace();
             ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL,"发生错误");
         }
         return ajaxResult;
@@ -333,5 +334,20 @@ public class CqieApiController extends BaseController
             return 0;
         }
         return 0;
+    }
+
+    /**
+     * 获得性别代数
+     * @param stuSex
+     * @return 0为男  1为女  -1为异常
+     */
+    private static int getStuSex(String stuSex){
+        if (stuSex.equals("男")){
+            return 0;
+        } else if (stuSex.equals("女")){
+            return 1;
+        }else {
+            return -1;
+        }
     }
 }

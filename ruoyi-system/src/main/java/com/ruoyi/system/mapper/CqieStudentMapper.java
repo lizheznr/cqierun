@@ -113,4 +113,12 @@ public interface CqieStudentMapper
      * @return 结果
      */
     public int updateHeadImg(@Param("stuNo") String stuNo,@Param("stuImg") String headImg);
+
+    /**
+     * 获得班级名称
+     * 王康
+     * @param stuNo     学号（账号）
+     * @return 结果
+     */
+    public List<String> selectClassName(@Param("stuNo") String stuNo);
 }

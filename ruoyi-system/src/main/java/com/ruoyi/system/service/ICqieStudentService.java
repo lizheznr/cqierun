@@ -122,5 +122,14 @@ public interface ICqieStudentService
      * @return 结果
      */
     public int updateHeadImg(String stuNo,String headImg);
+
+    /**
+     * 修改头像
+     * 王康
+     * @param stuNo     学号（账号）
+     * @return 结果
+     */
+    public List<String> getClaName(String stuNo);
+
 }
 

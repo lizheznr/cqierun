@@ -41,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectCqieStudentVo">
-        select stu_id, stu_no, stu_password, stu_name, stu_sex, YEAR(NOW())-YEAR(stu_birthday) AS stu_age, stu_birthday, stu_email, stu_mobile, stu_qq, stu_addtime, stu_remark,stu_img, stu_salt from cqie_student
+        select stu_id, stu_no, stu_password, stu_name, stu_sex, TIMESTAMPDIFF(YEAR,stu_birthday,CURDATE()) AS stu_age, stu_birthday, stu_email, stu_mobile, stu_qq, stu_addtime, stu_remark,stu_img, stu_salt from cqie_student
     </sql>
 
     <select id="selectCqieStudentList" parameterType="CqieStudent" resultMap="CqieStudentResult">
@@ -64,9 +64,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectCqieStudentByNameAndPass" parameterType="String" resultMap="CqieStudentResult">
-        select stu_id, stu_no, stu_name, stu_sex, stu_birthday, stu_email, stu_mobile, stu_qq, stu_addtime, stu_remark from
-        cqie_student
-        where stu_no = #{stuNo} and stu_password = #{stuPass}
+        select stu_id, stu_no, stu_name, stu_sex, stu_birthday, stu_email, stu_mobile, stu_qq, stu_addtime, stu_remark
+            from cqie_student
+                where stu_no = #{stuNo} and stu_password = #{stuPass}
+    </select>
+
+    <select id="selectClassName" resultType="string">
+        SELECT cla_name
+            FROM cqie_student s LEFT JOIN cqie_class_student cs ON s.stu_id=cs.clastu_stu_id LEFT JOIN cqie_cla c ON cs.clastu_cla_id=c.cla_id
+                WHERE s.stu_no=#{stuNo}
     </select>
         
     <insert id="insertCqieStudent" parameterType="CqieStudent" useGeneratedKeys="true" keyProperty="stuId">

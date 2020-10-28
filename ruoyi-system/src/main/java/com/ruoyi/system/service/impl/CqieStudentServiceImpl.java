@@ -190,4 +190,15 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
         return cqieStudentMapper.updateHeadImg(stuNo,headImg);
     }
 
+    /**
+     * 修改头像
+     * 王康
+     * @param stuNo     学号（账号）
+     * @return 结果
+     */
+    @Override
+    public List<String> getClaName(String stuNo) {
+        return cqieStudentMapper.selectClassName(stuNo);
+    }
+
 }
