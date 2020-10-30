@@ -21,7 +21,7 @@ public class CqieRunEndSport {
 
     /** 运动距离 */
     @Excel(name = "运动距离")
-    private Long distance;
+    private Double distance;
 
     /** 运动轨迹 */
     @Excel(name = "运动轨迹")
@@ -29,19 +29,19 @@ public class CqieRunEndSport {
 
     /** 运动时长 */
     @Excel(name = "运动时长")
-    private Long duration;
+    private Double duration;
 
     /** 消耗卡路里 */
     @Excel(name = "消耗卡路里")
-    private Long calorie;
+    private Double calorie;
 
     /** 平均配速（分钟/公里） */
     @Excel(name = "平均配速", readConverterExp = "分钟/公里")
-    private Long distribution;
+    private Double distribution;
 
     /** 最高配速（分钟/公里） */
     @Excel(name = "最高配速", readConverterExp = "分钟/公里")
-    private Long maxDistribution;
+    private Double maxDistribution;
 
     public String getId() {
         return id;
@@ -59,11 +59,11 @@ public class CqieRunEndSport {
         this.account = account;
     }
 
-    public Long getDistance() {
+    public Double getDistance() {
         return distance;
     }
 
-    public void setDistance(Long distance) {
+    public void setDistance(Double distance) {
         this.distance = distance;
     }
 
@@ -75,35 +75,35 @@ public class CqieRunEndSport {
         this.pathLine = pathLine;
     }
 
-    public Long getDuration() {
+    public Double getDuration() {
         return duration;
     }
 
-    public void setDuration(Long duration) {
+    public void setDuration(Double duration) {
         this.duration = duration;
     }
 
-    public Long getCalorie() {
+    public Double getCalorie() {
         return calorie;
     }
 
-    public void setCalorie(Long calorie) {
+    public void setCalorie(Double calorie) {
         this.calorie = calorie;
     }
 
-    public Long getDistribution() {
+    public Double getDistribution() {
         return distribution;
     }
 
-    public void setDistribution(Long distribution) {
+    public void setDistribution(Double distribution) {
         this.distribution = distribution;
     }
 
-    public Long getMaxDistribution() {
+    public Double getMaxDistribution() {
         return maxDistribution;
     }
 
-    public void setMaxDistribution(Long maxDistribution) {
+    public void setMaxDistribution(Double maxDistribution) {
         this.maxDistribution = maxDistribution;
     }
 }

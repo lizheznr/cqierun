@@ -17,19 +17,19 @@ public class CqieTotalRunInfo {
     private Date runStarTime;
 
     /*跑步总距离*/
-    private Long totalDistance;
+    private Double totalDistance;
 
     /*跑步总次数*/
     private Long totalFrequency;
 
     /*跑步总时长*/
-    private Long totalDuration;
+    private Double totalDuration;
 
-    public Long getTotalDistance() {
+    public Double getTotalDistance() {
         return totalDistance;
     }
 
-    public void setTotalDistance(Long totalDistance) {
+    public void setTotalDistance(Double totalDistance) {
         this.totalDistance = totalDistance;
     }
 
@@ -41,11 +41,11 @@ public class CqieTotalRunInfo {
         this.totalFrequency = totalFrequency;
     }
 
-    public Long getTotalDuration() {
+    public Double getTotalDuration() {
         return totalDuration;
     }
 
-    public void setTotalDuration(Long totalDuration) {
+    public void setTotalDuration(Double totalDuration) {
         this.totalDuration = totalDuration;
     }
 
