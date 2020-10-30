@@ -37,17 +37,17 @@ public class CqieRun extends BaseEntity
     @Excel(name = "开跑时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date runStarTime;
 
-    /** 平均配速（分钟/公里） */
-    @Excel(name = "平均配速", readConverterExp = "分钟/公里")
-    private Long runDistribution;
+    /** 平均配速（公里/分钟） */
+    @Excel(name = "平均配速", readConverterExp = "公里/分钟")
+    private double runDistribution;
 
-    /** 最高配速（分钟/公里） */
-    @Excel(name = "最高配速", readConverterExp = "分钟/公里")
-    private Long runMaxdistribution;
+    /** 最高配速（公里/分钟） */
+    @Excel(name = "最高配速", readConverterExp = "公里/分钟")
+    private double runMaxdistribution;
 
     /** 运动距离 */
     @Excel(name = "运动距离")
-    private Long runDistance;
+    private double runDistance;
 
     /** 运动轨迹 */
     @Excel(name = "运动轨迹")
@@ -55,11 +55,11 @@ public class CqieRun extends BaseEntity
 
     /** 运动时长 */
     @Excel(name = "运动时长")
-    private Long runDuration;
+    private double runDuration;
 
     /** 消耗卡路里 */
     @Excel(name = "消耗卡路里")
-    private Long runCalorie;
+    private double runCalorie;
 
     /** 结束时间 */
     @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
@@ -82,19 +82,19 @@ public class CqieRun extends BaseEntity
     private int runIscomplete;
 
     /**学期对象*/
-   /* @Excels({
-            @Excel(name="学期",targetAttr = "termName",type = Excel.Type.EXPORT),
-            @Excel(name="学号",targetAttr = "stuNo",type = Excel.Type.EXPORT),
-            @Excel(name="姓名",targetAttr = "stuName",type = Excel.Type.EXPORT),
-            @Excel(name="班级",targetAttr = "claName",type = Excel.Type.EXPORT)
-    })*/
+//    @Excels({
+//            @Excel(name="学期",targetAttr = "termName",type = Excel.Type.EXPORT),
+//            @Excel(name="学号",targetAttr = "stuNo",type = Excel.Type.EXPORT),
+//            @Excel(name="姓名",targetAttr = "stuName",type = Excel.Type.EXPORT),
+//            @Excel(name="班级",targetAttr = "claName",type = Excel.Type.EXPORT)
+//    })
 
 
 
     private  CqieStudent student;
     private CqieCla cqieCla;
     private CqieClassStudent cqieClassStudent;
-    private CqieTerm cqieTerm ;
+    private CqieTerm cqieTerm;
 
     public Long getRunId() {
         return runId;
@@ -136,30 +136,6 @@ public class CqieRun extends BaseEntity
         this.runStarTime = runStarTime;
     }
 
-    public Long getRunDistribution() {
-        return runDistribution;
-    }
-
-    public void setRunDistribution(Long runDistribution) {
-        this.runDistribution = runDistribution;
-    }
-
-    public Long getRunMaxdistribution() {
-        return runMaxdistribution;
-    }
-
-    public void setRunMaxdistribution(Long runMaxdistribution) {
-        this.runMaxdistribution = runMaxdistribution;
-    }
-
-    public Long getRunDistance() {
-        return runDistance;
-    }
-
-    public void setRunDistance(Long runDistance) {
-        this.runDistance = runDistance;
-    }
-
     public String getRunPathline() {
         return runPathline;
     }
@@ -168,19 +144,43 @@ public class CqieRun extends BaseEntity
         this.runPathline = runPathline;
     }
 
-    public Long getRunDuration() {
+    public double getRunDistribution() {
+        return runDistribution;
+    }
+
+    public void setRunDistribution(double runDistribution) {
+        this.runDistribution = runDistribution;
+    }
+
+    public double getRunMaxdistribution() {
+        return runMaxdistribution;
+    }
+
+    public void setRunMaxdistribution(double runMaxdistribution) {
+        this.runMaxdistribution = runMaxdistribution;
+    }
+
+    public double getRunDistance() {
+        return runDistance;
+    }
+
+    public void setRunDistance(double runDistance) {
+        this.runDistance = runDistance;
+    }
+
+    public double getRunDuration() {
         return runDuration;
     }
 
-    public void setRunDuration(Long runDuration) {
+    public void setRunDuration(double runDuration) {
         this.runDuration = runDuration;
     }
 
-    public Long getRunCalorie() {
+    public double getRunCalorie() {
         return runCalorie;
     }
 
-    public void setRunCalorie(Long runCalorie) {
+    public void setRunCalorie(double runCalorie) {
         this.runCalorie = runCalorie;
     }
 
