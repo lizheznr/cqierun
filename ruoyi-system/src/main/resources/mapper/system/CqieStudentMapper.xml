@@ -170,11 +170,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where s.stu_id = #{clastuStuId} and c.cla_id = #{claId}
     </select>
 
-    <select id="selectCqiestudentbyteaId" parameterType="Integer" resultMap="CqieStudentResult">
-      SELECT * from cqie_student s
-      left join cqie_class_student cs on cs.clastu_stu_id=s.stu_id
-      left join cqie_class_teacher ct on ct.clatea_cla_id=cs.clastu_cla_id
-      left join sys_user u on u.user_id=ct.clatea_tea_id
+    <select id="selectCqiestudentbyteaId" parameterType="Long" resultMap="CqieStudentResult">
+      SELECT distinct * from cqie_student s
+      join cqie_class_student cs on cs.clastu_stu_id=s.stu_id
+      join cqie_class_teacher ct on ct.clatea_cla_id=cs.clastu_cla_id
+      join sys_user u on u.user_id=ct.clatea_tea_id
       where u.user_id= #{userId}
     </select>
 
