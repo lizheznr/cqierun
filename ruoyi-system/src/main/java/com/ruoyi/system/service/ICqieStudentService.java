@@ -139,5 +139,12 @@ public interface ICqieStudentService {
      */
     public List<String> getClaName(String stuNo);
 
+    /**
+     * 根据教师ID查询所属学生
+     * 李哲
+     * @param userId
+     * @return
+     */
+    public List<CqieStudent> selectCqiestudentbyteaId(Long userId);
 }
 

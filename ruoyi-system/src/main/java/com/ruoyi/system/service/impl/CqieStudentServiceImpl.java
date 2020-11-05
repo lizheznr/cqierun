@@ -201,4 +201,9 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
         return cqieStudentMapper.selectClassName(stuNo);
     }
 
+    @Override
+    public List<CqieStudent> selectCqiestudentbyteaId(Long userId) {
+        return cqieStudentMapper.selectCqiestudentbyteaId(userId);
+    }
+
 }

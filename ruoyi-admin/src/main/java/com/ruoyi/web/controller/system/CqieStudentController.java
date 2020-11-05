@@ -9,6 +9,8 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.CqieStudent;
+import com.ruoyi.system.domain.SysRole;
+import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ICqieStudentService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +55,24 @@ public class CqieStudentController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(CqieStudent cqieStudent) {
-        startPage();
-        List<CqieStudent> list = cqieStudentService.selectCqieStudentList(cqieStudent);
+        Long userId = ShiroUtils.getUserId();
+        SysUser user = ShiroUtils.getSysUser();
+        List<SysRole> roles = user.getRoles();
+        String rolekey = null;
+        List<CqieStudent> list = null;
+        for (SysRole role : roles) {
+            rolekey = role.getRoleKey();
+        }
+        if (rolekey.equals("common")) {
+            startPage();
+            list = cqieStudentService.selectCqiestudentbyteaId(userId);
+        }else{
+            startPage();
+            list = cqieStudentService.selectCqieStudentList(cqieStudent);
+        }
         return getDataTable(list);
     }
+
 
 
     /**
