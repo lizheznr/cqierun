@@ -63,12 +63,12 @@ public class CqieStudentController extends BaseController {
         for (SysRole role : roles) {
             rolekey = role.getRoleKey();
         }
-        if (rolekey.equals("admin")) {
-            startPage();
-            list = cqieStudentService.selectCqieStudentList(cqieStudent);
-        }else{
+        if (rolekey.equals("common")) {
             startPage();
             list = cqieStudentService.selectCqiestudentbyteaId(userId);
+        }else{
+            startPage();
+            list = cqieStudentService.selectCqieStudentList(cqieStudent);
         }
         return getDataTable(list);
     }
