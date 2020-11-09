@@ -51,7 +51,6 @@ public class CqieStudentController extends BaseController {
     /**
      * 查询学生信息列表
      */
-    @RequiresPermissions("system:student:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(CqieStudent cqieStudent) {
