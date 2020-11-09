@@ -7,22 +7,21 @@
 <div class="container-div">
     <div class="row">
         <div class="col-sm-12 search-collapse">
-            <form id="formId" >
+            <form id="formId">
                 <div class="select-list">
                     <ul>
                         <li>
                             <label>学期：</label>
                             <div class="col-xs-4">
-                                <select name="cqieTerm.termName" th:with="term=${@termService.selectCqieTermList(cqieTerm)}"class="form-control"  >
+                                <select name="cqieTerm.termName" id="cqieTerm.termName" th:with="term=${@termService.selectCqieTermList(cqieTerm)}"class="form-control"  >
                                     <option value="">----请-选-择-学-期----</option>
-<!--                                    <option th:each="t:${term}" th:selected="${t.termName  eq cqieCla.claName}" >-->
                                     <option th:each="t:${term}" th:value="${t.termName}" th:text="${t.termName}" ></option>
                                 </select>
                             </div>
                         </li>
                         <li>
                             <label>班级名称：</label>
-                            <input type="text" name="cqieCla.claName" />
+                            <input type="text" name="cqieCla.claName"/>
                         </li>
                         <li>
                             <label>学号：</label>
@@ -67,6 +66,7 @@
     var detailFlag = [[${@permission.hasPermi('system:runinfo:detail')}]];
     var stuIdDatas = [[${@dict.getType('sys_student_class')}]];
     var prefix = ctx + "system/runinfo";
+    var claAndTermDatas=[[${@permission.hasPermi('system:runinfo:claAndTermDatas')}]];
 
     $(function() {
         var options = {
@@ -74,10 +74,10 @@
             createUrl: prefix + "/add",
             updateUrl: prefix + "/edit/{id}",
             detailUrl: prefix + "/detail/{id}",
-            imageViewUrl:prefix + "/runimg/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
             saveAllUrl:prefix + "/saveAll",
+            claAndTermDatasUrl:prefix + "/claAndTermDatas",
             modalName: "跑步信息",
             columns: [{
                 checkbox: true
@@ -198,6 +198,8 @@
             return  hour + "时" + minute + "分" + second + "秒";
         }
     });
+
+
 
 </script>
 </body>

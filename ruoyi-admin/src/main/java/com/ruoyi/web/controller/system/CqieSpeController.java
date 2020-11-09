@@ -57,6 +57,11 @@ public class CqieSpeController extends BaseController
     public TableDataInfo list(CqieSpe cqieSpe)
     {
 
+
+        
+
+
+
         List<CqieSpe> list = null;
         SysUser user = ShiroUtils.getSysUser();
        if(CqieRunController.getUserRole(user)){
