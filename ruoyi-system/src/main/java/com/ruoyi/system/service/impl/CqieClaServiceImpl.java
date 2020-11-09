@@ -171,4 +171,14 @@ public class CqieClaServiceImpl implements ICqieClaService
     public int deleteAuthStudent(CqieClassStudent claStudent) {
         return classStudentMapper.deleteClassStudentInfo(claStudent);
     }
+
+    /**
+     * 根据老师ID查找班级
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<CqieCla> selectCqieclabyteaId(Long userId) {
+        return cqieClaMapper.selectCqieclabyteaId(userId);
+    }
 }

@@ -1,30 +1,24 @@
-package com.ruoyi.system.controller;
+package com.ruoyi.web.controller.system;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.*;
+import com.ruoyi.system.service.ICqieClaService;
+import com.ruoyi.system.service.ICqieStudentService;
 import com.ruoyi.system.service.ISysDeptService;
-import com.ruoyi.system.service.ISysPostService;
 import com.ruoyi.system.service.ISysUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.system.service.ICqieClaService;
-import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.system.service.ICqieStudentService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * claController
@@ -66,8 +60,21 @@ public class CqieClaController extends BaseController
     @ResponseBody
     public TableDataInfo list(CqieCla cqieCla)
     {
-        startPage();
-        List<CqieCla> list = cqieClaService.selectCqieClaList(cqieCla);
+        Long userId = ShiroUtils.getUserId();
+        SysUser user = ShiroUtils.getSysUser();
+        List<SysRole> roles = user.getRoles();
+        String rolekey = null;
+        List<CqieCla> list = null;
+        for (SysRole role : roles) {
+            rolekey = role.getRoleKey();
+        }
+        if (rolekey.equals("common")){
+            startPage();
+            list = cqieClaService.selectCqieclabyteaId(userId);
+        }else{
+            startPage();
+            list = cqieClaService.selectCqieClaList(cqieCla);
+        }
         return getDataTable(list);
     }
 

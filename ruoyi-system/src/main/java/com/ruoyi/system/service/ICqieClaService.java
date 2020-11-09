@@ -4,6 +4,7 @@ import java.util.List;
 import com.ruoyi.system.domain.CqieCla;
 import com.ruoyi.system.domain.CqieClassTeacher;
 import com.ruoyi.system.domain.CqieClassStudent;
+import com.ruoyi.system.domain.CqieStudent;
 
 /**
  * claService接口
@@ -96,4 +97,12 @@ public interface ICqieClaService
      * @return
      */
     public int deleteAuthStudent(CqieClassStudent claStudent);
+
+    /**
+     * 根据教师id查询班级
+     * 李哲
+     * @param userId
+     * @return
+     */
+    public List<CqieCla> selectCqieclabyteaId(Long userId);
 }

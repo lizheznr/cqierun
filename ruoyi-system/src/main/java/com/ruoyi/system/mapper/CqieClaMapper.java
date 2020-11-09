@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.CqieCla;
+import com.ruoyi.system.domain.CqieStudent;
 
 /**
  * claMapper接口
@@ -58,4 +59,12 @@ public interface CqieClaMapper
      * @return 结果
      */
     public int deleteCqieClaByIds(String[] claIds);
+
+    /**
+     * 根据教师ID查询班级
+     * 李哲
+     * @param userId
+     * @return
+     */
+    public List<CqieCla> selectCqieclabyteaId(Long userId);
 }

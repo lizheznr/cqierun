@@ -80,4 +80,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <select id="selectCqieclabyteaId" parameterType="Long" resultMap="CqieClaResult">
+      SELECT distinct
+      cc.cla_id, cc.cla_dept_id, cc.cla_name, cc.cla_addtime, cc.cla_remark,
+      d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status
+      from cqie_cla cc
+      join sys_dept d on d.dept_id = cc.cla_dept_id
+      join cqie_class_teacher ct on ct.clatea_cla_id=cc.cla_id
+      join sys_user u on u.user_id=ct.clatea_tea_id
+      where u.user_id= #{userId}
+    </select>
+
 </mapper>
