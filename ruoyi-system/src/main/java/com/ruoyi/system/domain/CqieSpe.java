@@ -1,6 +1,8 @@
 package com.ruoyi.system.domain;
 
 import java.util.Date;
+
+import com.ruoyi.common.annotation.Excels;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -20,12 +22,24 @@ public class CqieSpe extends BaseEntity
     private Long speId;
 
     /** 学生ID */
-    @Excel(name = "学生ID")
+    //@Excel(name = "学生ID")
     private Long speStuId;
 
     /** 学期ID */
-    @Excel(name = "学期ID")
+    //@Excel(name = "学期ID")
     private Long speTermId;
+
+    @Excel(name = "学期", targetAttr = "termName", type = Excel.Type.EXPORT)
+    private CqieTerm cqieTerm;
+
+    @Excel(name = "班级", targetAttr = "claName", type = Excel.Type.EXPORT)
+    private CqieCla cqieCla;
+
+    @Excels({
+            @Excel(name="学号",targetAttr = "stuNo",type = Excel.Type.EXPORT),
+            @Excel(name="姓名",targetAttr = "stuName",type = Excel.Type.EXPORT)
+    })
+    private CqieStudent student;
 
     /** 申请时间 */
     @Excel(name = "申请时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
@@ -40,13 +54,13 @@ public class CqieSpe extends BaseEntity
     private String speRemark;
 
     /** 是否批准 */
-    @Excel(name = "是否批准")
+    @Excel(name = "是否批准", readConverterExp = "1=未批准,0=批准")
     private int speIsAgree;
 
-    private CqieCla cqieCla;
-    private CqieStudent student;
+
     private CqieClassStudent cqieClassStudent;
-    private CqieTerm cqieTerm;
+
+    private SysUser sysUser;
 
     public CqieTerm getCqieTerm() {
         return cqieTerm;
@@ -143,6 +157,14 @@ public class CqieSpe extends BaseEntity
         this.speIsAgree = speIsAgree;
     }
 
+    public SysUser getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -157,6 +179,7 @@ public class CqieSpe extends BaseEntity
                 .append("cqieClassStudent",getCqieClassStudent())
                 .append("cqieTerm",getCqieTerm())
                 .append("speIsAgree",getSpeIsAgree())
+                .append("sysUser",getSysUser())
                 .toString();
     }
 }

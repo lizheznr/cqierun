@@ -1,10 +1,13 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.CqieCla;
 import com.ruoyi.system.domain.CqieRun;
 import com.ruoyi.system.domain.CqieSportCalendar;
 import com.ruoyi.system.domain.CqieTotalRunInfo;
 import org.apache.ibatis.annotations.Param;
+
 
 /**
  * 跑步信息Mapper接口
@@ -23,12 +26,22 @@ public interface CqieRunMapper
     public CqieRun selectCqieRunById(Long runId);
 
     /**
-     * 查询跑步信息列表
-     *
+     * 查询跑步信息列表通过userId
+     *xhd
      * @param cqieRun 跑步信息
      * @return 跑步信息集合
      */
-    public List<CqieRun> selectCqieRunList(CqieRun cqieRun);
+    public List<CqieRun> selectCqieRunListById(CqieRun cqieRun);
+
+
+    /**
+     * 查询全部跑步信息列表
+     *xhd
+     * @param cqieRun 跑步信息
+     * @return 跑步信息集合
+     */
+    public List<CqieRun> selectCqieRunListAll(CqieRun cqieRun);
+
 
     /**
      * 新增跑步信息
@@ -89,4 +102,18 @@ public interface CqieRunMapper
      * @return  结果
      */
     public CqieTotalRunInfo getTotalRunInfo(@Param("stuId") Long stuId);
+
+
+    /**
+     * 通过userId查询出老师所有的班级
+     * xhd
+     * */
+    public List<CqieCla> selectAllClassByUserId(@Param("userId") Long userId);
+
+    /**
+     * 通过userId查询出老师第一个班和学期
+     * xhd
+     * @@param userId
+     * */
+   public CqieRun selectClaAndTermByUserId(Long userId);
 }

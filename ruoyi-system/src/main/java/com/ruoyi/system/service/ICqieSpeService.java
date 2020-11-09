@@ -21,12 +21,20 @@ public interface ICqieSpeService
     public CqieSpe selectCqieSpeById(Long speId);
 
     /**
-     * 查询免跑申请列表
+     * 查询全部免跑申请列表
      *
      * @param cqieSpe 免跑申请
      * @return 免跑申请集合
      */
-    public List<CqieSpe> selectCqieSpeList(CqieSpe cqieSpe);
+    public List<CqieSpe> selectCqieSpeListAll(CqieSpe cqieSpe);
+
+    /**
+     * 查询免跑申请列表通过userId
+     *xhd
+     * @param cqieSpe 免跑申请
+     * @return 免跑申请集合
+     */
+    public List<CqieSpe> selectCqieSpeListById(CqieSpe cqieSpe);
 
     /**
      * 新增免跑申请

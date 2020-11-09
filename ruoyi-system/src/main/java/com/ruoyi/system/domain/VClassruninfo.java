@@ -15,6 +15,14 @@ public class VClassruninfo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+    /** 学期 */
+    @Excel(name = "学期")
+    private String termName;
+
+    /** 班级名称 */
+    @Excel(name = "班级")
+    private String claName;
+
     /** 学号 */
     @Excel(name = "学号")
     private String stuNo;
@@ -27,21 +35,16 @@ public class VClassruninfo extends BaseEntity
     @Excel(name = "性别")
     private String stuSex;
 
-    /** 班级名称 */
-    @Excel(name = "班级")
-    private String claName;
-
-    /** 学期 */
-    @Excel(name = "学期")
-    private String termName;
-
-    /**  */
+    /**跑步次数 */
     @Excel(name = "跑步次数")
     private Long runcount;
 
-    /**  */
+    /**备注*/
     @Excel(name = "备注")
     private String remark;
+
+    private SysUser sysUser;
+
 
     @Override
     public String getRemark() {
@@ -108,6 +111,14 @@ public class VClassruninfo extends BaseEntity
         return runcount;
     }
 
+    public SysUser getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -118,6 +129,7 @@ public class VClassruninfo extends BaseEntity
             .append("termName", getTermName())
             .append("runcount", getRuncount())
             .append("remark",getRemark())
+            .append("sysUser",getSysUser())
             .toString();
     }
 }

@@ -1,5 +1,6 @@
 package com.ruoyi.system.domain;
 
+import com.ruoyi.common.annotation.Excels;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -16,16 +17,29 @@ public class CqieScore extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** ID */
-    @Excel(name = "ID")
+    //@Excel(name = "ID")
     private Long scoreId;
 
     /** 学期ID */
-    @Excel(name = "学期ID")
+   // @Excel(name = "学期ID")
     private Long scoreTermId;
 
     /** 学生ID */
-    @Excel(name = "学生ID")
+   // @Excel(name = "学生ID")
     private Long scoreStudentId;
+
+    @Excel(name = "学期", targetAttr = "termName", type = Excel.Type.EXPORT)
+    private CqieTerm cqieTerm ;
+
+    @Excel(name = "班级", targetAttr = "claName", type = Excel.Type.EXPORT)
+    private CqieCla cqieCla;
+
+    @Excels({
+            @Excel(name="学号",targetAttr = "stuNo",type = Excel.Type.EXPORT),
+            @Excel(name="姓名",targetAttr = "stuName",type = Excel.Type.EXPORT),
+            @Excel(name="性别",targetAttr = "stuSex",type = Excel.Type.EXPORT)
+    })
+    private  CqieStudent student;
 
     /** 跑步次数 */
     @Excel(name = "跑步次数")
@@ -38,11 +52,11 @@ public class CqieScore extends BaseEntity
     @Excel(name = "备注")
     private String scoreRemark;
 
+    private SysUser sysUser;
 
-    private  CqieStudent student;
-    private CqieCla cqieCla;
+
     private CqieClassStudent cqieClassStudent;
-    private CqieTerm cqieTerm ;
+
     private CqieRun cqieRun;
 
     public CqieStudent getStudent() {
@@ -139,6 +153,14 @@ public class CqieScore extends BaseEntity
         this.scoreRemark = scoreRemark;
     }
 
+    public SysUser getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -153,6 +175,7 @@ public class CqieScore extends BaseEntity
                 .append("cqieTerm",getCqieTerm())
                 .append("cqieRun",getCqieRun())
                 .append("scoreRemark",getScoreRemark())
+                .append("sysUser",getSysUser())
             .toString();
     }
 }

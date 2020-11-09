@@ -85,19 +85,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select score_id, score_term_id, score_student_id, score_counts, score_result, score_remark from cqie_score
     </sql>
 
-    <select id="selectCqieScoreList" parameterType="CqieScore" resultMap="CqieScoreResult">
+    <select id="selectCqieScoreListAll" parameterType="CqieScore" resultMap="CqieScoreResult">
         SELECT score.*,s.stu_no,s.stu_name,s.stu_sex,c.cla_name,t.term_name from cqie_score score
         left join cqie_student s on score.score_student_id = s.stu_id
         left join cqie_class_student cs on s.stu_id=cs.clastu_stu_id
         left join cqie_cla c on c.cla_id = cs.clastu_cla_id
         left join cqie_term t on t.term_id=score.score_term_id
+        left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
+        left join sys_user u on ct.clatea_tea_id=u.user_id
+        and u.del_flag = '0'
+        <where>
             <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
                 and t.term_name like concat('%', #{cqieTerm.termName}, '%')
             </if>
             <if test="cqieCla.claName != null and cqieCla.claName !=''">
                 and c.cla_name like concat('%', #{cqieCla.claName}, '%')
             </if>
+        </where>
+    </select>
 
+    <select id="selectCqieScoreListById" parameterType="CqieScore" resultMap="CqieScoreResult">
+        SELECT score.*,s.stu_no,s.stu_name,s.stu_sex,c.cla_name,t.term_name from cqie_score score
+        left join cqie_student s on score.score_student_id = s.stu_id
+        left join cqie_class_student cs on s.stu_id=cs.clastu_stu_id
+        left join cqie_cla c on c.cla_id = cs.clastu_cla_id
+        left join cqie_term t on t.term_id=score.score_term_id
+        left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
+        left join sys_user u on ct.clatea_tea_id=u.user_id
+        and u.del_flag = '0'
+        <where>
+        <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
+            and t.term_name like concat('%', #{cqieTerm.termName}, '%')
+        </if>
+        <if test="cqieCla.claName != null and cqieCla.claName !=''">
+            and c.cla_name like concat('%', #{cqieCla.claName}, '%')
+        </if>
+        <if test="sysUser.userId!=null and sysUser.userId!=''">
+            and ct.clatea_tea_id=#{sysUser.userId}
+        </if>
+            <if test="cqieCla.claName==''">
+                <if test="sysUser.claId!=null and sysUser.claId!=''">
+                    and ct.clatea_cla_id=#{sysUser.claId}
+                </if>
+            </if>
+        </where>
     </select>
 
     <select id="selectCqieScoreById" parameterType="Long" resultMap="CqieScoreResult">

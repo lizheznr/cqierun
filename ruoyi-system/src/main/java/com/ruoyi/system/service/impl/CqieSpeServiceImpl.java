@@ -39,15 +39,27 @@ public class CqieSpeServiceImpl implements ICqieSpeService
     }
 
     /**
-     * 查询免跑申请列表
-     *
+     * 查询全部免跑申请列表
+     *xhd
      * @param cqieSpe 免跑申请
      * @return 免跑申请
      */
     @Override
-    public List<CqieSpe> selectCqieSpeList(CqieSpe cqieSpe)
+    public List<CqieSpe> selectCqieSpeListAll(CqieSpe cqieSpe)
     {
-        return cqieSpeMapper.selectCqieSpeList(cqieSpe);
+        return cqieSpeMapper.selectCqieSpeListAll(cqieSpe);
+    }
+
+    /**
+     * 查询免跑申请列表通过userId
+     *xhd
+     * @param cqieSpe 免跑申请
+     * @return 免跑申请
+     */
+    @Override
+    public List<CqieSpe> selectCqieSpeListById(CqieSpe cqieSpe)
+    {
+        return cqieSpeMapper.selectCqieSpeListById(cqieSpe);
     }
 
     /**

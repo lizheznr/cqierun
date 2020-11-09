@@ -7,22 +7,22 @@
 <div class="container-div">
     <div class="row">
         <div class="col-sm-12 search-collapse">
-            <form id="formId">
+            <form id="formId" >
                 <div class="select-list">
                     <ul>
                         <li>
                             <label>学期：</label>
                             <div class="col-xs-4">
                                 <select name="cqieTerm.termName" th:with="term=${@termService.selectCqieTermList(cqieTerm)}"class="form-control"  >
-                                    <option value="">---请选择学期---</option>
-                                    <option th:each="t:${term}" th:value="${t.termName}" th:text="${t.termName}">
-                                    </option>
+                                    <option value="">----请-选-择-学-期----</option>
+<!--                                    <option th:each="t:${term}" th:selected="${t.termName  eq cqieCla.claName}" >-->
+                                    <option th:each="t:${term}" th:value="${t.termName}" th:text="${t.termName}" ></option>
                                 </select>
                             </div>
                         </li>
                         <li>
                             <label>班级名称：</label>
-                            <input type="text" name="cqieCla.claName"/>
+                            <input type="text" name="cqieCla.claName" />
                         </li>
                         <li>
                             <label>学号：</label>
@@ -40,19 +40,16 @@
                 </div>
             </form>
         </div>
-
         <div class="btn-group-sm" id="toolbar" role="group">
-            <!--<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:runinfo:add">
-                <i class="fa fa-plus"></i> 添加
-            </a>-->
-
-
-          <!--<a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:runinfo:edit">
-                <i class="fa fa-edit"></i> 修改
-            </a>
-            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:runinfo:remove">
-                <i class="fa fa-remove"></i> 删除
-            </a>-->
+<!--            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:runinfo:add">-->
+<!--                <i class="fa fa-plus"></i> 添加-->
+<!--            </a>-->
+<!--          <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:runinfo:edit">-->
+<!--                <i class="fa fa-edit"></i> 修改-->
+<!--            </a>-->
+<!--            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:runinfo:remove">-->
+<!--                <i class="fa fa-remove"></i> 删除-->
+<!--            </a>-->
             <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:runinfo:export">
                 <i class="fa fa-download"></i> 导出
             </a>
@@ -87,11 +84,12 @@
             },
                 {
                     field: 'runId',
-                    title: 'ID',
+                    title: 'ID'
                 },
                 {
-                    field: 'cqieTerm.termName',
-                    title: '学期',
+                    field: 'cqieClassStudent.clastuClaId',
+                    title: '班级ID',
+                    visible:false
                 },
                 {
                     field: 'stuId',
@@ -99,9 +97,12 @@
                     visible:false
                 },
                 {
-                    field: 'cqieClassStudent.clastuClaId',
-                    title: '班级ID',
-                    visible:false,
+                    field: 'cqieTerm.termName',
+                    title: '学期'
+                },
+                {
+                    field: 'cqieCla.claName',
+                    title: '班级'
                 },
                 {
                     field: 'student.stuNo',
@@ -112,10 +113,6 @@
                     title: '姓名'
                 },
                 {
-                    field: 'cqieCla.claName',
-                    title: '班级'
-                },
-                {
                     field: 'runStarTime',
                     title: '开跑时间'
                 },
@@ -123,21 +120,21 @@
                     field: 'runDistribution',
                     title: '平均配速',
                     formatter: function(value,row,index) {
-                        return value+"公里/分钟"
+                        return value.toFixed(2)+"公里/分钟"
                     }
                 },
                 {
                     field: 'runMaxdistribution',
                     title: '最高配速',
                     formatter: function(value,row,index) {
-                        return value+"公里/分钟"
+                        return value.toFixed(2)+"公里/分钟"
                     }
                 },
                 {
                     field: 'runDistance',
                     title: '运动距离',
                     formatter: function(value,row,index) {
-                        return value+"公里"
+                        return value.toFixed(2)+"公里"
                     }
                 },
                 {
@@ -155,20 +152,20 @@
                     field: 'runCalorie',
                     title: '消耗卡路里',
                     formatter: function(value,row,index) {
-                        return value+"cal"
+                        return value.toFixed(2)+"cal"
                     }
                 },
                 {
                     field: 'runEndTime',
                     title: '结束时间'
                 },
-                {
-                    field: 'runImg',
-                    title: '跑步路径',
-                    formatter: function(value,row,index) {
-                        return $.table.imageView(value,'',800);
-                    }
-                },
+                // {
+                //     field: 'runImg',
+                //     title: '跑步路径',
+                //     formatter: function(value,row,index) {
+                //         return $.table.imageView(value,'',800);
+                //     }
+                // },
                 {
                     field:'runIscomplete',
                     title:'是否完成',
@@ -201,9 +198,6 @@
             return  hour + "时" + minute + "分" + second + "秒";
         }
     });
-
-
-
 
 </script>
 </body>

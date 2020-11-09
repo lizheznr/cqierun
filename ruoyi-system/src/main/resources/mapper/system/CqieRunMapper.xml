@@ -80,13 +80,16 @@
         select run_id, run_term_id, run_stu_id, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete from cqie_run
     </sql>
 
-    <select id="selectCqieRunList" parameterType="CqieRun" resultMap="CqieRunResult">
-       select run_id, run_term_id, run_stu_id, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete
-       ,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name,t.term_id from cqie_run r
+    <select id="selectCqieRunListById" parameterType="CqieRun" resultMap="CqieRunResult">
+        select run_id, run_term_id, run_stu_id, c.cla_name, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name,t.term_id
+        from cqie_run r
         left join cqie_class_student cs on r.run_stu_id = cs.clastu_stu_id
         left join cqie_student s on s.stu_id = r.run_stu_id
         left join cqie_cla c on c.cla_id = cs.clastu_cla_id
         left join cqie_term t on t.term_id = r.run_term_id
+        left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
+        left join sys_user u on ct.clatea_tea_id=u.user_id
+        and u.del_flag = '0'
         <where>
           <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
                 and t.term_name like concat('%', #{cqieTerm.termName}, '%')
@@ -100,8 +103,47 @@
           <if test="student.stuName != null and student.stuName !=''">
             and s.stu_name like concat('%', #{student.stuName}, '%')
           </if>
+          <if test="sysUser.userId!=null and sysUser.userId!=''">
+            and ct.clatea_tea_id=#{sysUser.userId}
+          </if>
+          <if test="cqieCla.claName==''">
+               <if test="sysUser.claId!=null and sysUser.claId!=''">
+                    and ct.clatea_cla_id=#{sysUser.claId}
+                </if>
+          </if>
+<!--           <if test="cqieTerm.termName==''">&ndash;&gt;-->
+<!--                and t.term_id=(select term_id from cqie_term order by term_id desc LIMIT 1 )-->
+<!--           </if>-->
         </where>
     </select>
+
+
+    <select id="selectCqieRunListAll" parameterType="CqieRun" resultMap="CqieRunResult">
+        select run_id, run_term_id, run_stu_id, c.cla_name, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name,t.term_id
+        from cqie_run r
+        left join cqie_class_student cs on r.run_stu_id = cs.clastu_stu_id
+        left join cqie_student s on s.stu_id = r.run_stu_id
+        left join cqie_cla c on c.cla_id = cs.clastu_cla_id
+        left join cqie_term t on t.term_id = r.run_term_id
+        left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
+        left join sys_user u on ct.clatea_tea_id=u.user_id
+        and u.del_flag = '0'
+        <where>
+            <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
+                and t.term_name like concat('%', #{cqieTerm.termName}, '%')
+            </if>
+            <if test="cqieCla.claName != null and cqieCla.claName !=''">
+                and c.cla_name like concat('%', #{cqieCla.claName}, '%')
+            </if>
+            <if test="student.stuNo != null and student.stuNo !=''">
+                and s.stu_no like concat('%', #{student.stuNo}, '%')
+            </if>
+            <if test="student.stuName != null and student.stuName !=''">
+                and s.stu_name like concat('%', #{student.stuName}, '%')
+            </if>
+        </where>
+    </select>
+
 
     <select id="selectCqieRunById" parameterType="Long" resultMap="CqieRunResult">
         <include refid="selectCqieRunVo"/>
@@ -195,5 +237,29 @@
             #{runId}
         </foreach>
     </delete>
+
+    <select id="selectAllClassByUserId" resultMap="claIdResult">
+        select c.cla_id from cqie_cla c left join cqie_class_teacher ct on c.cla_id = ct.clatea_cla_id
+        <where>
+            <if test="userId !=-null and userId!=''">
+                and ct.clatea_tea_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectClaAndTermByUserId" resultMap="CqieRunResult" >
+        select run_id, run_term_id, run_stu_id, c.cla_name, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name,t.term_id
+        from cqie_run r
+        left join cqie_class_student cs on r.run_stu_id = cs.clastu_stu_id
+        left join cqie_student s on s.stu_id = r.run_stu_id
+        left join cqie_cla c on c.cla_id = cs.clastu_cla_id
+        left join cqie_term t on t.term_id = r.run_term_id
+        left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
+        left join sys_user u on ct.clatea_tea_id=u.user_id
+        and u.del_flag = '0'
+			WHERE c.cla_id=(select c.cla_id from cqie_cla c left join cqie_class_teacher ct on c.cla_id = ct.clatea_cla_id WHERE ct.clatea_tea_id=#{userId} limit 1)
+				and t.term_id=(select term_id from cqie_term order by term_id desc LIMIT 1 )
+				    and ct.clatea_tea_id=#{userId} limit 1
+    </select>
 
 </mapper>

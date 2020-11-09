@@ -21,12 +21,20 @@ public interface CqieScoreMapper
     public CqieScore selectCqieScoreById(Long scoreId);
 
     /**
-     * 查询学期成绩列表
-     * 
+     * 查询全部学期成绩列表
+     * xhd
+     * @param cqieScore 学期成绩
+     * @return 全部学期成绩集合
+     */
+    public List<CqieScore> selectCqieScoreListAll(CqieScore cqieScore);
+
+    /**
+     * 查询学期成绩列表通过userId
+     *xhd
      * @param cqieScore 学期成绩
      * @return 学期成绩集合
      */
-    public List<CqieScore> selectCqieScoreList(CqieScore cqieScore);
+    public List<CqieScore> selectCqieScoreListById(CqieScore cqieScore);
 
     /**
      * 新增学期成绩

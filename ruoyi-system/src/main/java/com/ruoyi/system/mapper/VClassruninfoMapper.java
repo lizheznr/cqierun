@@ -20,12 +20,20 @@ public interface VClassruninfoMapper
     public VClassruninfo selectVClassruninfoById(String stuNo);
 
     /**
-     * 查询班级成绩列表
-     * 
+     * 查询全部班级成绩列表
+     * xhd
+     * @param vClassruninfo 班级成绩
+     * @return 全部班级成绩集合
+     */
+    public List<VClassruninfo> selectVClassruninfoListAll(VClassruninfo vClassruninfo);
+
+    /**
+     * 全部班级成绩列表
+     *xhd
      * @param vClassruninfo 班级成绩
      * @return 班级成绩集合
      */
-    public List<VClassruninfo> selectVClassruninfoList(VClassruninfo vClassruninfo);
+    public List<VClassruninfo> selectVClassruninfoListById(VClassruninfo vClassruninfo);
 
     /**
      * 新增班级成绩

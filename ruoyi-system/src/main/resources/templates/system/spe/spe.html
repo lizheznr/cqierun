@@ -14,9 +14,7 @@
                             <label>学期：</label>
                             <div class="col-xs-4">
                                 <select name="cqieTerm.termName" th:with="term=${@termService.selectCqieTermList(cqieTerm)}"class="form-control"  >
-                                    <option value="">---请选择学期---</option>
-                                    <option th:each="t:${term}" th:value="${t.termName}" th:text="${t.termName}">
-                                    </option>
+                                    <option th:each="t:${term}" th:value="${t.termName}" th:text="${t.termName}"></option>
                                 </select>
                             </div>
                         </li>
@@ -79,7 +77,15 @@
             },
                 {
                     field: 'speId',
-                    title: 'ID',
+                    title: 'ID'
+                },
+                {
+                    field:'cqieTerm.termName',
+                    title:'学期'
+                },
+                {
+                    field: 'cqieCla.claName',
+                    title: '班级名称'
                 },
                 {
                     field: 'student.stuNo',
@@ -88,10 +94,6 @@
                 {
                     field: 'student.stuName',
                     title: '姓名'
-                },
-                {
-                    field: 'cqieCla.claName',
-                    title: '班级名称'
                 },
                 {
                     field: 'speApplytime',

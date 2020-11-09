@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.system.domain.CqieCla;
 import com.ruoyi.system.domain.CqieSportCalendar;
 import com.ruoyi.system.domain.CqieTotalRunInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +37,30 @@ public class CqieRunServiceImpl implements ICqieRunService
     }
 
     /**
-     * 查询跑步信息列表
-     *
+     * 查询跑步信息列表通过userId
+     *xhd
      * @param cqieRun 跑步信息
      * @return 跑步信息
      */
     @Override
-    public List<CqieRun> selectCqieRunList(CqieRun cqieRun)
+    public List<CqieRun> selectCqieRunListById(CqieRun cqieRun)
     {
-        return cqieRunMapper.selectCqieRunList(cqieRun);
+        return cqieRunMapper.selectCqieRunListById(cqieRun);
     }
+
+
+    /**
+     * 查询全部跑步信息列表
+     *xhd
+     * @param cqieRun 跑步信息
+     * @return 跑步信息
+     */
+    @Override
+    public List<CqieRun> selectCqieRunListAll(CqieRun cqieRun)
+    {
+        return cqieRunMapper.selectCqieRunListAll(cqieRun);
+    }
+
 
     /**
      * 新增跑步信息
@@ -160,4 +175,28 @@ public class CqieRunServiceImpl implements ICqieRunService
     public CqieTotalRunInfo getTotalRunInfo(Long stuId) {
         return cqieRunMapper.getTotalRunInfo(stuId);
     }
+
+
+    /**
+     * 通过userId查询出老师所有的班级
+     * xhd
+     * */
+    @Override
+    public List<CqieCla> selectAllClassByUserId(Long userId){
+        return cqieRunMapper.selectAllClassByUserId(userId);
+    }
+
+    /**
+     * 通过userId查询出老师第一个班和学期
+     * xhd
+     * @@param userId
+     * */
+    @Override
+    public CqieRun selectClaAndTermByUserId(Long userId){
+        return cqieRunMapper.selectClaAndTermByUserId(userId);
+    }
+
+
+
+
 }

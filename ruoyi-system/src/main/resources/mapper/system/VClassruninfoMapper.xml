@@ -15,13 +15,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectVClassruninfoVo">
-        select stu_no, stu_name, stu_sex, cla_name, term_name, runcount,remark from v_classruninfo
+        select stu_no,stu_name,stu_sex,cla_name,term_name,runcount,remark from v_classruninfo
     </sql>
 
-    <select id="selectVClassruninfoList" parameterType="VClassruninfo" resultMap="VClassruninfoResult">
-        <include refid="selectVClassruninfoVo"/>
+    <select id="selectVClassruninfoListAll" parameterType="VClassruninfo" resultMap="VClassruninfoResult">
+        select v.stu_no, v.stu_name, v.stu_sex, v.cla_name, v.term_name, v.runcount,v.remark from v_classruninfo v
+        left join cqie_student s on s.stu_id = v.stu_id
+        left join cqie_class_student cs on cs.clastu_stu_id = s.stu_id
+        left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
+        left join sys_user u on ct.clatea_tea_id=u.user_id
+        and u.del_flag = '0'
         <where>  
             <if test="claName != null  and claName != ''"> and cla_name like concat('%', #{claName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectVClassruninfoListById" parameterType="VClassruninfo" resultMap="VClassruninfoResult">
+        select v.stu_no, v.stu_name, v.stu_sex, v.cla_name, v.term_name, v.runcount,v.remark from v_classruninfo v
+        left join cqie_student s on s.stu_id = v.stu_id
+        left join cqie_class_student cs on cs.clastu_stu_id = s.stu_id
+        left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
+        left join sys_user u on ct.clatea_tea_id=u.user_id
+        and u.del_flag = '0'
+        <where>
+            <if test="claName != null  and claName != ''">
+             and cla_name like concat('%', #{claName}, '%')
+             </if>
+            <if test="sysUser.userId!=null and sysUser.userId!=''">
+                and ct.clatea_tea_id=#{sysUser.userId}
+            </if>
+            <if test="claName==''">
+                <if test="sysUser.claId!=null and sysUser.claId!=''">
+                    and ct.clatea_cla_id=#{sysUser.claId}
+                </if>
+            </if>
         </where>
     </select>
     

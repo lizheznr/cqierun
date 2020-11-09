@@ -54,12 +54,15 @@
         select spe_id, spe_stu_id, spe_term_id, spe_applytime, spe_applymate, spe_remark, spe_isagree from cqie_spe
     </sql>
 
-    <select id="selectCqieSpeList" parameterType="CqieSpe" resultMap="CqieSpeResult">
+    <select id="selectCqieSpeListAll" parameterType="CqieSpe" resultMap="CqieSpeResult">
         select spe.*,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name from cqie_spe spe
         left join cqie_class_student cs on spe.spe_stu_id = cs.clastu_stu_id
         left join cqie_student s on s.stu_id = spe.spe_stu_id
         left join cqie_cla c on c.cla_id = cs.clastu_cla_id
         left join cqie_term t on t.term_id = spe.spe_term_id
+        left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
+        left join sys_user u on ct.clatea_tea_id=u.user_id
+        and u.del_flag = '0'
         <where>
             <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
                 and t.term_name like concat('%', #{cqieTerm.termName}, '%')
@@ -72,6 +75,40 @@
             </if>
             <if test="student.stuName != null and student.stuName !=''">
                 and s.stu_name like concat('%', #{student.stuName}, '%')
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectCqieSpeListById" parameterType="CqieSpe" resultMap="CqieSpeResult">
+        select spe.*,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name from cqie_spe spe
+        left join cqie_class_student cs on spe.spe_stu_id = cs.clastu_stu_id
+        left join cqie_student s on s.stu_id = spe.spe_stu_id
+        left join cqie_cla c on c.cla_id = cs.clastu_cla_id
+        left join cqie_term t on t.term_id = spe.spe_term_id
+        left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
+        left join sys_user u on ct.clatea_tea_id=u.user_id
+        and u.del_flag = '0'
+        <where>
+            <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
+                and t.term_name like concat('%', #{cqieTerm.termName}, '%')
+            </if>
+            <if test="cqieCla.claName != null and cqieCla.claName !=''">
+                and c.cla_name like concat('%', #{cqieCla.claName}, '%')
+            </if>
+            <if test="student.stuNo != null and student.stuNo !=''">
+                and s.stu_no like concat('%', #{student.stuNo}, '%')
+            </if>
+            <if test="student.stuName != null and student.stuName !=''">
+                and s.stu_name like concat('%', #{student.stuName}, '%')
+            </if>
+            <if test="sysUser.userId!=null and sysUser.userId!=''">
+                and ct.clatea_tea_id=#{sysUser.userId}
+            </if>
+            <if test="cqieCla.claName==''">
+                <if test="sysUser.claId!=null and sysUser.claId!=''">
+                    and ct.clatea_cla_id=#{sysUser.claId}
+                </if>
             </if>
         </where>
     </select>

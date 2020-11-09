@@ -22,12 +22,25 @@ public class CqieRun extends BaseEntity
     private Long runId;
 
     /** 学期ID */
-    @Excel(name = "学期ID")
+    //@Excel(name = "学期ID")
     private Long runTermId;
 
     /** 学生ID */
-    @Excel(name = "学生ID")
+   // @Excel(name = "学生ID")
     private Long runStuId;
+
+    @Excel(name = "学期", targetAttr = "termName", type = Excel.Type.EXPORT)
+    private CqieTerm cqieTerm;
+
+    @Excel(name = "班级", targetAttr = "claName", type = Excel.Type.EXPORT)
+    private CqieCla cqieCla;
+
+    /**学生信息*/
+    @Excels({
+            @Excel(name="学号",targetAttr = "stuNo",type = Excel.Type.EXPORT),
+            @Excel(name="姓名",targetAttr = "stuName",type = Excel.Type.EXPORT)
+    })
+    private  CqieStudent student;
 
     /** 经纬度 */
     @Excel(name = "经纬度")
@@ -38,11 +51,11 @@ public class CqieRun extends BaseEntity
     private Date runStarTime;
 
     /** 平均配速（公里/分钟） */
-    @Excel(name = "平均配速", readConverterExp = "公里/分钟")
+    @Excel(name = "平均配速")
     private double runDistribution;
 
     /** 最高配速（公里/分钟） */
-    @Excel(name = "最高配速", readConverterExp = "公里/分钟")
+    @Excel(name = "最高配速")
     private double runMaxdistribution;
 
     /** 运动距离 */
@@ -78,23 +91,14 @@ public class CqieRun extends BaseEntity
     private String runRemark;
 
     /** 是否完成 */
-    @Excel(name = "是否完成")
+    @Excel(name = "是否完成", readConverterExp = "0=未完成,1=完成")
     private int runIscomplete;
 
-    /**学期对象*/
-//    @Excels({
-//            @Excel(name="学期",targetAttr = "termName",type = Excel.Type.EXPORT),
-//            @Excel(name="学号",targetAttr = "stuNo",type = Excel.Type.EXPORT),
-//            @Excel(name="姓名",targetAttr = "stuName",type = Excel.Type.EXPORT),
-//            @Excel(name="班级",targetAttr = "claName",type = Excel.Type.EXPORT)
-//    })
 
 
-
-    private  CqieStudent student;
-    private CqieCla cqieCla;
     private CqieClassStudent cqieClassStudent;
-    private CqieTerm cqieTerm;
+    private SysUser sysUser;
+
 
     public Long getRunId() {
         return runId;
@@ -256,6 +260,14 @@ public class CqieRun extends BaseEntity
         this.cqieTerm = cqieTerm;
     }
 
+    public SysUser getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -279,6 +291,7 @@ public class CqieRun extends BaseEntity
                 .append("cqieClassStudent",getCqieClassStudent())
                 .append("cqieTerm",getCqieTerm())
                 .append("runIsComplete",getRunIscomplete())
+                .append("sysUser",getSysUser())
                 .toString();
     }
 }
