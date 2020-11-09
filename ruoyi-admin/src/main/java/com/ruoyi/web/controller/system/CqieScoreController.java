@@ -79,6 +79,7 @@ public class CqieScoreController extends BaseController
     @ResponseBody
     public AjaxResult export(CqieScore cqieScore)
     {
+
         List<CqieScore> list=null;
         SysUser user = ShiroUtils.getSysUser();
         if(CqieRunController.getUserRole(user)){

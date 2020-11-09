@@ -52,6 +52,7 @@ public class VClassruninfoController extends BaseController
     @ResponseBody
     public TableDataInfo list(VClassruninfo vClassruninfo)
     {
+        
         List<VClassruninfo> list=null;
         SysUser user = ShiroUtils.getSysUser();
         if(CqieRunController.getUserRole(user)){
