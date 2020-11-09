@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.system;
 
-import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -11,7 +10,6 @@ import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.ICqieRunService;
 import com.ruoyi.system.service.ICqieStudentService;
-import org.apache.ibatis.annotations.Select;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,12 +41,27 @@ public class CqieRunController extends BaseController
     @GetMapping()
     public String runinfo(Model model)
     {
-//        Long userId = ShiroUtils.getUserId();
-//        CqieRun cqieRun = cqieRunService.selectClaAndTermByUserId(userId);
-//        System.out.println("-------------------------------->>>>>>>>"+cqieRun);
-//        model.addAttribute("cqieRun", cqieRun);
         return prefix + "/runinfo";
     }
+
+
+    /**
+     * xhd
+     * 搜索框消息
+     * */
+    @RequiresPermissions("system:runinfo:claAndTermDatas")
+    @PostMapping("/claAndTermDatas")
+    @ResponseBody
+    public String claAndTermDatas(ModelMap mmap)
+    {
+        Long userId = ShiroUtils.getUserId();
+        CqieRun cqieRun = cqieRunService.selectClaAndTermByUserId(userId);
+        System.out.println("-------------------------------->>>>>>>>"+cqieRun);
+        mmap.put("cqieRun", cqieRun);
+        return prefix + "/claAndTermDatas";
+    }
+
+
 
     /**
      * 查询跑步信息列表
