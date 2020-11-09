@@ -60,7 +60,7 @@ public class CqieClaController extends BaseController
     @ResponseBody
     public TableDataInfo list(CqieCla cqieCla)
     {
-        Long userId = ShiroUtils.getUserId();
+          Long userId = ShiroUtils.getUserId();
         SysUser user = ShiroUtils.getSysUser();
         List<SysRole> roles = user.getRoles();
         String rolekey = null;
