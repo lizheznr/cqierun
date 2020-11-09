@@ -156,6 +156,7 @@ public class VClassruninfoController extends BaseController
         //获取该用户的班级 获取所在班的第一个班
         List<CqieCla> claList=cqieRunService.selectAllClassByUserId(userId);
         CqieCla cla = claList.get(0);
+        System.out.println("cla--------------------------------------------------------------------------------"+cla.getClaId());
         sysUser.setClaId(cla.getClaId());
         //将参数传入cqieRun
         return sysUser;
