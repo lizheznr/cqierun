@@ -117,29 +117,11 @@
                     title: '开跑时间'
                 },
                 {
-                    field: 'runDistribution',
-                    title: '平均配速',
-                    formatter: function(value,row,index) {
-                        return value.toFixed(2)+"公里/分钟"
-                    }
-                },
-                {
-                    field: 'runMaxdistribution',
-                    title: '最高配速',
-                    formatter: function(value,row,index) {
-                        return value.toFixed(2)+"公里/分钟"
-                    }
-                },
-                {
                     field: 'runDistance',
                     title: '运动距离',
                     formatter: function(value,row,index) {
                         return value.toFixed(2)+"公里"
                     }
-                },
-                {
-                    field: 'runPathline',
-                    title: '运动轨迹'
                 },
                 {
                     field: 'runDuration',
@@ -149,23 +131,9 @@
                     }
                 },
                 {
-                    field: 'runCalorie',
-                    title: '消耗卡路里',
-                    formatter: function(value,row,index) {
-                        return value.toFixed(2)+"cal"
-                    }
-                },
-                {
                     field: 'runEndTime',
                     title: '结束时间'
                 },
-                // {
-                //     field: 'runImg',
-                //     title: '跑步路径',
-                //     formatter: function(value,row,index) {
-                //         return $.table.imageView(value,'',800);
-                //     }
-                // },
                 {
                     field:'runIscomplete',
                     title:'是否完成',
@@ -181,9 +149,7 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        /*actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.runId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.runId + '\')"><i class="fa fa-remove"></i>删除</a>');*/
-                        actions.push('<a class="btn btn-success btn-xs ' + detailFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.runId + '\')"><i class="fa fa-search"></i>详情</a>');
+                        actions.push('<a class="btn btn-success btn-xs ' + detailFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.runId + '\')" ><i class="fa fa-search"></i>详情</a>');
                         return actions.join('');
                     }
                 }]
@@ -198,9 +164,6 @@
             return  hour + "时" + minute + "分" + second + "秒";
         }
     });
-
-
-
 </script>
 </body>
 </html>

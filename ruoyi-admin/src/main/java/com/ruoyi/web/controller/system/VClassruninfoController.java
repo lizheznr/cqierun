@@ -52,7 +52,6 @@ public class VClassruninfoController extends BaseController
     @ResponseBody
     public TableDataInfo list(VClassruninfo vClassruninfo)
     {
-        
         List<VClassruninfo> list=null;
         SysUser user = ShiroUtils.getSysUser();
         if(CqieRunController.getUserRole(user)){
@@ -92,6 +91,7 @@ public class VClassruninfoController extends BaseController
     /**
      * 新增班级成绩
      */
+    @RequiresPermissions("system:classruninfo:add")
     @GetMapping("/add")
     public String add()
     {
@@ -113,6 +113,7 @@ public class VClassruninfoController extends BaseController
     /**
      * 修改班级成绩
      */
+    @RequiresPermissions("system:classruninfo:edit")
     @GetMapping("/edit/{stuNo}")
     public String edit(@PathVariable("stuNo") String stuNo, ModelMap mmap)
     {

@@ -55,7 +55,6 @@ public class CqieScoreController extends BaseController
     @ResponseBody
     public TableDataInfo list(CqieScore cqieScore)
     {
-
         List<CqieScore> list = null;
         SysUser user = ShiroUtils.getSysUser();
     if(CqieRunController.getUserRole(user)){
@@ -79,7 +78,6 @@ public class CqieScoreController extends BaseController
     @ResponseBody
     public AjaxResult export(CqieScore cqieScore)
     {
-
         List<CqieScore> list=null;
         SysUser user = ShiroUtils.getSysUser();
         if(CqieRunController.getUserRole(user)){
@@ -96,6 +94,7 @@ public class CqieScoreController extends BaseController
     /**
      * 新增学期成绩
      */
+    @RequiresPermissions("system:score:add")
     @GetMapping("/add")
     public String add()
     {
@@ -117,6 +116,7 @@ public class CqieScoreController extends BaseController
     /**
      * 修改学期成绩
      */
+    @RequiresPermissions("system:score:edit")
     @GetMapping("/edit/{scoreId}")
     public String edit(@PathVariable("scoreId") Long scoreId, ModelMap mmap)
     {

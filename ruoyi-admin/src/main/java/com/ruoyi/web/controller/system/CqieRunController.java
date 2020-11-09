@@ -72,7 +72,6 @@ public class CqieRunController extends BaseController
     @ResponseBody
     public TableDataInfo list(CqieRun cqieRun)
     {
-
         List<CqieRun> list=null;
         SysUser user = ShiroUtils.getSysUser();
           //为普通用户则根据所带班查看相应班级跑步信息
@@ -84,7 +83,6 @@ public class CqieRunController extends BaseController
            startPage();
            list = cqieRunService.selectCqieRunListAll(cqieRun);
        }
-
         return getDataTable(list);
     }
 
@@ -113,6 +111,7 @@ public class CqieRunController extends BaseController
     /**
      * 新增跑步信息
      */
+    @RequiresPermissions("system:runinfo:add")
     @GetMapping("/add")
     public String add()
     {
@@ -136,6 +135,7 @@ public class CqieRunController extends BaseController
     /**
      * 修改跑步信息
      */
+    @RequiresPermissions("system:runinfo:edit")
     @GetMapping("/edit/{runId}")
     public String edit(@PathVariable("runId") Long runId, ModelMap mmap)
     {
@@ -147,6 +147,7 @@ public class CqieRunController extends BaseController
      * xhd
      * 查询详情
      * */
+    @RequiresPermissions("system:runinfo:detail")
     @GetMapping("/detail/{runId}")
     public String detail(@PathVariable("runId") Long runId, ModelMap mmap)
     {
@@ -209,9 +210,4 @@ public class CqieRunController extends BaseController
         //将参数传入cqieRun
         return sysUser;
     }
-
-
-
-
-
 }

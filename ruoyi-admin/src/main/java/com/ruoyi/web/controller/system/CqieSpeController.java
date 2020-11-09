@@ -56,12 +56,6 @@ public class CqieSpeController extends BaseController
     @ResponseBody
     public TableDataInfo list(CqieSpe cqieSpe)
     {
-
-
-
-
-
-
         List<CqieSpe> list = null;
         SysUser user = ShiroUtils.getSysUser();
        if(CqieRunController.getUserRole(user)){
@@ -101,6 +95,7 @@ public class CqieSpeController extends BaseController
     /**
      * 新增免跑申请
      */
+    @RequiresPermissions("system:spe:add")
     @GetMapping("/add")
     public String add()
     {
@@ -122,6 +117,7 @@ public class CqieSpeController extends BaseController
     /**
      * 修改免跑申请
      */
+    @RequiresPermissions("system:spe:edit")
     @GetMapping("/edit/{speId}")
     public String edit(@PathVariable("speId") Long speId, ModelMap mmap)
     {
@@ -159,8 +155,8 @@ public class CqieSpeController extends BaseController
      * xhd
      * 批准状态修改
      */
-    @Log(title = "免跑申请", businessType = BusinessType.UPDATE)
     @RequiresPermissions("system:spe:edit")
+    @Log(title = "免跑申请", businessType = BusinessType.UPDATE)
     @PostMapping("/changeStatus")
     @ResponseBody
     public AjaxResult changeStatus(CqieSpe cqieSpe)
