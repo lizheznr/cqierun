@@ -11,6 +11,7 @@ import com.ruoyi.system.domain.CqieCla;
 import com.ruoyi.system.domain.CqieScore;
 import com.ruoyi.system.domain.CqieSpe;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.mapper.CqieScoreMapper;
 import com.ruoyi.system.service.ICqieRunService;
 import com.ruoyi.system.service.ICqieScoreService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -39,6 +40,9 @@ public class CqieScoreController extends BaseController
     @Autowired
     private ICqieRunService cqieRunService;
 
+    @Autowired
+    private CqieScoreMapper cqieScoreMapper;
+
     @RequiresPermissions("system:score:view")
     @GetMapping()
     public String score()
@@ -62,6 +66,14 @@ public class CqieScoreController extends BaseController
         startPage();
         list = cqieScoreService.selectCqieScoreListById(cqieScore);
     }else{
+        if(cqieScore.getCqieCla().getClaName().equals("")){
+            List<CqieCla> claList=cqieScoreMapper.selectAllCla();
+            SysUser sysUser = new SysUser();
+            sysUser.setCqieCla(claList.get(0));
+            System.out.println("-------------------------------------"+claList.get(0).getClaName());
+            cqieScore.setSysUser(sysUser);
+        }
+        System.out.println("------------------------------------------------------------------------------------->"+cqieScore.getCqieCla().getClaName());
         startPage();
         list = cqieScoreService.selectCqieScoreListAll(cqieScore);
     }

@@ -14,6 +14,7 @@
                             <label>学期：</label>
                             <div class="col-xs-4">
                                 <select name="cqieTerm.termName" th:with="term=${@termService.selectCqieTermList(cqieTerm)}"class="form-control"  >
+                                    <option value="">---请选择学期---</option>
                                     <option th:each="t:${term}" th:value="${t.termName}" th:text="${t.termName}"></option>
                                 </select>
                             </div>

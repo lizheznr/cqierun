@@ -8,15 +8,14 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.*;
+import com.ruoyi.system.mapper.CqieScoreMapper;
 import com.ruoyi.system.service.ICqieRunService;
-import com.ruoyi.system.service.ICqieStudentService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**
@@ -33,9 +32,9 @@ public class CqieRunController extends BaseController
 
     @Autowired
     private ICqieRunService cqieRunService;
-
     @Autowired
-    private ICqieStudentService cqieStudentService;
+    private CqieScoreMapper cqieScoreMapper;
+
 
     @RequiresPermissions("system:runinfo:view")
     @GetMapping()
@@ -61,8 +60,6 @@ public class CqieRunController extends BaseController
         return prefix + "/claAndTermDatas";
     }
 
-
-
     /**
      * 查询跑步信息列表
      * xhd
@@ -80,6 +77,14 @@ public class CqieRunController extends BaseController
            startPage();
            list= cqieRunService.selectCqieRunListById(cqieRun);
        }else {//非普通用户则查看全部信息
+           if(cqieRun.getCqieCla().getClaName().equals("")){
+               List<CqieCla> claList=cqieScoreMapper.selectAllCla();
+               SysUser sysUser = new SysUser();
+               sysUser.setCqieCla(claList.get(0));
+               System.out.println("-------------------------------------"+claList.get(0).getClaName());
+               cqieRun.setSysUser(sysUser);
+           }
+           System.out.println("------------------------------------------------------------------------------------->"+cqieRun.getCqieCla().getClaName());
            startPage();
            list = cqieRunService.selectCqieRunListAll(cqieRun);
        }

@@ -25,8 +25,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
         left join sys_user u on ct.clatea_tea_id=u.user_id
         and u.del_flag = '0'
-        <where>  
-            <if test="claName != null  and claName != ''"> and cla_name like concat('%', #{claName}, '%')</if>
+        <where>
+            <choose>
+                <when test="claName == null  or claName ==''">
+                    <if test="sysUser.cqieCla.claName!=null and sysUser.cqieCla.claName!=''">
+                        and v.cla_name like concat('%', #{sysUser.cqieCla.claName}, '%')
+                    </if>
+                </when>
+                <otherwise>
+                    <if test="claName != null  and claName != ''">
+                        and v.cla_name like concat('%', #{claName}, '%')
+                    </if>
+                </otherwise>
+            </choose>
         </where>
     </select>
 
@@ -40,11 +51,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         and u.del_flag = '0'
         <where>
             <choose>
-                <when test="claName = null  or claName = ''">
-                    and v.cla_name=(select cla_name from cqie_cla c where c.cla_id=#{sysUser.claId})
+                <when test="claName == null  or claName == ''">
+                    <if test="sysUser.claId != null  and sysUser.claId != ''">
+                        and v.cla_name = (select cla_name from cqie_cla where cla_id =#{sysUser.claId})
+                    </if>
                 </when>
                 <otherwise>
-                    and cla_name like concat('%', #{claName}, '%')
+                    <if test="claName != null  and claName != ''">
+                        and v.cla_name like concat('%', #{claName}, '%')
+                    </if>
                 </otherwise>
             </choose>
             <if test="sysUser.userId!=null and sysUser.userId!=''">

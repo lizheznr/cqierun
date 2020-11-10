@@ -113,7 +113,7 @@ public interface CqieRunMapper
     /**
      * 通过userId查询出老师第一个班和学期
      * xhd
-     * @@param userId
+     * @param userId
      * */
    public CqieRun selectClaAndTermByUserId(Long userId);
 }

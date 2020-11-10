@@ -8,6 +8,7 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.*;
+import com.ruoyi.system.mapper.CqieScoreMapper;
 import com.ruoyi.system.service.ICqieRunService;
 import com.ruoyi.system.service.ICqieSpeService;
 import com.ruoyi.system.service.ICqieStudentService;
@@ -40,6 +41,9 @@ public class CqieSpeController extends BaseController
     @Autowired
     private ICqieRunService cqieRunService;
 
+    @Autowired
+    private CqieScoreMapper cqieScoreMapper;
+
     @RequiresPermissions("system:spe:view")
     @GetMapping()
     public String spe()
@@ -63,6 +67,14 @@ public class CqieSpeController extends BaseController
            startPage();
            list = cqieSpeService.selectCqieSpeListById(cqieSpe);
        }else{
+           if(cqieSpe.getCqieCla().getClaName().equals("")){
+               List<CqieCla> claList=cqieScoreMapper.selectAllCla();
+               SysUser sysUser = new SysUser();
+               sysUser.setCqieCla(claList.get(0));
+               System.out.println("-------------------------------------"+claList.get(0).getClaName());
+               cqieSpe.setSysUser(sysUser);
+           }
+           System.out.println("------------------------------------------------------------------------------------->"+cqieSpe.getCqieCla().getClaName());
            startPage();
            list = cqieSpeService.selectCqieSpeListAll(cqieSpe);
        }

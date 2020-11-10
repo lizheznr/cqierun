@@ -94,9 +94,6 @@
           <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
                 and t.term_name like concat('%', #{cqieTerm.termName}, '%')
           </if>
-          <if test="cqieCla.claName != null and cqieCla.claName !=''">
-            and c.cla_name like concat('%', #{cqieCla.claName}, '%')
-          </if>
           <if test="student.stuNo != null and student.stuNo !=''">
             and s.stu_no like concat('%', #{student.stuNo}, '%')
           </if>
@@ -106,11 +103,22 @@
           <if test="sysUser.userId!=null and sysUser.userId!=''">
             and ct.clatea_tea_id=#{sysUser.userId}
           </if>
-          <if test="cqieCla.claName==''">
-               <if test="sysUser.claId!=null and sysUser.claId!=''">
+
+            <choose>
+                <when test="cqieCla.claName == null or cqieCla.claName ==''">
+                    <if test="sysUser.claId != null  and sysUser.claId != ''">
                     and ct.clatea_cla_id=#{sysUser.claId}
-                </if>
-          </if>
+                    </if>
+                </when>
+                <otherwise>
+                    <if test="cqieCla.claName != null  and cqieCla.claName != ''">
+                        and c.cla_name like concat('%', #{cqieCla.claName}, '%')
+                    </if>
+                </otherwise>
+            </choose>
+
+
+
 <!--           <if test="cqieTerm.termName==''">&ndash;&gt;-->
 <!--                and t.term_id=(select term_id from cqie_term order by term_id desc LIMIT 1 )-->
 <!--           </if>-->
@@ -129,11 +137,21 @@
         left join sys_user u on ct.clatea_tea_id=u.user_id
         and u.del_flag = '0'
         <where>
+            <choose>
+                <when test="cqieCla.claName == null  or cqieCla.claName == ''">
+                <if test="sysUser.cqieCla.claName != null  and sysUser.cqieCla.claName != ''">
+                    and c.cla_name like concat('%', #{sysUser.cqieCla.claName}, '%')
+                </if>
+                </when>
+                <otherwise>
+                    <if test="cqieCla.claName != null  and cqieCla.claName != ''">
+                        and c.cla_name like concat('%', #{cqieCla.claName}, '%')
+                    </if>
+                </otherwise>
+            </choose>
+
             <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
                 and t.term_name like concat('%', #{cqieTerm.termName}, '%')
-            </if>
-            <if test="cqieCla.claName != null and cqieCla.claName !=''">
-                and c.cla_name like concat('%', #{cqieCla.claName}, '%')
             </if>
             <if test="student.stuNo != null and student.stuNo !=''">
                 and s.stu_no like concat('%', #{student.stuNo}, '%')

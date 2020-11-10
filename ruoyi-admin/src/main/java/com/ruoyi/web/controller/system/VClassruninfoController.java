@@ -8,6 +8,7 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.*;
+import com.ruoyi.system.mapper.CqieScoreMapper;
 import com.ruoyi.system.service.ICqieRunService;
 import com.ruoyi.system.service.IVClassruninfoService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -36,6 +37,9 @@ public class VClassruninfoController extends BaseController
     @Autowired
     private ICqieRunService cqieRunService;
 
+    @Autowired
+    private CqieScoreMapper cqieScoreMapper;
+
     @RequiresPermissions("system:classruninfo:view")
     @GetMapping()
     public String classruninfo()
@@ -52,13 +56,22 @@ public class VClassruninfoController extends BaseController
     @ResponseBody
     public TableDataInfo list(VClassruninfo vClassruninfo)
     {
+        System.out.println("----------------------------------2222--------------------------------------"+vClassruninfo.getClaName());
         List<VClassruninfo> list=null;
         SysUser user = ShiroUtils.getSysUser();
         if(CqieRunController.getUserRole(user)){
-            vClassruninfo.setSysUser(setObj());
+            vClassruninfo.setSysUser(setObj());//设置userId
             startPage();
             list = vClassruninfoService.selectVClassruninfoListById(vClassruninfo);
         }else{
+            if(vClassruninfo.getClaName().equals("")){
+                List<CqieCla> claList=cqieScoreMapper.selectAllCla();
+                SysUser sysUser = new SysUser();
+                sysUser.setCqieCla(claList.get(0));
+                System.out.println("-------------------------------------"+claList.get(0).getClaName());
+                vClassruninfo.setSysUser(sysUser);
+            }
+            System.out.println("------------------------------------------------------------------------------------->"+vClassruninfo.getClaName());
             startPage();
             list = vClassruninfoService.selectVClassruninfoListAll(vClassruninfo);
     }
