@@ -71,10 +71,8 @@ public class CqieSpeController extends BaseController
                List<CqieCla> claList=cqieScoreMapper.selectAllCla();
                SysUser sysUser = new SysUser();
                sysUser.setCqieCla(claList.get(0));
-               System.out.println("-------------------------------------"+claList.get(0).getClaName());
                cqieSpe.setSysUser(sysUser);
            }
-           System.out.println("------------------------------------------------------------------------------------->"+cqieSpe.getCqieCla().getClaName());
            startPage();
            list = cqieSpeService.selectCqieSpeListAll(cqieSpe);
        }
@@ -97,6 +95,12 @@ public class CqieSpeController extends BaseController
             cqieSpe.setSysUser(setObj());
             list = cqieSpeService.selectCqieSpeListById(cqieSpe);
         }else{
+            if(cqieSpe.getCqieCla().getClaName().equals("")){
+                List<CqieCla> claList=cqieScoreMapper.selectAllCla();
+                SysUser sysUser = new SysUser();
+                sysUser.setCqieCla(claList.get(0));
+                cqieSpe.setSysUser(sysUser);
+            }
             list = cqieSpeService.selectCqieSpeListAll(cqieSpe);
         }
 

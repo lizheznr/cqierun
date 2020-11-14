@@ -56,7 +56,6 @@ public class VClassruninfoController extends BaseController
     @ResponseBody
     public TableDataInfo list(VClassruninfo vClassruninfo)
     {
-        System.out.println("----------------------------------2222--------------------------------------"+vClassruninfo.getClaName());
         List<VClassruninfo> list=null;
         SysUser user = ShiroUtils.getSysUser();
         if(CqieRunController.getUserRole(user)){
@@ -68,10 +67,8 @@ public class VClassruninfoController extends BaseController
                 List<CqieCla> claList=cqieScoreMapper.selectAllCla();
                 SysUser sysUser = new SysUser();
                 sysUser.setCqieCla(claList.get(0));
-                System.out.println("-------------------------------------"+claList.get(0).getClaName());
                 vClassruninfo.setSysUser(sysUser);
             }
-            System.out.println("------------------------------------------------------------------------------------->"+vClassruninfo.getClaName());
             startPage();
             list = vClassruninfoService.selectVClassruninfoListAll(vClassruninfo);
     }
@@ -94,6 +91,12 @@ public class VClassruninfoController extends BaseController
             vClassruninfo.setSysUser(setObj());
             list = vClassruninfoService.selectVClassruninfoListById(vClassruninfo);
         }else{
+            if(vClassruninfo.getClaName().equals("")){
+                List<CqieCla> claList=cqieScoreMapper.selectAllCla();
+                SysUser sysUser = new SysUser();
+                sysUser.setCqieCla(claList.get(0));
+                vClassruninfo.setSysUser(sysUser);
+            }
             list = vClassruninfoService.selectVClassruninfoListAll(vClassruninfo);
         }
 
@@ -169,7 +172,6 @@ public class VClassruninfoController extends BaseController
         //获取该用户的班级 获取所在班的第一个班
         List<CqieCla> claList=cqieRunService.selectAllClassByUserId(userId);
         CqieCla cla = claList.get(0);
-        System.out.println("cla--------------------------------------------------------------------------------"+cla.getClaId());
         sysUser.setClaId(cla.getClaId());
         //将参数传入cqieRun
         return sysUser;

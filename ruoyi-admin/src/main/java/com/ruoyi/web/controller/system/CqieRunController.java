@@ -55,7 +55,6 @@ public class CqieRunController extends BaseController
     {
         Long userId = ShiroUtils.getUserId();
         CqieRun cqieRun = cqieRunService.selectClaAndTermByUserId(userId);
-        System.out.println("-------------------------------->>>>>>>>"+cqieRun);
         mmap.put("cqieRun", cqieRun);
         return prefix + "/claAndTermDatas";
     }
@@ -81,10 +80,8 @@ public class CqieRunController extends BaseController
                List<CqieCla> claList=cqieScoreMapper.selectAllCla();
                SysUser sysUser = new SysUser();
                sysUser.setCqieCla(claList.get(0));
-               System.out.println("-------------------------------------"+claList.get(0).getClaName());
                cqieRun.setSysUser(sysUser);
            }
-           System.out.println("------------------------------------------------------------------------------------->"+cqieRun.getCqieCla().getClaName());
            startPage();
            list = cqieRunService.selectCqieRunListAll(cqieRun);
        }
@@ -107,6 +104,12 @@ public class CqieRunController extends BaseController
             cqieRun.setSysUser(setObj());
             list = cqieRunService.selectCqieRunListById(cqieRun);
         }else{
+            if(cqieRun.getCqieCla().getClaName().equals("")){
+                List<CqieCla> claList=cqieScoreMapper.selectAllCla();
+                SysUser sysUser = new SysUser();
+                sysUser.setCqieCla(claList.get(0));
+                cqieRun.setSysUser(sysUser);
+            }
             list = cqieRunService.selectCqieRunListAll(cqieRun);
          }
         ExcelUtil<CqieRun> util = new ExcelUtil<CqieRun>(CqieRun.class);
