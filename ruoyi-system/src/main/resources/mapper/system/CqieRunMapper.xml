@@ -265,9 +265,9 @@
     </delete>
 
     <select id="selectAllClassByUserId" resultMap="claIdResult">
-        select c.cla_id from cqie_cla c left join cqie_class_teacher ct on c.cla_id = ct.clatea_cla_id
+        select c.cla_id,c.cla_name from cqie_cla c left join cqie_class_teacher ct on c.cla_id = ct.clatea_cla_id
         <where>
-            <if test="userId !=-null and userId!=''">
+            <if test="userId !=null and userId!=''">
                 and ct.clatea_tea_id = #{userId}
             </if>
         </where>

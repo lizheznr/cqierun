@@ -13,6 +13,7 @@ import com.ruoyi.system.service.ICqieRunService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/system/runinfo")
+@Service("claService")
 public class CqieRunController extends BaseController
 {
     private String prefix = "system/runinfo";
@@ -217,5 +219,22 @@ public class CqieRunController extends BaseController
         sysUser.setClaId(cla.getClaId());
         //将参数传入cqieRun
         return sysUser;
+    }
+
+    /**
+     * 前端页面选择班级
+     * */
+    public List<CqieCla> selectCla(){
+        List<CqieCla> claList=null;
+        SysUser user = ShiroUtils.getSysUser();
+        Long userId = ShiroUtils.getUserId();
+        if(getUserRole(user)){//普通
+             claList=cqieRunService.selectAllClassByUserId(userId);
+        }else{
+            userId=null;
+            claList=cqieRunService.selectAllClassByUserId(userId);
+        }
+        System.out.println(claList);
+        return claList;
     }
 }

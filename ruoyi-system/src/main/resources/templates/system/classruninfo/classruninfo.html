@@ -2,6 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="include :: header('班级成绩列表')" />
+    <th:block th:include="include :: select2-css" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -12,7 +13,13 @@
                         <ul>
                             <li>
                                 <label>班级名称：</label>
-                                <input type="text" name="claName"/>
+                                <div class="col-xs-4">
+                                    <select name="claName" id="claName" class="form-control" th:with="cla=${@claService.selectCla()}">
+                                        <optgroup label="--请选择班级--"></optgroup>
+                                        <option th:each="c:${cla}" th:value="${c.claName}" th:text="${c.claName}">
+                                        </option>
+                                    </select>
+                                </div>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -34,6 +41,7 @@
         </div>
     </div>
     <th:block th:include="include :: footer" />
+     <th:block th:include="include :: select2-js" />
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:classruninfo:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:classruninfo:remove')}]];

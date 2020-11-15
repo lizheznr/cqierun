@@ -2,6 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="include :: header('学期成绩列表')" />
+    <th:block th:include="include :: select2-css" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -13,16 +14,22 @@
                             <li>
                                 <label>学期：</label>
                                 <div class="col-xs-4">
-                                    <select name="cqieTerm.termName" th:with="term=${@termService.selectCqieTermList(cqieTerm)}"class="form-control"  >
-                                        <option value="">---请选择学期---</option>
+                                    <select name="cqieTerm.termName" id="cqieTerm.termName" class="form-control" th:with="term=${@termService.selectCqieTermList(cqieTerm)}">
+                                        <optgroup label="--请选择学期--"></optgroup>
                                         <option th:each="t:${term}" th:value="${t.termName}" th:text="${t.termName}">
                                         </option>
                                     </select>
                                 </div>
                             </li>
                             <li>
-                                <label>班级：</label>
-                                <input type="text" name="cqieCla.claName"/>
+                                <label>班级名称：</label>
+                                <div class="col-xs-4">
+                                    <select name="cqieCla.claName" id="cqieCla.claName" class="form-control" th:with="cla=${@claService.selectCla()}">
+                                        <optgroup label="--请选择班级--"></optgroup>
+                                        <option th:each="c:${cla}" th:value="${c.claName}" th:text="${c.claName}">
+                                        </option>
+                                    </select>
+                                </div>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -47,6 +54,7 @@
         </div>
     </div>
     <th:block th:include="include :: footer" />
+     <th:block th:include="include :: select2-js" />
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:score:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:score:remove')}]];

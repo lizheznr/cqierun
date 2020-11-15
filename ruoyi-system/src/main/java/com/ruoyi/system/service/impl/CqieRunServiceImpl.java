@@ -2,15 +2,13 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 
-import com.ruoyi.system.domain.CqieCla;
-import com.ruoyi.system.domain.CqieSportCalendar;
-import com.ruoyi.system.domain.CqieTotalRunInfo;
+import com.ruoyi.system.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CqieRunMapper;
-import com.ruoyi.system.domain.CqieRun;
 import com.ruoyi.system.service.ICqieRunService;
 import com.ruoyi.common.core.text.Convert;
+
 
 /**
  * 跑步信息Service业务层处理
@@ -195,8 +193,5 @@ public class CqieRunServiceImpl implements ICqieRunService
     public CqieRun selectClaAndTermByUserId(Long userId){
         return cqieRunMapper.selectClaAndTermByUserId(userId);
     }
-
-
-
 
 }
