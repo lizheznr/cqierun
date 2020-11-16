@@ -33,11 +33,15 @@
                         </li>
                         <li>
                             <label>学号：</label>
+                            <div class="col-xs-4">
                             <input type="text" name="student.stuNo"/>
+                            </div>
                         </li>
                         <li>
                             <label>姓名：</label>
+                            <div class="col-xs-4">
                             <input type="text" name="student.stuName"/>
+                            </div>
                         </li>
                         <li>
                             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
@@ -82,6 +86,7 @@
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
             modalName: "免跑申请",
+            showPageGo: true,
             columns: [{
                 checkbox: true
             },

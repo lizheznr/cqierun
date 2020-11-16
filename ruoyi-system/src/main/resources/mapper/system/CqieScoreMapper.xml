@@ -193,7 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <select id="selectAllCla" resultMap="claResult">
-        select * from cqie_cla
+        select cla_name,cla_id from cqie_cla
     </select>
 
     <select id="selectStudentByClaId" resultMap="studentResult" parameterType="int">

@@ -26,7 +26,7 @@
             <label class="col-sm-3 control-label">学期：</label>
             <div class="col-sm-8">
                 <select name="cqieTerm.termId" th:with="term=${@termService.selectCqieTermList(cqieTerm)}"class="form-control"  >
-                    <option value="">---请选择学期---</option>
+                    <option value="" disabled>---请选择学期---</option>
                     <option th:each="t:${term}" th:value="${t.termId}" th:text="${t.termName}">
                     </option>
                 </select>
@@ -59,6 +59,7 @@
     </form>
 </div>
 <th:block th:include="include :: footer" />
+<th:block th:include="include :: select2-js" />
 <th:block th:include="include :: datetimepicker-js" />
 <th:block th:include="include :: bootstrap-fileinput-js"/>
 <script th:inline="javascript">

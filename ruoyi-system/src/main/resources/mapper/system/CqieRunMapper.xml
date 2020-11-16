@@ -273,19 +273,4 @@
         </where>
     </select>
 
-    <select id="selectClaAndTermByUserId" resultMap="CqieRunResult" >
-        select run_id, run_term_id, run_stu_id, c.cla_name, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name,t.term_id
-        from cqie_run r
-        left join cqie_class_student cs on r.run_stu_id = cs.clastu_stu_id
-        left join cqie_student s on s.stu_id = r.run_stu_id
-        left join cqie_cla c on c.cla_id = cs.clastu_cla_id
-        left join cqie_term t on t.term_id = r.run_term_id
-        left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
-        left join sys_user u on ct.clatea_tea_id=u.user_id
-        and u.del_flag = '0'
-			WHERE c.cla_id=(select c.cla_id from cqie_cla c left join cqie_class_teacher ct on c.cla_id = ct.clatea_cla_id WHERE ct.clatea_tea_id=#{userId} limit 1)
-				and t.term_id=(select term_id from cqie_term order by term_id desc LIMIT 1 )
-				    and ct.clatea_tea_id=#{userId} limit 1
-    </select>
-
 </mapper>

@@ -47,21 +47,6 @@ public class CqieRunController extends BaseController
 
 
     /**
-     * xhd
-     * 搜索框消息
-     * */
-    @RequiresPermissions("system:runinfo:claAndTermDatas")
-    @PostMapping("/claAndTermDatas")
-    @ResponseBody
-    public String claAndTermDatas(ModelMap mmap)
-    {
-        Long userId = ShiroUtils.getUserId();
-        CqieRun cqieRun = cqieRunService.selectClaAndTermByUserId(userId);
-        mmap.put("cqieRun", cqieRun);
-        return prefix + "/claAndTermDatas";
-    }
-
-    /**
      * 查询跑步信息列表
      * xhd
      */

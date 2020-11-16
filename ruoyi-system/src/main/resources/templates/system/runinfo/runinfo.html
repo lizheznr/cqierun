@@ -31,11 +31,15 @@
                         </li>
                         <li>
                             <label>学号：</label>
+                            <div class="col-xs-4">
                             <input type="text" name="student.stuNo"/>
+                            </div>
                         </li>
                         <li>
                             <label>姓名：</label>
+                            <div class="col-xs-4">
                             <input type="text" name="student.stuName"/>
+                            </div>
                         </li>
                         <li>
                             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
@@ -86,22 +90,13 @@
             saveAllUrl:prefix + "/saveAll",
             claAndTermDatasUrl:prefix + "/claAndTermDatas",
             modalName: "跑步信息",
+            showPageGo: true,
             columns: [{
                 checkbox: true
             },
                 {
                     field: 'runId',
                     title: 'ID'
-                },
-                {
-                    field: 'cqieClassStudent.clastuClaId',
-                    title: '班级ID',
-                    visible:false
-                },
-                {
-                    field: 'stuId',
-                    title: '学生ID',
-                    visible:false
                 },
                 {
                     field: 'cqieTerm.termName',

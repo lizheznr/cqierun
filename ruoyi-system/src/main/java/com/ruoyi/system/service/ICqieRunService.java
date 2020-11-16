@@ -125,11 +125,6 @@ public interface ICqieRunService
      * */
     public List<CqieCla> selectAllClassByUserId(Long userId);
 
-    /**
-     * 通过userId查询出老师第一个班和学期
-     * xhd
-     * */
-    public CqieRun selectClaAndTermByUserId(Long userId);
 
 
 

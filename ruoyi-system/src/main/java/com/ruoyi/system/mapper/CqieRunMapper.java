@@ -110,10 +110,4 @@ public interface CqieRunMapper
      * */
     public List<CqieCla> selectAllClassByUserId(@Param("userId") Long userId);
 
-    /**
-     * 通过userId查询出老师第一个班和学期
-     * xhd
-     * @param userId
-     * */
-   public CqieRun selectClaAndTermByUserId(Long userId);
 }
