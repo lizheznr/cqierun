@@ -180,19 +180,13 @@ public class CqieApiController extends BaseController {
     @ResponseBody
     public AjaxResult startSport(String account, String startPoint/*, String sign, String timeStamp, String nonc*/) {
         try {
-            /*Map<String, Object> map = new HashMap<>();
-            map.put("account", account);
-            map.put("startPoint", startPoint);
-            if (!sign.equals(CqieOperVerificationController.generateSign(map)) || Integer.parseInt(timeStamp) > 60) {
-                return AjaxResult.returnJSON(AjaxResult.Type.FAIL, "非法请求");
-            }*/
             CqieRun cqieRun = new CqieRun();
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
             if (cqieStudent != null) {
                 cqieRun.setRunStuId(cqieStudent.getStuId());
                 cqieRun.setRunStar(startPoint);
                 Date date = new Date();
-                cqieRun.setRunTermId((long) 2);
+                cqieRun.setRunTermId((long) 2);// 学期ID   还未活用
                 cqieRun.setRunAddtime(date);
                 cqieRun.setRunStarTime(date);
                 if (cqieRunService.startSport(cqieRun) > 0) {
@@ -226,23 +220,9 @@ public class CqieApiController extends BaseController {
     @ResponseBody
     public AjaxResult endSport(CqieRunEndSport cqieRunEndSport/*, String sign, String timeStamp*/) {
         try {
-            //System.out.println("签证" + CqieOperVerification.generateSign(FromClassToMapController.convertBeanToMap(cqieRunEndSport)));
-            //7abdf92d7c4aa7e2e4799960fb063594
-            /*Map<String, Object> map = new HashMap<>();
-            map.put("id","16");
-            map.put("account", "180010101");
-            map.put("distance", 666666);
-            map.put("pathLine", "4666");
-            map.put("duration", 66666);
-            map.put("calorie", 166666);
-            map.put("distribution", 5);
-            map.put("maxDistribution", 45);
-            System.out.println("签证" + CqieOperVerification.generateSign(map));*/
-            /*if (!sign.equals(CqieOperVerificationController.generateSign(FromClassToMapController.convertBeanToMap(cqieRunEndSport))) || Integer.parseInt(timeStamp) > 60) {
-                return AjaxResult.returnJSON(AjaxResult.Type.FAIL, "非法请求");
-            }*/
             //提出app端数据
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(cqieRunEndSport.getAccount());
+            CqieRun RunStarTime = cqieRunService.selectCqieRunById(Long.valueOf(cqieRunEndSport.getId()));
             CqieRun cqieRun = new CqieRun();
             cqieRun.setRunId(Long.valueOf(cqieRunEndSport.getId()));
             cqieRun.setRunStuId(cqieStudent.getStuId());
@@ -258,13 +238,13 @@ public class CqieApiController extends BaseController {
             int i = cqieRunService.endSport(cqieRun);
             //返回给app端数据
             CqieTotalRunInfo cqieTotalRunInfo = cqieRunService.getTotalRunInfo(cqieStudent.getStuId());
-            HashMap<String, Object> data = new HashMap<>();//定义返回体
+            HashMap<String, Object> data = new HashMap<>();
             data.put("distance", cqieTotalRunInfo.getTotalDistance());
             data.put("frequency", cqieTotalRunInfo.getTotalFrequency());
             data.put("duration", cqieTotalRunInfo.getTotalDuration());
             data.put("startTime", cqieTotalRunInfo.getRunStarTime());
             data.put("endTime", cqieRun.getRunEndTime());
-            data.put("status", getStatus(cqieStudent, cqieRunEndSport));
+            data.put("status", cqieRun.getRunIscomplete());
             if (i > 0) {
                 ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功", data);
             } else {
@@ -363,12 +343,12 @@ public class CqieApiController extends BaseController {
      * @return 是否有效
      */
     private static int getStatus(CqieStudent cqieStudent, CqieRunEndSport cqieRunEndSport) {
-        if (cqieStudent.getStuSex().equals("男")) {
-            if (cqieRunEndSport.getDistance() >= 2500 && cqieRunEndSport.getDistribution() >= 3 && cqieRunEndSport.getDistribution() <= 9) {
+        if ("男".equals(cqieStudent.getStuSex())) {
+            if (cqieRunEndSport.getDistance() >= 2.5 && cqieRunEndSport.getDistribution() >= 3 && cqieRunEndSport.getDistribution() <= 9) {
                 return 1;
             }
-        } else if (cqieStudent.getStuSex().equals("女")) {
-            if (cqieRunEndSport.getDistance() >= 2000 && cqieRunEndSport.getDistribution() >= 3 && cqieRunEndSport.getDistribution() <= 11) {
+        } else if ("女".equals(cqieStudent.getStuSex())) {
+            if (cqieRunEndSport.getDistance() >= 2.0 && cqieRunEndSport.getDistribution() >= 3 && cqieRunEndSport.getDistribution() <= 11) {
                 return 1;
             }
         } else {
@@ -384,9 +364,9 @@ public class CqieApiController extends BaseController {
      * @return 0为男  1为女  -1为异常
      */
     private static int getStuSex(String stuSex) {
-        if (stuSex.equals("男")) {
+        if ("男".equals(stuSex)) {
             return 0;
-        } else if (stuSex.equals("女")) {
+        } else if ("女".equals(stuSex)) {
             return 1;
         } else {
             return -1;
