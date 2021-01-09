@@ -373,7 +373,7 @@ var table = {
     		importTemplate: function() {
     			table.set();
     			$.get(table.options.importTemplateUrl, function(result) {
-    				if (result.code == web_status.SUCCESS) {
+    				if (1) {
     			        window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
     				} else if (result.code == web_status.WARNING) {
                         $.modal.alertWarning(result.msg)
@@ -382,6 +382,7 @@ var table = {
     				}
     			});
             },
+
             // 导入数据
             importExcel: function(formId) {
             	table.set();

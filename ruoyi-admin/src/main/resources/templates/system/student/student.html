@@ -46,7 +46,7 @@
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:student:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-info" onclick="$.table.importExcel()">
+                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:student:import">
                     <i class="fa fa-upload"></i> 导入
                 </a>
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:student:export">
@@ -75,6 +75,8 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 importUrl: prefix + "/import",
+                importTemplateUrl: prefix + "/importTemplate",
+                sortOrder: "desc",
                 modalName: "student",
                 columns: [{
                     checkbox: true
@@ -151,7 +153,7 @@
             <input type="file" id="file" name="file"/>
             <div class="mt10 pt5">
                 <input type="checkbox" id="updateSupport" name="updateSupport" title="如果登录账户已经存在，更新这条数据。"> 是否更新已经存在的用户数据
-                &nbsp;	<a onclick="$.table.importTemplate()" class="btn btn-default btn-xs"><i class="fa fa-file-excel-o"></i> 下载模板</a>
+                &nbsp;	<a onclick="$.table.importTemplate()"  class="btn btn-default btn-xs"><i class="fa fa-file-excel-o"></i> 下载模板</a>
             </div>
             <font color="red" class="pull-left mt10">
                 提示：仅允许导入“xls”或“xlsx”格式文件！

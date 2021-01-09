@@ -72,6 +72,14 @@ public class CqieStudentController extends BaseController {
         return getDataTable(list);
     }
 
+    @RequiresPermissions("system:student:view")
+    @GetMapping("/importTemplate")
+    @ResponseBody
+    public AjaxResult importTemplate()
+    {
+        ExcelUtil<CqieStudent> util = new ExcelUtil<CqieStudent>(CqieStudent.class);
+        return util.importTemplateExcel("学生数据");
+    }
 
 
     /**
