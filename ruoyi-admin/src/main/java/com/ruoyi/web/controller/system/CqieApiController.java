@@ -6,6 +6,7 @@ import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.system.domain.*;
 import com.ruoyi.system.service.ICqieAppinfoService;
 import com.ruoyi.system.service.ICqieRunService;
+import com.ruoyi.system.service.ICqieScoreService;
 import com.ruoyi.system.service.ICqieStudentService;
 import com.ruoyi.web.controller.tool.CqieOperVerificationController;
 import com.ruoyi.web.controller.tool.FromClassToMapController;
@@ -41,6 +42,8 @@ public class CqieApiController extends BaseController {
     private ICqieRunService cqieRunService;
     @Autowired
     private SysPasswordService passwordService;
+    @Autowired
+    private ICqieScoreService cqieScoreService;
 
     /**
      * 获取最新的APP版本
@@ -182,11 +185,12 @@ public class CqieApiController extends BaseController {
         try {
             CqieRun cqieRun = new CqieRun();
             CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(account);
+            int termId = cqieScoreService.selectLatestTerm();
             if (cqieStudent != null) {
                 cqieRun.setRunStuId(cqieStudent.getStuId());
                 cqieRun.setRunStar(startPoint);
                 Date date = new Date();
-                cqieRun.setRunTermId((long) 2);// 学期ID   还未活用
+                cqieRun.setRunTermId((long)termId);
                 cqieRun.setRunAddtime(date);
                 cqieRun.setRunStarTime(date);
                 if (cqieRunService.startSport(cqieRun) > 0) {

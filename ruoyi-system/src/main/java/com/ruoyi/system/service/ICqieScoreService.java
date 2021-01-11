@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.CqieScore;
+import com.ruoyi.system.domain.CqieTerm;
 
 /**
  * 学期成绩Service接口
@@ -76,4 +77,11 @@ public interface ICqieScoreService
      * @return 结果
      */
     public int saveAllStudentScore();
+
+
+    /**
+     * 查询学生最新学期对象
+     * @return
+     */
+    public int selectLatestTerm();
 }

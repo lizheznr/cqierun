@@ -143,6 +143,16 @@ public class CqieScoreServiceImpl implements ICqieScoreService
     }
 
     /**
+     * 查询学生最新学期对象
+     * @return 最新学期id
+     */
+    @Override
+    public int selectLatestTerm() {
+        CqieTerm cqieTerm = cqieScoreMapper.selectLatestTerm();
+        return cqieTerm.getTermId();
+    }
+
+    /**
      * xhd
      * 成绩判断
      * */
