@@ -237,8 +237,6 @@ public class CqieClaController extends BaseController
     {
         startPage();
         List<CqieStudent> list = cqieStudentService.selectClassAllocatedList1(student);
-        System.out.println("李哲");
-        System.out.println(list);
         return getDataTable(list);
     }
     /**
@@ -316,7 +314,6 @@ public class CqieClaController extends BaseController
     public AjaxResult importData(MultipartFile file,boolean updateSupport,String claId) throws Exception {
         ExcelUtil<CqieStudent> util = new ExcelUtil<CqieStudent>(CqieStudent.class);
         List<CqieStudent> userList = util.importExcel(file.getInputStream());
-        System.out.println(userList);
         List<CqieStudent> collect = userList.stream()
 
                 .filter(u -> u.getStuName() != "" && u.getStuNo() != "")

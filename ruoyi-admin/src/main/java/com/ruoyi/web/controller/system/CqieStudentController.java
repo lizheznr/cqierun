@@ -109,7 +109,6 @@ public class CqieStudentController extends BaseController {
         ExcelUtil<CqieStudent> util = new ExcelUtil<CqieStudent>(CqieStudent.class);
         List<CqieStudent> userList = util.importExcel(file.getInputStream());
 
-        System.out.println(userList);
         List<CqieStudent> collect = userList.stream()
                 .filter(u -> u.getStuName() != "" && u.getStuNo() != "")
                 .peek(u -> {
