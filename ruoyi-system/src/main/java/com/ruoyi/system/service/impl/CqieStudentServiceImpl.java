@@ -113,7 +113,6 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
                 }
                 else {
                     failureNum++;
-                    System.out.println("潇洒的的");
                     failureMsg.append("<br/>" + failureNum + "、学号 " + student.getStuNo() + " 已存在");
                 }
             }
