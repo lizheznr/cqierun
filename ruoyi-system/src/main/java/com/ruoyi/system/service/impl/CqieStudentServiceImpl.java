@@ -123,13 +123,15 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
                 failureMsg.append(msg + e.getMessage());
             }
         }
-
+        System.out.println("撒大大"+failureNum);
         if (failureNum > 0) {
             failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确");
+            return failureMsg.toString();
         } else {
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
+            return successMsg.toString();
         }
-        return successMsg.toString();
+
     }
 
     /**
