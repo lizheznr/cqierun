@@ -102,6 +102,7 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
         for (CqieStudent student : studentList) {
+            student.setStuSex(student.getStuSex().trim());
             try {
                 //验证是否存在该学生
                 CqieStudent cqieStudent = cqieStudentMapper.selectCqieStudentByNo(student.getStuNo());
@@ -122,7 +123,6 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
                 failureMsg.append(msg+"<br/>" + failureNum + "、学号 " + student.getStuNo()+"数据格式不正确");
             }
         }
-        System.out.println("撒大大"+failureNum);
         if (failureNum > 0) {
             failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确");
             return failureMsg.toString();
