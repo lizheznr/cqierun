@@ -101,19 +101,31 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
         int failureNum = 0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
-
-
         for (CqieStudent student : studentList) {
             try {
-                this.insertCqieStudent(student);
-                successNum++;
-            } catch (Exception exception) {
+                //验证是否存在该学生
+                CqieStudent cqieStudent = cqieStudentMapper.selectCqieStudentByNo(student.getStuNo());
+                System.out.println(cqieStudent);
+                if (StringUtils.isNull(cqieStudent)){
+                    this.insertCqieStudent(student);
+                    successNum++;
+                    successMsg.append("<br/>" + successNum + "、学生 " + student.getStuName() + " 导入成功");
+                }
+                else {
+                    failureNum++;
+                    System.out.println("潇洒的的");
+                    failureMsg.append("<br/>" + failureNum + "、学号 " + student.getStuNo() + " 已存在");
+                }
+            }
+            catch (Exception e) {
                 failureNum++;
+                String msg = "<br/>" + failureNum + "、学号 " + student.getStuNo() + " 导入失败：";
+                failureMsg.append(msg + e.getMessage());
             }
         }
+
         if (failureNum > 0) {
-            failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：已有重复数据");
-            throw new BusinessException(failureMsg.toString());
+            failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确");
         } else {
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
         }

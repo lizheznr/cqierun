@@ -17,8 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import com.ruoyi.framework.shiro.service.SysPasswordService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * claController
@@ -31,6 +34,8 @@ import java.util.List;
 public class CqieClaController extends BaseController
 {
     private String prefix = "system/cla";
+    @Autowired
+    private SysPasswordService passwordService;
 
     @Autowired
     private ICqieClaService cqieClaService;
@@ -294,5 +299,46 @@ public class CqieClaController extends BaseController
     public AjaxResult cancelAuthStudent(CqieClassStudent classStudent)
     {
         return toAjax(cqieClaService.deleteAuthStudent(classStudent));
+    }
+
+    /**
+     * 导入
+     * 李哲
+     * @param file
+     * @param updateSupport
+     * @return
+     * @throws Exception
+     */
+    @Log(title = "导入学生的同时绑定班级关系", businessType = BusinessType.GRANT)
+    @PostMapping("/authStudent/import")
+    @ResponseBody
+    @CrossOrigin
+    public AjaxResult importData(MultipartFile file,boolean updateSupport,String claId) throws Exception {
+        ExcelUtil<CqieStudent> util = new ExcelUtil<CqieStudent>(CqieStudent.class);
+        List<CqieStudent> userList = util.importExcel(file.getInputStream());
+        System.out.println(userList);
+        List<CqieStudent> collect = userList.stream()
+
+                .filter(u -> u.getStuName() != "" && u.getStuNo() != "")
+                .peek(u -> {
+                            u.setStuImg("http://sunly98.gitee.io/cqierun_img/default_face.png");
+                            u.setStuSalt(ShiroUtils.randomSalt());
+                            u.setStuPassword(passwordService.encryptPassword(
+                                    u.getStuName(),
+                                    "123456",
+                                    u.getStuSalt()));
+                        }
+                ).collect(Collectors.toList());
+        String operName = ShiroUtils.getSysUser().getLoginName();
+        String message = cqieStudentService.importStudent(collect, updateSupport, operName);
+        collect.stream().forEach(student->{
+            //处理逻辑，打印出所有学生的姓名
+            String no = student.getStuNo();
+            CqieStudent cqieStudent = cqieStudentService.selectCqieStudentByNo(no);
+            String stuIds = String.valueOf(cqieStudent.getStuId());
+            cqieClaService.insertAuthStudents(Integer.valueOf(claId),stuIds);
+        });
+        return AjaxResult.success(message,claId);
+
     }
 }
