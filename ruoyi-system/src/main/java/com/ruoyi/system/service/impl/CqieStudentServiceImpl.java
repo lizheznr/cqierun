@@ -119,7 +119,7 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
             catch (Exception e) {
                 failureNum++;
                 String msg = "<br/>" + failureNum + "、学号 " + student.getStuNo() + " 导入失败：";
-                failureMsg.append(msg + e.getMessage());
+                failureMsg.append(msg+"<br/>" + failureNum + "、学号 " + student.getStuNo()+"数据格式不正确");
             }
         }
         System.out.println("撒大大"+failureNum);
