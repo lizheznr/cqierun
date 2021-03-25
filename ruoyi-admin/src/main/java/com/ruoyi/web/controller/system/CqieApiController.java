@@ -3,11 +3,9 @@ package com.ruoyi.web.controller.system;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
+import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.*;
-import com.ruoyi.system.service.ICqieAppinfoService;
-import com.ruoyi.system.service.ICqieRunService;
-import com.ruoyi.system.service.ICqieScoreService;
-import com.ruoyi.system.service.ICqieStudentService;
+import com.ruoyi.system.service.*;
 import com.ruoyi.web.controller.tool.CqieOperVerificationController;
 import com.ruoyi.web.controller.tool.FromClassToMapController;
 import io.swagger.annotations.ApiImplicitParam;
@@ -44,6 +42,8 @@ public class CqieApiController extends BaseController {
     private SysPasswordService passwordService;
     @Autowired
     private ICqieScoreService cqieScoreService;
+    @Autowired
+    private ISysConfigService cqieConfigService;
 
     /**
      * 获取最新的APP版本
@@ -95,6 +95,53 @@ public class CqieApiController extends BaseController {
         }
         return ajaxResult;
 
+    }
+
+    /**
+     * 判断是否有权限注册
+     * @return 真假
+     */
+    @ApiOperation(value = "判断是否有权限注册", httpMethod = "POST")
+    @PostMapping("/canRegister")
+    @ResponseBody
+    public boolean canRegister(){
+        SysConfig sysConfig = cqieConfigService.selectConfigById((long)100);
+        if (sysConfig.getConfigType().equals("Y")){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 注册
+     * @param account 学号
+     * @param password 密码
+     * @param determinepass 重复密码
+     * @param stuName 姓名
+     * @return 返回信息
+     */
+    @ApiOperation(value = "注册", httpMethod = "POST")
+    @PostMapping("/register")
+    @ResponseBody
+    public AjaxResult register(String account, String password,String determinepass, String stuName){
+        try{
+            if (cqieStudentService.selectCqieStudentByNo(account) != null){ return ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "该账号已存在"); }
+            CqieStudent cqieStudent = new CqieStudent();
+            cqieStudent.setStuNo(account);
+            cqieStudent.setStuSalt(ShiroUtils.randomSalt());
+            password = passwordService.encryptPassword(stuName, password, cqieStudent.getStuSalt());
+            determinepass = passwordService.encryptPassword(stuName, determinepass, cqieStudent.getStuSalt());
+            if (!password.equals(determinepass)){ return ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "两次密码不相同"); }
+            cqieStudent.setStuPassword(password);
+            cqieStudent.setStuName(stuName);
+            if (cqieStudentService.insertCqieStudent(cqieStudent) > 0){
+                return ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "注册成功");
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "发生未知错误");
+        }
+        return ajaxResult;
     }
 
     /**
