@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * ApiController
@@ -104,12 +106,14 @@ public class CqieApiController extends BaseController {
     @ApiOperation(value = "判断是否有权限注册", httpMethod = "POST")
     @PostMapping("/canRegister")
     @ResponseBody
-    public boolean canRegister(){
+    public AjaxResult canRegister(){
         SysConfig sysConfig = cqieConfigService.selectConfigById((long)100);
         if (sysConfig.getConfigType().equals("Y")){
-            return true;
+            Map<String, Boolean> data = new HashMap<>();
+            data.put("result", true);
+            return ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.SUCCESS2, "成功", data);
         }
-        return false;
+        return ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "失败");
     }
 
     /**
@@ -124,8 +128,11 @@ public class CqieApiController extends BaseController {
     @PostMapping("/register")
     @ResponseBody
     public AjaxResult register(String account, String password,String determinepass, String stuName){
+        String limit_acount = "d{0,8}[1-9]{9}";
+        Pattern pattern = Pattern.compile(limit_acount);
+        Matcher matcher = pattern.matcher(account);
         try{
-            if (cqieStudentService.selectCqieStudentByNo(account) != null){ return ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "该账号已存在"); }
+            if (cqieStudentService.selectCqieStudentByNo(account) != null || !matcher.matches()){ return ajaxResult = AjaxResult.returnJSON(AjaxResult.Type.FAIL, "该账号已存在或学号格式错误"); }
             CqieStudent cqieStudent = new CqieStudent();
             cqieStudent.setStuNo(account);
             cqieStudent.setStuSalt(ShiroUtils.randomSalt());
