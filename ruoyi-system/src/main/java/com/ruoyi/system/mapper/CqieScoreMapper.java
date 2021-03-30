@@ -111,8 +111,9 @@ public interface CqieScoreMapper
      * */
     public CqieTerm selectLatestTerm();
 
-
-
-
-
+    /**
+     * xhd
+     * 查询学生所有跑步次数
+     * */
+    public Long selectAllCountsByStuId(Long stuId);
 }

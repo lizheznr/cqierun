@@ -41,6 +41,11 @@ public class CqieScore extends BaseEntity
     })
     private  CqieStudent student;
 
+    /** 学生全部跑步次数 */
+    @Excel(name = "跑步总次数")
+    private Long scoreAllCounts;
+
+
     /** 跑步次数 */
     @Excel(name = "跑步次数")
     private Long scoreCounts;
@@ -161,6 +166,14 @@ public class CqieScore extends BaseEntity
         this.sysUser = sysUser;
     }
 
+    public Long getScoreAllCounts() {
+        return scoreAllCounts;
+    }
+
+    public void setScoreAllCounts(Long scoreAllCounts) {
+        this.scoreAllCounts = scoreAllCounts;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -176,6 +189,7 @@ public class CqieScore extends BaseEntity
                 .append("cqieRun",getCqieRun())
                 .append("scoreRemark",getScoreRemark())
                 .append("sysUser",getSysUser())
+                .append("scoreAllCounts",getScoreAllCounts())
             .toString();
     }
 }

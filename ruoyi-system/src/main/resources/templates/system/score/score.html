@@ -79,12 +79,14 @@
                 },
                 {
                     field: 'scoreTermId',
-                    title: '学期ID'
+                    title: '学期ID',
+                    visible: false
                 },
                 {
                     field: 'scoreStudentId',
                     title: '学生ID',
-                    sortable: true
+                    sortable: true,
+                    visible: false
                 },
                     {
                         field: 'cqieTerm.termName',
@@ -106,9 +108,14 @@
                         field: 'student.stuSex',
                         title: '性别'
                     },
+                    {
+                        field: 'scoreAllCounts',
+                        title: '跑步总次数',
+                        sortable: true
+                    },
                 {
                     field: 'scoreCounts',
-                    title: '跑步次数',
+                    title: '有效次数',
                     sortable: true
                 },
                 {

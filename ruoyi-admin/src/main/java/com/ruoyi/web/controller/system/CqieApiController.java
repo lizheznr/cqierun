@@ -416,11 +416,11 @@ public class CqieApiController extends BaseController {
     @Log(title = "判断跑步信息是否有效", businessType = BusinessType.GRANT)
     private static int getStatus(CqieStudent cqieStudent, CqieRunEndSport cqieRunEndSport) {
         if ("男".equals(cqieStudent.getStuSex())) {
-            if (cqieRunEndSport.getDistance() >= 2.5 && cqieRunEndSport.getDistribution() >= 3 && cqieRunEndSport.getDistribution() <= 9) {
+            if (cqieRunEndSport.getDistance() >= 2.0 && cqieRunEndSport.getDistribution() >= 3 && cqieRunEndSport.getDistribution() <= 9) {
                 return 1;
             }
         } else if ("女".equals(cqieStudent.getStuSex())) {
-            if (cqieRunEndSport.getDistance() >= 2.0 && cqieRunEndSport.getDistribution() >= 3 && cqieRunEndSport.getDistribution() <= 11) {
+            if (cqieRunEndSport.getDistance() >= 1.5 && cqieRunEndSport.getDistribution() >= 3 && cqieRunEndSport.getDistribution() <= 11) {
                 return 1;
             }
         } else {

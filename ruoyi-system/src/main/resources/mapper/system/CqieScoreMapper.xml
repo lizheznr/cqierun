@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="scoreId"    column="score_id"    />
         <result property="scoreTermId"    column="score_term_id"    />
         <result property="scoreStudentId"    column="score_student_id"    />
+        <result property="scoreAllCounts" column="score_all_counts"/>
         <result property="scoreCounts"    column="score_counts"    />
         <result property="scoreResult"    column="score_result"    />
         <result property="scoreRemark" column="score_remark"/>
@@ -82,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <sql id="selectCqieScoreVo">
-        select score_id, score_term_id, score_student_id, score_counts, score_result, score_remark from cqie_score
+        select score_id, score_term_id, score_student_id,score_all_counts, score_counts, score_result, score_remark from cqie_score
     </sql>
 
     <select id="selectCqieScoreListAll" parameterType="CqieScore" resultMap="CqieScoreResult">
@@ -158,12 +159,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="scoreTermId != null">score_term_id,</if>
             <if test="scoreStudentId != null">score_student_id,</if>
+            <if test="scoreAllCounts != null">score_all_counts,</if>
             <if test="scoreCounts != null">score_counts,</if>
             <if test="scoreResult != null">score_result,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="scoreTermId != null">#{scoreTermId},</if>
             <if test="scoreStudentId != null">#{scoreStudentId},</if>
+            <if test="scoreAllCounts != null">#scoreAllcounts,</if>
             <if test="scoreCounts != null">#{scoreCounts},</if>
             <if test="scoreResult != null">#{scoreResult},</if>
          </trim>
@@ -210,12 +213,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         and r.run_term_id = (select term_id from cqie_term order by term_id desc LIMIT 1 )
     </select>
 
+    <select id="selectAllCountsByStuId" parameterType="Long" resultType="Long">
+        select count(s.stu_id) as score_all_counts from cqie_run r
+        left join cqie_student s on r.run_stu_id = s.stu_id
+        where s.stu_id = #{stuId}
+        and r.run_term_id = (select term_id from cqie_term order by term_id desc LIMIT 1 )
+    </select>
+
 
     <insert id="insertCqieScoreByRunInfo" parameterType="CqieScore" useGeneratedKeys="true" keyProperty="scoreId">
         insert into cqie_score
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="scoreTermId != null">score_term_id,</if>
             <if test="scoreStudentId != null">score_student_id,</if>
+            <if test="scoreAllCounts != null">score_all_counts,</if>
             <if test="scoreCounts != null">score_counts,</if>
             <if test="scoreResult != null">score_result,</if>
             <if test="scoreRemark !=null">score_remark</if>
@@ -223,6 +234,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="scoreTermId != null">#{scoreTermId},</if>
             <if test="scoreStudentId != null">#{scoreStudentId},</if>
+            <if test="scoreAllCounts != null">#{scoreAllCounts},</if>
             <if test="scoreCounts != null">#{scoreCounts},</if>
             <if test="scoreResult != null">#{scoreResult},</if>
             <if test="scoreRemark !=null">#{scoreRemark},</if>
@@ -240,6 +252,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectLatestTerm" resultMap="cqieTermResult">
         SELECT * FROM `cqie_term` order by term_id desc LIMIT 1
     </select>
+
+
 
 
 

@@ -120,9 +120,12 @@ public class CqieScoreServiceImpl implements ICqieScoreService
         for(CqieCla cla:claList){
                 List<CqieStudent> studentList=cqieScoreMapper.selectStudentByClaId(cla.getClaId());
            for(CqieStudent student:studentList){
-               System.out.println(student.getStuId());
+             //  System.out.println(student.getStuId());
                CqieScore cqieScoreOne = cqieScoreMapper.selectRuninfoByStuId(student.getStuId());
+               //查询所有跑步次数
+               Long allCounts=cqieScoreMapper.selectAllCountsByStuId(student.getStuId());
                CqieSpe cqieSpeone = cqieScoreMapper.selectSpeStudentByStuId(student.getStuId());
+
                CqieTerm cqieTerm = cqieScoreMapper.selectLatestTerm();
 
                    CqieScore cqieScore = new CqieScore();
@@ -130,13 +133,14 @@ public class CqieScoreServiceImpl implements ICqieScoreService
                    Long termId = (long)cqieTerm.getTermId();
                    cqieScore.setScoreTermId(termId);
                    cqieScore.setScoreStudentId(student.getStuId());
+                   cqieScore.setScoreAllCounts(allCounts);
                    cqieScore.setScoreCounts(cqieScoreOne.getScoreCounts());
                    cqieScore.setScoreResult(scoreResultByCounts(cqieScoreOne.getScoreCounts()));
                    if(cqieSpeone !=null){
                        cqieScore.setScoreRemark("免跑");
                    }
                    rowsave=cqieScoreMapper.insertCqieScoreByRunInfo(cqieScore);
-                  System.out.println("rowsave-----------------------------"+rowsave);
+                 // System.out.println("rowsave-----------------------------"+rowsave);
            }
         }
             return rowsave;
@@ -157,20 +161,26 @@ public class CqieScoreServiceImpl implements ICqieScoreService
      * 成绩判断
      * */
     public String scoreResultByCounts(Long count){
-        if(0<=count&&count<20){
-            return "不及格";
+        if(0<=count&&count<15){
+            return "0";
         }
-        if(20<=count&&count<30){
-            return "及格";
+        if(15<=count&&count<25){
+            return "60";
         }
-        if(30<=count&&count<40){
-            return "中";
+        if(25<=count&&count<35){
+            return "75";
         }
-        if(40<=count&&count<45){
-            return "良";
+        if(35<=count&&count<45){
+            return "90";
         }
-        if(count>=45){
-            return "优";
+        if(45<=count&&count<50){
+            return "100";
+        }
+        if(50<=count&&count<60){
+            return "110";
+        }
+        if(count>=60){
+            return "120";
         }
         return "成绩判定无效";
     }
