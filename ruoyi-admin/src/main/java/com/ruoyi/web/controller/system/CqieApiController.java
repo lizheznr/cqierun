@@ -1,7 +1,9 @@
 package com.ruoyi.web.controller.system;
 
+import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.*;
@@ -53,6 +55,7 @@ public class CqieApiController extends BaseController {
      * @param version 版本号
      * @return 返回信息
      */
+    @Log(title = "获取最新的APP版本", businessType = BusinessType.GRANT)
     @ApiOperation(value = "获取最新的APP版本", httpMethod = "POST")
     @PostMapping("/getNewVersion")
     @ResponseBody
@@ -79,6 +82,7 @@ public class CqieApiController extends BaseController {
      * @param password 密码
      * @return 返回信息
      */
+    @Log(title = "APP登录", businessType = BusinessType.GRANT)
     @ApiOperation(value = "登录", httpMethod = "POST")
     @PostMapping("/login")
     @ResponseBody
@@ -103,6 +107,7 @@ public class CqieApiController extends BaseController {
      * 判断是否有权限注册
      * @return 真假
      */
+    @Log(title = "判断是否有权限注册", businessType = BusinessType.GRANT)
     @ApiOperation(value = "判断是否有权限注册", httpMethod = "POST")
     @PostMapping("/canRegister")
     @ResponseBody
@@ -124,6 +129,7 @@ public class CqieApiController extends BaseController {
      * @param stuName 姓名
      * @return 返回信息
      */
+    @Log(title = "APP注册", businessType = BusinessType.INSERT)
     @ApiOperation(value = "注册", httpMethod = "POST")
     @PostMapping("/register")
     @ResponseBody
@@ -159,6 +165,7 @@ public class CqieApiController extends BaseController {
      * @param newPassword 新密码
      * @return 返回信息
      */
+    @Log(title = "APP修改学生密码", businessType = BusinessType.UPDATE)
     @ApiOperation(value = "修改学生密码", httpMethod = "POST")
     @PostMapping("/updatePassword")
     @ResponseBody
@@ -192,6 +199,7 @@ public class CqieApiController extends BaseController {
      * @param account 学号（账号）
      * @return 返回信息
      */
+    @Log(title = "获得用户信息接口", businessType = BusinessType.GRANT)
     @ApiOperation(value = "获得用户信息接口", httpMethod = "POST")
     @PostMapping("/getUserInfo")
     @ResponseBody
@@ -232,6 +240,7 @@ public class CqieApiController extends BaseController {
      * @param startPoint 经纬度
      * @return 返回信息
      */
+    @Log(title = "运动开始", businessType = BusinessType.GRANT)
     @ApiOperation(value = "运动开始", httpMethod = "POST")
     @PostMapping("/startSport")
     @ResponseBody
@@ -272,6 +281,7 @@ public class CqieApiController extends BaseController {
      * @param cqieRunEndSport 跑步信息对象
      * @return 返回信息
      */
+    @Log(title = "运动结束", businessType = BusinessType.GRANT)
     @ApiOperation(value = "运动结束", httpMethod = "POST")
     @ApiImplicitParam(value = "跑步信息对象", paramType = "CqieRunEndSport")
     @PostMapping("/endSport")
@@ -323,6 +333,7 @@ public class CqieApiController extends BaseController {
      * @param month   月份（数值）
      * @return 返回信息
      */
+    @Log(title = "运动日历", businessType = BusinessType.GRANT)
     @ApiOperation(value = "运动日历", httpMethod = "POST")
     @PostMapping("/getSportCalendar")
     @ResponseBody
@@ -349,6 +360,7 @@ public class CqieApiController extends BaseController {
      * @param enddate   结束日期    YYYY-MM-DD
      * @return 返回信息
      */
+    @Log(title = "运动记录查询", businessType = BusinessType.GRANT)
     @ApiOperation(value = "运动记录查询", httpMethod = "POST")
     @PostMapping("/getSportRecord")
     @ResponseBody
@@ -376,6 +388,7 @@ public class CqieApiController extends BaseController {
      * @param headImg 头像地址
      * @return 返回信息
      */
+    @Log(title = "APP更换头像", businessType = BusinessType.GRANT)
     @ApiOperation(value = "更改头像", httpMethod = "POST")
     @PostMapping("/updateHeadImg")
     @ResponseBody
@@ -400,6 +413,7 @@ public class CqieApiController extends BaseController {
      * @param cqieRunEndSport 跑步信息对象
      * @return 是否有效
      */
+    @Log(title = "判断跑步信息是否有效", businessType = BusinessType.GRANT)
     private static int getStatus(CqieStudent cqieStudent, CqieRunEndSport cqieRunEndSport) {
         if ("男".equals(cqieStudent.getStuSex())) {
             if (cqieRunEndSport.getDistance() >= 2.5 && cqieRunEndSport.getDistribution() >= 3 && cqieRunEndSport.getDistribution() <= 9) {
