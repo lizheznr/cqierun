@@ -84,7 +84,8 @@
                 {
                     field: 'stuId',
                     title: '序号',
-                    visible: true
+                    visible: true,
+                    sortable: true
                 },
                 {
                     field: 'stuImg',
@@ -95,7 +96,8 @@
                 },
                 {
                     field: 'stuNo',
-                    title: '学号'
+                    title: '学号',
+                    sortable: true
                 },
                 {
                     field: 'stuName',
@@ -104,9 +106,6 @@
                 {
                     field: 'stuSex',
                     title: '性别',
-                    formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(stuSexDatas, value);
-                    }
                 },
                 {
                     field: 'stuMobile',
@@ -114,7 +113,8 @@
                 },
                 {
                     field: 'stuAddtime',
-                    title: '添加时间'
+                    title: '添加时间',
+                    sortable: true
                 },
                 {
                     field: 'stuRemark',
