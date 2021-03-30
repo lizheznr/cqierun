@@ -96,45 +96,54 @@
             },
                 {
                     field: 'runId',
-                    title: 'ID'
+                    title: 'ID',
+                    sortable: true
                 },
                 {
                     field: 'cqieTerm.termName',
-                    title: '学期'
+                    title: '学期',
+
                 },
                 {
                     field: 'cqieCla.claName',
-                    title: '班级'
+                    title: '班级',
+
                 },
                 {
                     field: 'student.stuNo',
-                    title: '学号'
+                    title: '学号',
+
                 },
                 {
                     field: 'student.stuName',
-                    title: '姓名'
+                    title: '姓名',
+
                 },
                 {
                     field: 'runStarTime',
-                    title: '开跑时间'
+                    title: '开跑时间',
+                    sortable: true
                 },
                 {
                     field: 'runDistance',
                     title: '运动距离',
                     formatter: function(value,row,index) {
                         return value.toFixed(2)+"公里"
-                    }
+                    },
+                    sortable: true
                 },
                 {
                     field: 'runDuration',
                     title: '运动时长',
                     formatter: function(value,row,index) {
                         return secondsFormat( value )
-                    }
+                    },
+                    sortable: true
                 },
                 {
                     field: 'runEndTime',
-                    title: '结束时间'
+                    title: '结束时间',
+                    sortable: true
                 },
                 {
                     field:'runIscomplete',
