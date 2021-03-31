@@ -139,7 +139,12 @@ public class CqieScoreServiceImpl implements ICqieScoreService
                    if(cqieSpeone !=null){
                        cqieScore.setScoreRemark("免跑");
                    }
-                   rowsave=cqieScoreMapper.insertCqieScoreByRunInfo(cqieScore);
+                   if(cqieScoreMapper.selectScoreByInfo(cqieScore)==0){
+                       rowsave=cqieScoreMapper.insertCqieScoreByRunInfo(cqieScore);
+                   }else{
+                       rowsave=cqieScoreMapper.updateCqieScore(cqieScore);
+                   }
+
                  // System.out.println("rowsave-----------------------------"+rowsave);
            }
         }

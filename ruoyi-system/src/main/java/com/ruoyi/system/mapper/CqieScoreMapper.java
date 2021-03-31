@@ -116,4 +116,10 @@ public interface CqieScoreMapper
      * 查询学生所有跑步次数
      * */
     public Long selectAllCountsByStuId(Long stuId);
+
+    /**
+     * xhd
+     * 查询学生该学期成绩统计条数
+     * */
+    public int selectScoreByInfo(CqieScore cqieScore);
 }

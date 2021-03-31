@@ -177,11 +177,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="scoreTermId != null">score_term_id = #{scoreTermId},</if>
             <if test="scoreStudentId != null">score_student_id = #{scoreStudentId},</if>
+            <if test="scoreAllCounts != null">score_All_counts = #{scoreAllCounts},</if>
             <if test="scoreCounts != null">score_counts = #{scoreCounts},</if>
             <if test="scoreResult != null">score_result = #{scoreResult},</if>
             <if test="scoreRemark !=null">score_remark = #{scoreRemark},</if>
         </trim>
         where score_student_id = #{scoreStudentId}
+        and  score_term_id =(select term_id from cqie_term order by term_id desc LIMIT 1 )
     </update>
 
     <delete id="deleteCqieScoreById" parameterType="Long">
@@ -253,8 +255,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT * FROM `cqie_term` order by term_id desc LIMIT 1
     </select>
 
-
-
-
+    <select id="selectScoreByInfo" parameterType="CqieScore" resultType="int">
+        select count(*) from cqie_score score
+        left join cqie_term term on score.score_term_id=term.term_id
+        <where>
+            <if test="scoreStudentId != null and scoreStudentId !=''">
+                and score_student_id = #{scoreStudentId}
+            </if>
+                and score.score_term_id = (select term_id from cqie_term order by term_id desc LIMIT 1 )
+        </where>
+    </select>
 
 </mapper>
