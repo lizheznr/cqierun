@@ -179,18 +179,18 @@
     <select id="getSportCalendar" resultType="string">
         SELECT DATE_FORMAT(run_addtime,'%Y-%m-%d') AS newDate
             FROM cqie_run r LEFT JOIN cqie_student s ON r.run_stu_id=s.stu_id
-                WHERE s.stu_no = #{stuNo} AND DATE_FORMAT(run_addtime,'%Y-%m') = #{month} AND run_iscomplete = 1 AND run_end_time IS NOT NULL
+                WHERE s.stu_no = #{stuNo} AND DATE_FORMAT(run_addtime,'%Y-%m') = #{month} AND run_end_time IS NOT NULL
     </select>
 
     <select id="getSportRecord" resultMap="cqieSportRecord">
         SELECT run_id, run_term_id, run_stu_id, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete
             FROM cqie_run r LEFT JOIN cqie_student s ON r.run_stu_id=s.stu_id
-                WHERE s.stu_no = #{stuNo} AND DATE_FORMAT(run_addtime,'%Y-%m-%d') between #{startDate} AND #{endDate} AND run_iscomplete = 1 AND run_end_time IS NOT NULL
+                WHERE s.stu_no = #{stuNo} AND DATE_FORMAT(run_addtime,'%Y-%m-%d') between #{startDate} AND #{endDate} AND run_end_time IS NOT NULL
     </select>
 
     <select id="getTotalRunInfo" resultMap="cqieTotalRunInfo">
         SELECT (SELECT run_star_time FROM cqie_run order by run_star_time desc LIMIT 1) as theRunStarTime,count(*) as run_totalFrequency,SUM(run_distance) as run_totalDistance,SUM(run_duration) as run_totalDuration
-            FROM cqie_run WHERE run_stu_id = #{stuId} AND run_iscomplete = 1 AND run_end_time IS NOT NULL
+            FROM cqie_run WHERE run_stu_id = #{stuId} AND run_end_time IS NOT NULL
     </select>
 
     <insert id="insertCqieRun" parameterType="CqieRun" useGeneratedKeys="true" keyProperty="runId">
