@@ -64,7 +64,7 @@ public class CqieStudentController extends BaseController {
         String rolekey = null;
         List<CqieStudent> list = null;
         Integer i =0;
-        if(cqieStudent.getStuSex().equals("")||cqieStudent.getStuName().equals("")||cqieStudent.getStuNo().equals("")){
+        if(cqieStudent.getStuSex().equals("")&&cqieStudent.getStuName().equals("")&&cqieStudent.getStuNo().equals("")){
             i=1;
         }
         for (SysRole role : roles) {
