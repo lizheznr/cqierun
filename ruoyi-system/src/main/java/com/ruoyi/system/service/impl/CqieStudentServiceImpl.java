@@ -7,6 +7,7 @@ import com.ruoyi.common.exception.BusinessException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.Md5Utils;
 import com.ruoyi.system.domain.SysUser;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CqieStudentMapper;
@@ -34,6 +35,20 @@ public class CqieStudentServiceImpl implements ICqieStudentService {
     @Override
     public CqieStudent selectCqieStudentById(Long stuId) {
         return cqieStudentMapper.selectCqieStudentById(stuId);
+    }
+    /**
+     * 根据教师ID查询所属学生再查找指定条件学生
+     * 李哲
+     * @param userId
+     * @param stuName
+     * @param stuNo
+     * @param stuSex
+     * @return
+     */
+    @Override
+    public List<CqieStudent> selectCqiestudentbyteaId1(Long userId,String stuName,String stuNo,String stuSex) {
+        return cqieStudentMapper.selectCqiestudentbyteaId1(userId,stuName,stuNo,stuSex);
+
     }
 
     /**

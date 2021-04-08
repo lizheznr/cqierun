@@ -146,5 +146,16 @@ public interface ICqieStudentService {
      * @return
      */
     public List<CqieStudent> selectCqiestudentbyteaId(Long userId);
+
+    /**
+     * 根据教师ID查询所属学生再查找指定条件学生
+     * 李哲
+     * @param userId
+     * @param stuName
+     * @param stuNo
+     * @param stuSex
+     * @return
+     */
+    public List<CqieStudent> selectCqiestudentbyteaId1(Long userId,String stuName,String stuNo,String stuSex);
 }
 

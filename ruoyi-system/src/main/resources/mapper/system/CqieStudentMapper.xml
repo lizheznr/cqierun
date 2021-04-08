@@ -3,7 +3,8 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CqieStudentMapper">
-    
+
+
     <resultMap type="CqieStudent" id="CqieStudentResult">
         <result property="stuId"    column="stu_id"    />
         <result property="stuNo"    column="stu_no"    />
@@ -177,6 +178,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       join sys_user u on u.user_id=ct.clatea_tea_id
       where u.user_id= #{userId}
     </select>
+
+
+    <select id="selectCqiestudentbyteaId1"  resultMap="CqieStudentResult">
+      SELECT distinct * from
+      cqie_student s
+      join cqie_class_student cs on cs.clastu_stu_id=s.stu_id
+      join cqie_class_teacher ct on ct.clatea_cla_id=cs.clastu_cla_id
+      join sys_user u on u.user_id=ct.clatea_tea_id
+      where u.user_id= #{userId}
+        <if test="stuName != null and stuName != ''">
+            AND s.stu_name like concat('%', #{stuName}, '%')
+        </if>
+        <if test="stuNo != null and stuNo != ''">
+            AND s.stu_no like concat('%', #{stuNo}, '%')
+        </if>
+        <if test="stuSex != null and stuSex != ''">
+            AND s.stu_sex like concat('%', #{stuSex}, '%')
+        </if>
+    </select>
+
 
     <update id="rePassword" parameterType="CqieStudent" >
       UPDATE cqie_student SET stu_password = #{stuPassword},stu_salt = #{stuSalt} WHERE stu_id = #{stuId}

@@ -129,4 +129,15 @@ public interface CqieStudentMapper
      * @return
      */
     public List<CqieStudent> selectCqiestudentbyteaId(Long userId);
+
+    /**
+     * 根据教师ID查询所属学生再查找指定条件学生
+     * 李哲
+     * @param userId
+     * @param stuName
+     * @param stuNo
+     * @param stuSex
+     * @return
+     */
+    public List<CqieStudent> selectCqiestudentbyteaId1(@Param("userId") Long userId,@Param("stuName")String stuName,@Param("stuNo")String stuNo,@Param("stuSex")String stuSex);
 }

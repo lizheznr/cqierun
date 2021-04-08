@@ -48,29 +48,39 @@ public class CqieStudentController extends BaseController {
         return prefix + "/student";
     }
 
+
+
     /**
      * 查询学生信息列表
      */
+    @RequiresPermissions("system:student:view")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(CqieStudent cqieStudent) {
         Long userId = ShiroUtils.getUserId();
         SysUser user = ShiroUtils.getSysUser();
         List<SysRole> roles = user.getRoles();
+
         String rolekey = null;
         List<CqieStudent> list = null;
+        Integer i =0;
+        if(cqieStudent.getStuSex().equals("")||cqieStudent.getStuName().equals("")||cqieStudent.getStuNo().equals("")){
+            i=1;
+        }
         for (SysRole role : roles) {
             rolekey = role.getRoleKey();
         }
-        if (rolekey.equals("common")){
-            startPage();
-            list = cqieStudentService.selectCqiestudentbyteaId(userId);
+        if(i==1){
+                startPage();
+                list = cqieStudentService.selectCqiestudentbyteaId(userId);
         }else{
             startPage();
-            list = cqieStudentService.selectCqieStudentList(cqieStudent);
+            list = cqieStudentService.selectCqiestudentbyteaId1(userId,cqieStudent.getStuName(),cqieStudent.getStuNo(),cqieStudent.getStuSex());
         }
+
         return getDataTable(list);
     }
+
 
     @RequiresPermissions("system:student:view")
     @GetMapping("/importTemplate")
@@ -103,6 +113,7 @@ public class CqieStudentController extends BaseController {
      * @return
      * @throws Exception
      */
+    @RequiresPermissions("system:student:import")
     @PostMapping("/import")
     @ResponseBody
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
