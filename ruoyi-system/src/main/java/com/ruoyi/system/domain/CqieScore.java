@@ -39,7 +39,7 @@ public class CqieScore extends BaseEntity
             @Excel(name="姓名",targetAttr = "stuName",type = Excel.Type.EXPORT),
             @Excel(name="性别",targetAttr = "stuSex",type = Excel.Type.EXPORT)
     })
-    private  CqieStudent student;
+    private  CqieStudent cqieStudent;
 
     /** 学生全部跑步次数 */
     @Excel(name = "跑步总次数")
@@ -64,12 +64,12 @@ public class CqieScore extends BaseEntity
 
     private CqieRun cqieRun;
 
-    public CqieStudent getStudent() {
-        return student;
+    public CqieStudent getCqieStudent() {
+        return cqieStudent;
     }
 
-    public void setStudent(CqieStudent student) {
-        this.student = student;
+    public void setCqieStudent(CqieStudent cqieStudent) {
+        this.cqieStudent = cqieStudent;
     }
 
     public CqieCla getCqieCla() {
@@ -182,7 +182,7 @@ public class CqieScore extends BaseEntity
             .append("scoreStudentId", getScoreStudentId())
             .append("scoreCounts", getScoreCounts())
             .append("scoreResult", getScoreResult())
-                .append("student",getStudent())
+                .append("cqieStudent",getCqieStudent())
                 .append("cqieCla",getCqieCla())
                 .append("cqieClassStudent",getCqieClassStudent())
                 .append("cqieTerm",getCqieTerm())

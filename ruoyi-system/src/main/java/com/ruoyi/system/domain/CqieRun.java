@@ -40,7 +40,7 @@ public class CqieRun extends BaseEntity
             @Excel(name="学号",targetAttr = "stuNo",type = Excel.Type.EXPORT),
             @Excel(name="姓名",targetAttr = "stuName",type = Excel.Type.EXPORT)
     })
-    private  CqieStudent student;
+    private  CqieStudent cqieStudent;
 
     /** 经纬度 */
     @Excel(name = "经纬度")
@@ -228,12 +228,12 @@ public class CqieRun extends BaseEntity
         this.runIscomplete = runIscomplete;
     }
 
-    public CqieStudent getStudent() {
-        return student;
+    public CqieStudent getCqieStudent() {
+        return cqieStudent;
     }
 
-    public void setStudent(CqieStudent student) {
-        this.student = student;
+    public void setCqieStudent(CqieStudent cqieStudent) {
+        this.cqieStudent = cqieStudent;
     }
 
     public CqieCla getCqieCla() {
@@ -286,7 +286,7 @@ public class CqieRun extends BaseEntity
                 .append("runImg", getRunImg())
                 .append("runAddtime", getRunAddtime())
                 .append("runRemark", getRunRemark())
-                .append("student",getStudent())
+                .append("cqieStudent",getCqieStudent())
                 .append("cqieCla",getCqieCla())
                 .append("cqieClassStudent",getCqieClassStudent())
                 .append("cqieTerm",getCqieTerm())

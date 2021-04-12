@@ -34,13 +34,13 @@
                         <li>
                             <label>学号：</label>
                             <div class="col-xs-4">
-                            <input type="text" name="student.stuNo"/>
+                            <input type="text" name="cqieStudent.stuNo"/>
                             </div>
                         </li>
                         <li>
                             <label>姓名：</label>
                             <div class="col-xs-4">
-                            <input type="text" name="student.stuName"/>
+                            <input type="text" name="cqieStudent.stuName"/>
                             </div>
                         </li>
                         <li>
@@ -104,23 +104,28 @@
                     title: '班级名称'
                 },
                 {
-                    field: 'student.stuNo',
-                    title: '学号'
+                    field: 'cqieStudent.stuNo',
+                    title: '学号',
+                    sortable: true
                 },
                 {
-                    field: 'student.stuName',
-                    title: '姓名'
+                    field: 'cqieStudent.stuName',
+                    title: '姓名',
+                    sortable: true
                 },
                 {
                     field: 'speApplytime',
-                    title: '申请时间'
+                    title: '申请时间',
+                    sortable: true
+
                 },
                 {
                     field: 'speApplymate',
                     title: '证明材料',
                     formatter: function(value,row,index) {
                         return $.table.imageView(value,'',800);
-                    }
+                    },
+                    sortable: true
                 },
 
                 {
@@ -131,7 +136,7 @@
                             return "已批准";
                         else
                             return "未批准";
-                    }
+                    },
                 },
 
                 {
@@ -140,7 +145,8 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         return statusTools(row);
-                    }
+                    },
+                    sortable: true
                 },
                 {
                     field: 'speRemark',

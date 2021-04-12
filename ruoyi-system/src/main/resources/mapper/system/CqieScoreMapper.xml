@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="scoreCounts"    column="score_counts"    />
         <result property="scoreResult"    column="score_result"    />
         <result property="scoreRemark" column="score_remark"/>
-        <association property="student" column="stu_id" resultMap="studentResult"/>
+        <association property="cqieStudent" column="stu_id" resultMap="studentResult"/>
         <association property="cqieClassStudent" column="clastu_id" resultMap="cqieClassStudentResult"/>
         <association property="cqieCla" column="cla_id" resultMap="claResult"/>
         <association property="cqieRun" column="run_id" resultMap="runResult"/>
@@ -87,9 +87,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectCqieScoreListAll" parameterType="CqieScore" resultMap="CqieScoreResult">
-        SELECT score.*,s.stu_no,s.stu_name,s.stu_sex,c.cla_name,t.term_name from cqie_score score
-        left join cqie_student s on score.score_student_id = s.stu_id
-        left join cqie_class_student cs on s.stu_id=cs.clastu_stu_id
+        SELECT score.*,cqie_student.stu_no,cqie_student.stu_name,cqie_student.stu_sex,c.cla_name,t.term_name from cqie_score score
+        left join cqie_student  on score.score_student_id = cqie_student.stu_id
+        left join cqie_class_student cs on cqie_student.stu_id=cs.clastu_stu_id
         left join cqie_cla c on c.cla_id = cs.clastu_cla_id
         left join cqie_term t on t.term_id=score.score_term_id
         left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
@@ -115,9 +115,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectCqieScoreListById" parameterType="CqieScore" resultMap="CqieScoreResult">
-        SELECT score.*,s.stu_no,s.stu_name,s.stu_sex,c.cla_name,t.term_name from cqie_score score
-        left join cqie_student s on score.score_student_id = s.stu_id
-        left join cqie_class_student cs on s.stu_id=cs.clastu_stu_id
+        SELECT score.*,cqie_student.stu_no,cqie_student.stu_name,cqie_student.stu_sex,c.cla_name,t.term_name from cqie_score score
+        left join cqie_student  on score.score_student_id = cqie_student.stu_id
+        left join cqie_class_student cs on cqie_student.stu_id=cs.clastu_stu_id
         left join cqie_cla c on c.cla_id = cs.clastu_cla_id
         left join cqie_term t on t.term_id=score.score_term_id
         left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id

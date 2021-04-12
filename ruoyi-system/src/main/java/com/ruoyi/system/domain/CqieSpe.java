@@ -39,7 +39,7 @@ public class CqieSpe extends BaseEntity
             @Excel(name="学号",targetAttr = "stuNo",type = Excel.Type.EXPORT),
             @Excel(name="姓名",targetAttr = "stuName",type = Excel.Type.EXPORT)
     })
-    private CqieStudent student;
+    private CqieStudent cqieStudent;
 
     /** 申请时间 */
     @Excel(name = "申请时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
@@ -78,12 +78,12 @@ public class CqieSpe extends BaseEntity
         this.cqieCla = cqieCla;
     }
 
-    public CqieStudent getStudent() {
-        return student;
+    public CqieStudent getCqieStudent() {
+        return cqieStudent;
     }
 
-    public void setStudent(CqieStudent student) {
-        this.student = student;
+    public void setCqieStudent(CqieStudent cqieStudent) {
+        this.cqieStudent = cqieStudent;
     }
 
     public CqieClassStudent getCqieClassStudent() {
@@ -175,7 +175,7 @@ public class CqieSpe extends BaseEntity
                 .append("speApplymate", getSpeApplymate())
                 .append("speRemark", getSpeRemark())
                 .append("cqieCla",getCqieCla())
-                .append("student",getStudent())
+                .append("cqieStudent",getCqieStudent())
                 .append("cqieClassStudent",getCqieClassStudent())
                 .append("cqieTerm",getCqieTerm())
                 .append("speIsAgree",getSpeIsAgree())

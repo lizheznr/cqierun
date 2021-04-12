@@ -14,9 +14,9 @@
                         <li>
                             <label>学期：</label>
                             <div class="col-xs-4">
-                                <select name="cqieTerm.termName" id="cqieTerm.termName" class="form-control" th:with="term=${@termService.selectCqieTermList(cqieTerm)}">
+                                <select name="cqieTerm.termId" id="cqieTerm.termId" class="form-control" th:with="term=${@termService.selectCqieTermList(cqieTerm)}">
                                         <option disabled >--请选择学期--</option>
-                                        <option th:each="t:${term}" th:value="${t.termName}" th:text="${t.termName}">
+                                        <option th:each="t:${term}" th:value="${t.termId}" th:text="${t.termName}">
                                 </select>
                             </div>
                         </li>
@@ -32,13 +32,13 @@
                         <li>
                             <label>学号：</label>
                             <div class="col-xs-4">
-                            <input type="text" name="student.stuNo"/>
+                            <input type="text" name="cqieStudent.stuNo"/>
                             </div>
                         </li>
                         <li>
                             <label>姓名：</label>
                             <div class="col-xs-4">
-                            <input type="text" name="student.stuName"/>
+                            <input type="text" name="cqieStudent.stuName"/>
                             </div>
                         </li>
                         <li>
@@ -102,22 +102,20 @@
                 {
                     field: 'cqieTerm.termName',
                     title: '学期',
-
                 },
                 {
                     field: 'cqieCla.claName',
                     title: '班级',
-
                 },
                 {
-                    field: 'student.stuNo',
+                    field: 'cqieStudent.stuNo',
                     title: '学号',
-
+                    sortable: true
                 },
                 {
-                    field: 'student.stuName',
+                    field: 'cqieStudent.stuName',
                     title: '姓名',
-
+                    sortable: true
                 },
                 {
                     field: 'runStarTime',

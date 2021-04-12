@@ -12,7 +12,7 @@
         <result property="speApplymate"    column="spe_applymate"    />
         <result property="speRemark"    column="spe_remark"    />
         <result property="speIsAgree" column="spe_isAgree"/>
-        <association property="student" column="stu_id" resultMap="studentResult"/>
+        <association property="cqieStudent" column="stu_id" resultMap="studentResult"/>
         <association property="cqieClassStudent" column="clastu_id" resultMap="cqieClassStudentResult"/>
         <association property="cqieCla" column="cla_id" resultMap="cqieClaResult"/>
         <association property="cqieTerm" column="term_id" resultMap="cqieTermResult"/>
@@ -55,9 +55,9 @@
     </sql>
 
     <select id="selectCqieSpeListAll" parameterType="CqieSpe" resultMap="CqieSpeResult">
-        select spe.*,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name from cqie_spe spe
+        select spe.*,cqie_student.stu_no,cqie_student.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name from cqie_spe spe
         left join cqie_class_student cs on spe.spe_stu_id = cs.clastu_stu_id
-        left join cqie_student s on s.stu_id = spe.spe_stu_id
+        left join cqie_student  on cqie_student.stu_id = spe.spe_stu_id
         left join cqie_cla c on c.cla_id = cs.clastu_cla_id
         left join cqie_term t on t.term_id = spe.spe_term_id
         left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
@@ -67,11 +67,11 @@
             <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
                 and t.term_name like concat('%', #{cqieTerm.termName}, '%')
             </if>
-            <if test="student.stuNo != null and student.stuNo !=''">
-                and s.stu_no like concat('%', #{student.stuNo}, '%')
+            <if test="cqieStudent.stuNo != null and cqieStudent.stuNo !=''">
+                and cqie_student.stu_no like concat('%', #{cqieStudent.stuNo}, '%')
             </if>
-            <if test="student.stuName != null and student.stuName !=''">
-                and s.stu_name like concat('%', #{student.stuName}, '%')
+            <if test="cqieStudent.stuName != null and cqieStudent.stuName !=''">
+                and cqie_student.stu_name like concat('%', #{cqieStudent.stuName}, '%')
             </if>
 
             <choose>
@@ -93,9 +93,9 @@
 
 
     <select id="selectCqieSpeListById" parameterType="CqieSpe" resultMap="CqieSpeResult">
-        select spe.*,s.stu_no,s.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name from cqie_spe spe
+        select spe.*,cqie_student.stu_no,cqie_student.stu_name,c.cla_name,cs.clastu_cla_id,t.term_name from cqie_spe spe
         left join cqie_class_student cs on spe.spe_stu_id = cs.clastu_stu_id
-        left join cqie_student s on s.stu_id = spe.spe_stu_id
+        left join cqie_student  on cqie_student.stu_id = spe.spe_stu_id
         left join cqie_cla c on c.cla_id = cs.clastu_cla_id
         left join cqie_term t on t.term_id = spe.spe_term_id
         left join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
@@ -105,11 +105,11 @@
             <if test="cqieTerm.termName != null and cqieTerm.termName !=''">
                 and t.term_name like concat('%', #{cqieTerm.termName}, '%')
             </if>
-            <if test="student.stuNo != null and student.stuNo !=''">
-                and s.stu_no like concat('%', #{student.stuNo}, '%')
+            <if test="cqieStudent.stuNo != null and cqieStudent.stuNo !=''">
+                and cqie_student.stu_no like concat('%', #{cqieStudent.stuNo}, '%')
             </if>
-            <if test="student.stuName != null and student.stuName !=''">
-                and s.stu_name like concat('%', #{student.stuName}, '%')
+            <if test="cqieStudent.stuName != null and cqieStudent.stuName !=''">
+                and cqie_student.stu_name like concat('%', #{cqieStudent.stuName}, '%')
             </if>
             <if test="sysUser.userId!=null and sysUser.userId!=''">
                 and ct.clatea_tea_id=#{sysUser.userId}
