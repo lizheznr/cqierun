@@ -191,7 +191,6 @@ public class CqieStudentController extends BaseController {
     }
 
 
-    @RequiresPermissions("system:student:resetPwd")
     @Log(title = "重置密码", businessType = BusinessType.GRANT)
     @PostMapping("/resetPwd")
     @ResponseBody
