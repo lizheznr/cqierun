@@ -70,14 +70,24 @@ public class CqieStudentController extends BaseController {
         for (SysRole role : roles) {
             rolekey = role.getRoleKey();
         }
-        if(i==1){
-                startPage();
-                list = cqieStudentService.selectCqiestudentbyteaId(userId);
-        }else{
+        if(i==1&&rolekey.equals("common")){
+            startPage();
+            list = cqieStudentService.selectCqiestudentbyteaId(userId);
+            i=5;
+        }
+        if(rolekey!="common"&&i==1){
+            startPage();
+            list = cqieStudentService.selectCqieStudentList(cqieStudent);
+            i=1;
+        }
+        if(i==0&&rolekey.equals("common")){
             startPage();
             list = cqieStudentService.selectCqiestudentbyteaId1(userId,cqieStudent.getStuName(),cqieStudent.getStuNo(),cqieStudent.getStuSex());
         }
-
+        if (i==0&&rolekey!=("common")){
+            startPage();
+            list = cqieStudentService.selectCqieStudentList(cqieStudent);
+        }
         return getDataTable(list);
     }
 
