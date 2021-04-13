@@ -110,4 +110,10 @@ public interface CqieRunMapper
      * */
     public List<CqieCla> selectAllClassByUserId(@Param("userId") Long userId);
 
+
+
+    public List<CqieRun> selectCqieRunListAll_COUNT(CqieRun cqieRun);
+
+
+
 }

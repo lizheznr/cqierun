@@ -124,7 +124,6 @@
         </where>
     </select>
 
-
     <select id="selectCqieRunListAll" parameterType="CqieRun" resultMap="CqieRunResult">
         select run_id, run_term_id, run_stu_id, run_star, run_star_time, run_distribution, run_maxDistribution, run_distance, run_pathLine, run_duration, run_calorie, run_end_time, run_img, run_addtime, run_remark,run_iscomplete,cqie_student.stu_no,cqie_student.stu_name,cqie_cla.cla_name,cs.clastu_cla_id,cqie_term.term_name,cqie_term.term_id
         from cqie_run r
@@ -138,9 +137,9 @@
         <where>
             <choose>
                 <when test="cqieCla.claName == null  or cqieCla.claName == ''">
-                <if test="sysUser.cqieCla.claName != null  and sysUser.cqieCla.claName != ''">
-                    and cqie_cla.cla_name like concat('%', #{sysUser.cqieCla.claName}, '%')
-                </if>
+                    <if test="sysUser.cqieCla.claName != null  and sysUser.cqieCla.claName != ''">
+                        and cqie_cla.cla_name like concat('%', #{sysUser.cqieCla.claName}, '%')
+                    </if>
                 </when>
                 <otherwise>
                     <if test="cqieCla.claName != null  and cqieCla.claName != ''">
@@ -162,7 +161,43 @@
             </if>
 
         </where>
+    </select>
 
+    <select id="selectCqieRunListAll_COUNT" parameterType="cqieRun" resultType="Long">
+        select count(distinct r.run_id) from cqie_run r
+         join cqie_class_student cs on r.run_stu_id = cs.clastu_stu_id
+         join cqie_student  on cqie_student.stu_id = r.run_stu_id
+         join cqie_cla  on cqie_cla.cla_id = cs.clastu_cla_id
+         join cqie_term  on cqie_term.term_id = r.run_term_id
+         join cqie_class_teacher ct on ct.clatea_cla_id = cs.clastu_cla_id
+         join sys_user u on ct.clatea_tea_id=u.user_id
+        and u.del_flag = '0'
+        <where>
+            <choose>
+                <when test="cqieCla.claName == null  or cqieCla.claName == ''">
+                    <if test="sysUser.cqieCla.claName != null  and sysUser.cqieCla.claName != ''">
+                        and cqie_cla.cla_name like concat('%', #{sysUser.cqieCla.claName}, '%')
+                    </if>
+                </when>
+                <otherwise>
+                    <if test="cqieCla.claName != null  and cqieCla.claName != ''">
+                        and cqie_cla.cla_name like concat('%', #{cqieCla.claName}, '%')
+                    </if>
+                </otherwise>
+            </choose>
+
+            <if test="cqieTerm.termId != null and cqieTerm.termId !=''">
+                and cqie_term.term_id =#{cqieTerm.termId}
+            </if>
+
+            <if test="cqieStudent.stuNo != null and cqieStudent.stuNo !=''">
+                and cqie_student.stu_no like concat('%', #{cqieStudent.stuNo}, '%')
+            </if>
+
+            <if test="cqieStudent.stuName != null and cqieStudent.stuName !=''">
+                and cqie_student.stu_name like concat('%', #{cqieStudent.stuName}, '%')
+            </if>
+        </where>
     </select>
 
 
